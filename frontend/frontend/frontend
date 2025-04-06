@@ -1,4 +1,4 @@
-bemmequer/
+obemtequer/
 ├── frontend/           # Interface do aplicativo (mobile/web)
 ├── backend/            # Lógica da IA, API, banco de dados
 ├── assets/             # Logo, imagens, ícones etc.
