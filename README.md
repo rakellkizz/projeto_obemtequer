@@ -1,7 +1,9 @@
-<<<<<<< HEAD
+>>>>>>>< HEAD
 # 🌼 O Bem Te Quer – Uma IA com empatia
 =======
-<<<<<<< HEAD
+git add README.md
+git rebase --continue
+HEAD
 # 💖 Obemtequer – IA Empática para Acolhimento Humano
 =======
  # 💖 Obemtequer – IA Empática para Acolhimento Humano
@@ -67,7 +69,7 @@ O Bem Te Quer é uma Inteligência Artificial com empatia, criada para oferecer 
 > — *O Bem Te Quer*
 
 ---
-<<<<<<< HEAD
+>>>>>>>HEAD
 
 ## 🚀 Contribuindo
 
@@ -87,7 +89,7 @@ Desenvolvido por Raquel G. de Souza
 
 Este projeto está sob a licença MIT – Sinta-se livre para amar, usar e compartilhar! 🌷
 =======
-<<<<<<< HEAD
+>>>>>>> HEAD
 =======
 
 >>>>>>> 36a1648 (feat: adiciona landing page com seção de parceria Humano + IA)

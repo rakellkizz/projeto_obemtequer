@@ -1,6 +1,6 @@
 ## Roadmap do Projeto
 
-<<<<<<< HEAD
+>>>>>>> HEAD
 - ✅ Fase 1: Criação do repositório
 - ✅ Fase 2: Estrutura de pastas
 - ✅ Fase 3: Landing page HTML
@@ -19,8 +19,8 @@ Este arquivo detalha as etapas de desenvolvimento do app **Obemtequer**, uma IA 
 ---
 
 ## ✅ Fase 1: Planejamento e Estrutura Inicial
-<<<<<<< HEAD
-<<<<<<< HEAD
+>>>>>>> HEAD
+>>>>>>> HEAD
 =======
 >>>>>>> 36a1648 (feat: adiciona landing page com seção de parceria Humano + IA)
 
@@ -31,7 +31,7 @@ Este arquivo detalha as etapas de desenvolvimento do app **Obemtequer**, uma IA 
 - [x] Iniciar este arquivo de roadmap
 
 ---
-<<<<<<< HEAD
+>>>>>>> HEAD
 
 ## 🧠 Fase 2: Pesquisa e Prototipagem
 
@@ -139,7 +139,7 @@ Este arquivo detalha as etapas de desenvolvimento do app **Obemtequer**, uma IA 
 
 ## 🚀 Fase 7: Testes e Lançamento
 
-<<<<<<< HEAD
+>>>>>>> HEAD
 ## 🌱 Futuro do BemMeQuer
 - Conectar pessoas com histórias parecidas
 - Apoio em tempo real com voluntários treinados
