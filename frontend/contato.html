@@ -1,37 +1,66 @@
 <!DOCTYPE html>
+<!-- Declara que o documento segue o padrão HTML5 -->
 <html lang="pt-BR">
+<!-- Define o idioma da página como Português do Brasil -->
+
 <head>
   <meta charset="UTF-8">
-  <title>Contato - O Bem Te Quer</title>
+  <!-- Define o conjunto de caracteres como UTF-8 para suporte a acentuação -->
+
+  <title>📬 Contato - O Bem Te Quer</title>
+  <!-- Título da página exibido na aba do navegador -->
+
   <link rel="stylesheet" href="css/style.css">
+  <!-- Vincula um arquivo CSS externo para estilização da página -->
 </head>
+
 <body>
+  <!-- Início do corpo da página visível ao usuário -->
+
   <header>
-    <h1>📬 Fale com a gente</h1>
+    <!-- Cabeçalho com o nome do projeto e navegação -->
+    <h1>🌼 O Bem Te Quer</h1>
     <nav>
-      <a href="index.html">Início</a>
-      <a href="contato.html">Contato</a>
+      <!-- Menu de navegação entre páginas -->
+      <a href="index.html">🏡 Início</a>
+      <a href="contato.html">📬 Contato</a>
     </nav>
   </header>
 
   <main>
-    <h2>Envie uma mensagem</h2>
-    <form id="contato-form">
-        <label for="nome">Seu nome:</label><br>
-        <input type="text" name="nome" id="nome" required><br><br>
-      
-        <label for="mensagem">Mensagem:</label><br>
-        <textarea name="mensagem" id="mensagem" rows="4" required></textarea><br><br>
-      
-        <button type="submit">Enviar</button>
-      </form>
-      
-      <div id="resposta"></div> <!-- Aqui vai a resposta do envio -->
-    
-  <footer>
-    <p>🌼 Estamos aqui por você</p>
-  </footer>
-</body>
-<script src="js/script.js"></script>
-</html>
+    <!-- Conteúdo principal da página -->
 
+    <h2>💌 Envie uma mensagem com carinho</h2>
+
+    <!-- Formulário de contato que o usuário pode preencher -->
+    <form id="contato-form">
+      
+      <!-- Campo de entrada para o nome -->
+      <label for="nome">🌸 Seu nome:</label><br>
+      <input type="text" id="nome" name="nome" required><br><br>
+
+      <!-- Campo de entrada para o e-mail -->
+      <label for="email">📧 Seu e-mail:</label><br>
+      <input type="email" id="email" name="email" required><br><br>
+
+      <!-- Campo de entrada para a mensagem -->
+      <label for="mensagem">📝 Mensagem:</label><br>
+      <textarea id="mensagem" name="mensagem" rows="4" required></textarea><br><br>
+
+      <!-- Botão para enviar a mensagem -->
+      <button type="submit">✨ Enviar com carinho</button>
+    </form>
+
+    <!-- Div onde será exibida a resposta do envio (via JS) -->
+    <div id="resposta"></div>
+  </main>
+
+  <footer>
+    <!-- Rodapé da página com mensagem afetiva -->
+    <p>🌻 Com amor, O Bem Te Quer</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <!-- Script JavaScript que pode tratar o envio do formulário e dar feedback ao usuário -->
+</body>
+</html>
