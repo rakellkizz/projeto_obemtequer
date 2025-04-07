@@ -1,29 +1,8 @@
-# 🌱 Java & Maven
-target/
-*.class
-*.jar
-*.war
-*.ear
-
-# 🚫 IDEs
-*.iml
+*.exe
 .idea/
-*.log
-
-# 🔐 Configs e sensíveis
-*.env
-*.db
-*.key
-*.pem
-
-# 💻 SOs
-.DS_Store
-Thumbs.db
-
-# 📦 Node.js (caso tenha parte frontend com npm/yarn)
+*.iml
+out/
+*.class
 node_modules/
-
-# 🧪 Testes e temporários
-.vscode/
-*.test.*
-*.tmp
+dist/
+build/
