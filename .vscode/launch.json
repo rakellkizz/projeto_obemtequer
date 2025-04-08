@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Executar Programa Java",
+        "request": "launch",
+        "mainClass": "com.obemtequer.api.App",
+        "projectName": "backend"
+      }
+    ]
+  }
+  

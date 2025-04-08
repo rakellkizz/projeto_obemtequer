@@ -1,0 +1,16 @@
+# Arquivos do VS Code
+.vscode/
+
+# Compilados Java
+*.class
+*.jar
+*.exe
+
+# Pastas de build
+target/
+bin/
+out/
+
+# Arquivos do IntelliJ
+.idea/
+*.iml
