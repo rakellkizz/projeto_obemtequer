@@ -1,4 +1,4 @@
-package com.controller;
+package com.rakellkizz.obemtequer.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Controlador responsável por fornecer uma rota de teste/saudação da API.
  *
- * Esta classe contém um endpoint principal (GET /) que pode ser usado para verificar
+ * Esta classe contém um endpoint principal (GET /) que pode ser usado para
+ * verificar
  * se a API está online e funcionando corretamente.
  */
 @RestController
