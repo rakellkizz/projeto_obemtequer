@@ -1,4 +1,5 @@
-package com.obemtequer;
+package com.obemquetequer;
+
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
@@ -7,14 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Classe principal da aplicação Spring Boot "O Bem Te Quer".
  *
- * Esta classe serve como ponto de entrada da aplicação. Ao ser executada,
- * ela inicializa o contexto do Spring, configura automaticamente os componentes
+ * Esta classe serve como ponto de entrada da aplicação. Ao ser executada, ela
+ * inicializa o contexto do Spring, configura automaticamente os componentes
  * necessários e inicia o servidor web embutido (como Tomcat).
  *
- * A anotação {@code @SpringBootApplication} é uma meta-anotação que combina:
- * - {@code @Configuration}: Define a classe como uma fonte de beans do Spring.
- * - {@code @EnableAutoConfiguration}: Habilita a configuração automática com base no classpath.
- * - {@code @ComponentScan}: Habilita a varredura de componentes nos pacotes.
+ * A anotação {@code @SpringBootApplication} é uma meta-anotação que combina: -
+ * {@code @Configuration}: Define a classe como uma fonte de beans do Spring. -
+ * {@code @EnableAutoConfiguration}: Habilita a configuração automática com base
+ * no classpath. - {@code @ComponentScan}: Habilita a varredura de componentes
+ * nos pacotes.
  *
  * Desenvolvido por Raquel 💛
  */
@@ -40,31 +42,29 @@ public class ApiApplication {
      * via terminal, baseado no sentimento informado.
      */
     public static void iniciarConversaEmpatica() {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("✨ Bem-vinda(o) ao Bem Te Quer ✨");
 
-        System.out.println("✨ Bem-vinda(o) ao Bem Te Quer ✨");
+            // Solicita o nome do(a) usuário(a)
+            System.out.print("Qual é o seu nome? ");
+            String nome = scanner.nextLine();
 
-        // Solicita o nome do(a) usuário(a)
-        System.out.print("Qual é o seu nome? ");
-        String nome = scanner.nextLine();
+            // Solicita como o(a) usuário(a) está se sentindo
+            System.out.print("Como você está se sentindo hoje, " + nome + "? ");
+            String sentimento = scanner.nextLine().toLowerCase();
 
-        // Solicita como o(a) usuário(a) está se sentindo
-        System.out.print("Como você está se sentindo hoje, " + nome + "? ");
-        String sentimento = scanner.nextLine().toLowerCase();
-
-        // Gera e exibe uma resposta empática
-        String resposta = analisarSentimento(sentimento, nome);
-        System.out.println(resposta);
-        System.out.println("\n🌼 Um abraço carinhoso do Bem Te Quer 🌼");
-
-        scanner.close();
+            // Gera e exibe uma resposta empática
+            String resposta = analisarSentimento(sentimento, nome);
+            System.out.println(resposta);
+            System.out.println("\n🌼 Um abraço carinhoso do Bem Te Quer 🌼");
+        }
     }
 
     /**
      * Analisa o sentimento informado e retorna uma mensagem de acolhimento.
      *
      * @param sentimento Sentimento descrito pelo(a) usuário(a).
-     * @param nome       Nome da pessoa, para personalizar a resposta.
+     * @param nome Nome da pessoa, para personalizar a resposta.
      * @return Mensagem empática personalizada.
      */
     public static String analisarSentimento(String sentimento, String nome) {

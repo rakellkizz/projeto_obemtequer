@@ -1,22 +1,24 @@
-package com.rakellkizz.obemtequer.api.controller;
+package com.rakellkizz.obemquetequer.api.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.rakellkizz.obemquetequer.api.dto.MensagemDTO;
+import com.rakellkizz.obemquetequer.api.service.ChatService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller REST que simula uma resposta empática do chatbot.
  */
 @RestController
 @RequestMapping("/api/chat")
-@CrossOrigin(origins = "*") // Libera requisições do frontend
+@CrossOrigin(origins = "*")
 public class ChatController {
 
+    @Autowired
+    private ChatService chatService;
+
     @PostMapping("/responder")
-    public String responder(@RequestBody String mensagem) {
-        // TODO: conectar com lógica de IA, NLP, ou HuggingFace futuramente
-        return "Bem: estou aqui com você. Conte comigo para tudo. 💛";
+    public String responder(@RequestBody MensagemDTO mensagemDTO) {
+        String mensagem = mensagemDTO.getMensagem();
+        return chatService.gerarResposta(mensagem);
     }
 }

@@ -1,47 +1,55 @@
-package com.rakellkizz.obemtequer.api.service;
+package com.rakellkizz.obemquetequer.api.service;
 
-import com.rakellkizz.obemtequer.api.dto.MessageDTO;
-import com.rakellkizz.obemtequer.api.model.Message;
-import com.rakellkizz.obemtequer.api.repository.MessageRepository;
+import com.rakellkizz.obemquetequer.api.model.MensagemDTO;
+import com.rakellkizz.obemquetequer.api.repository.MensagemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Serviço responsável por processar as mensagens recebidas do usuário, gerar
- * uma resposta empática e persistir a interação no banco de dados.
+ * Serviço responsável por gerar respostas automáticas baseadas na mensagem do usuário,
+ * com empatia e lógica simples. Também salva a conversa no banco de dados MongoDB.
  */
 @Service
 public class ChatService {
 
-    private final MessageRepository repository;
+    private final MensagemRepository mensagemRepository;
 
     /**
-     * Injeta o repositório responsável pelas operações de persistência de
-     * mensagens.
-     *
-     * @param repository Instância de MessageRepository
+     * Injeta o repositório de mensagens para salvar interações no banco de dados.
+     * 
+     * @param mensagemRepository Interface de acesso ao MongoDB.
      */
-    public ChatService(MessageRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public ChatService(MensagemRepository mensagemRepository) {
+        this.mensagemRepository = mensagemRepository;
     }
 
     /**
-     * Processa a mensagem recebida do frontend, gera uma resposta e salva no
-     * banco.
+     * Gera uma resposta para a mensagem do usuário e salva a troca no MongoDB.
      *
-     * @param dto Objeto DTO contendo os dados da mensagem enviada pelo usuário
-     * @return Objeto Message persistido no banco de dados, incluindo a resposta
-     * gerada
+     * @param mensagemUsuario Texto enviado pelo usuário.
+     * @return Resposta empática gerada pelo sistema.
      */
-    public Message processarMensagem(MessageDTO dto) {
-        // Converte o DTO (objeto de transferência) em uma entidade do domínio
-        Message message = new Message();
-        message.setSender(dto.getSender());      // Define o remetente da mensagem
-        message.setContent(dto.getContent());    // Define o conteúdo enviado pelo usuário
+    public String gerarResposta(String mensagemUsuario) {
+        // Resposta padrão
+        String respostaBot = "Bem: estou aqui com você. Conte comigo para tudo. 💛";
 
-        // Gera uma resposta empática fixa (futuramente pode ser substituída por IA/NLP)
-        message.setResponse("Bem: estou aqui com você. Conte comigo para tudo. 💛");
+        // Lógica simples baseada em palavras-chave
+        String mensagemLower = mensagemUsuario.toLowerCase();
+        if (mensagemLower.contains("triste")) {
+            respostaBot = "Sinto muito que esteja se sentindo assim. Quer conversar sobre isso? 🌻";
+        } else if (mensagemLower.contains("feliz") || mensagemLower.contains("grato")) {
+            respostaBot = "Que bom saber disso! Sua felicidade me alegra muito também! 😊";
+        } else if (mensagemLower.contains("sozinho")) {
+            respostaBot = "Você nunca está sozinho enquanto eu estiver por aqui. Pode falar comigo. 💙";
+        } else if (mensagemLower.contains("ansioso") || mensagemLower.contains("ansiedade")) {
+            respostaBot = "Respire fundo comigo. Vai passar. Estou aqui para te acolher. 🌼";
+        }
 
-        // Persiste a entidade no banco de dados e retorna o resultado
-        return repository.save(message);
+        // Salvar a mensagem no MongoDB
+        Mensagem mensagem = new Mensagem(mensagemUsuario, respostaBot);
+        mensagemRepository.save(mensagem);
+
+        return respostaBot;
     }
 }
