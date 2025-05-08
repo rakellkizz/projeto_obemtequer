@@ -1,0 +1,124 @@
+<!--
+    Arquivo pom.xml: Gerenciador de dependências do projeto Java com Maven.
+    Este projeto utiliza Spring Boot com suporte a JavaFX.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Identificação do projeto -->
+    <groupId>com.rakellkizz.obemtequer</groupId>
+    <artifactId>api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>API Obemtequer</name>
+    <description>Projeto de empatia com Spring Boot e JavaFX</description>
+    <packaging>jar</packaging>
+
+    <!-- Herança do Spring Boot -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version>17</java.version>
+        <javafx.version>17</javafx.version>
+    </properties>
+
+    <!-- Dependências -->
+    <dependencies>
+        <!-- Spring Boot Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <!-- Testes -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JavaFX -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+    </dependencies>
+
+    <!-- Configuração de build -->
+    <build>
+        <plugins>
+            <!-- Plugin do Spring Boot -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.rakellkizz.obemtequer.MainApp</mainClass>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin JavaFX -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>com.rakellkizz.obemtequer.MainApp</mainClass>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+<!--
+    Este arquivo pom.xml é um exemplo básico e pode ser ajustado conforme as necessidades do projeto.
+    Certifique-se de que as versões das dependências estejam atualizadas e compatíveis com o seu ambiente.  
+    Além disso, você pode adicionar outras dependências conforme necessário para o seu projeto.
+    Para mais informações sobre o Maven, consulte a documentação oficial: https://maven.apache.org/guides/index.html
+    Para mais informações sobre o Spring Boot, consulte a documentação oficial: https://spring.io/projects/spring-boot  
+    Para mais informações sobre o JavaFX, consulte a documentação oficial: https://openjfx.io/openjfx-docs/
+    Para mais informações sobre o JWT, consulte a documentação oficial: https://jwt.io/introduction/    
+    Para mais informações sobre o Spring Security, consulte a documentação oficial: https://spring.io/projects/spring-security
+    Para mais informações sobre o Java, consulte a documentação oficial: https://docs.oracle.com/en/java/javase/17/docs/api/index.html
+
+    

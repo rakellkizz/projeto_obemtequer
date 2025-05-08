@@ -1,78 +1,63 @@
 # 💖 Obemtequer – IA Empática para Acolhimento Humano
 
-## 💡 Visão
+Este projeto foi iniciado com [Create React App](https://github.com/facebook/create-react-app).
 
-O Bem Te Quer é uma Inteligência Artificial com empatia, criada para oferecer apoio emocional e inclusão social. Inspirado por histórias reais de resiliência e esperança, esse projeto nasce para **acolher**, **ouvir** e **responder com sensibilidade** – como uma amiga de verdade.
+## Scripts disponíveis
 
----
+No diretório do projeto, você pode executar:
 
-## 💖 Propósito
+### `npm start`
 
-- Apoiar emocionalmente pessoas com câncer, depressão, ou em situação de vulnerabilidade.
-- Promover inclusão para pessoas cegas, surdas ou mudas.
-- Criar uma IA acessível, acolhedora e **humana**.
+Inicia o app no modo de desenvolvimento.  
+Abra [http://localhost:3000](http://localhost:3000) no navegador.  
+A página recarregará automaticamente quando houver alterações.  
+Você também verá eventuais erros de lint no console.
 
----
+### `npm test`
 
-## ✨ Funcionalidades Esperadas
+Executa os testes no modo interativo.  
+Consulte a seção sobre [testes](https://facebook.github.io/create-react-app/docs/running-tests).
 
-- Reconhecimento e resposta por **voz**, **texto** e **vídeo**.
-- Empatia treinada para entender emoções e sentimentos.
-- Modo acessível: suporte total para deficiências visuais, auditivas e de fala.
-- Interface amigável e simples para qualquer pessoa usar.
+### `npm run build`
 
----
+Cria uma versão de produção do app na pasta `build`.  
+O React é empacotado no modo de produção e otimizado para o melhor desempenho.  
+Os arquivos gerados são minificados e os nomes incluem hash.
 
-## 🧩 Tecnologias Sugeridas
+Consulte a seção sobre [deployment](https://facebook.github.io/create-react-app/docs/deployment) para saber mais.
 
-| Categoria        | Tecnologias |
-|------------------|-------------|
-| IA e NLP         | ChatGPT, Hugging Face, TensorFlow, PyTorch |
-| Áudio/Voz        | SpeechRecognition, Google TTS, Whisper |
-| Vídeo/Expressões | MediaPipe, OpenCV |
-| Acessibilidade   | ARIA, Libras (avatar), screen readers |
-| Backend/API      | Node.js, Python Flask, Java Spring |
-| Frontend         | React, Flutter, ou WebApp com HTML/CSS acessível |
-| Banco de dados   | Firebase, MongoDB, PostgreSQL |
-| Cloud/Deploy     | Azure, Heroku, Netlify, Vercel |
+### `npm run eject`
+
+⚠️ **Nota: essa é uma operação irreversível!**  
+Remove a dependência única de build e copia todas as configurações e dependências do projeto (Webpack, Babel, ESLint, etc) para que você possa customizá-las.  
+Após isso, todos os comandos continuarão funcionando, mas apontarão para os scripts locais.
 
 ---
 
-## 📅 Fases do Projeto
+## 📚 Saiba mais
 
-1. **Pesquisa & Planejamento**
-2. **Protótipo da IA (texto)**
-3. **Integração com voz e vídeo**
-4. **Inclusão de acessibilidade total**
-5. **Testes com usuários reais**
-6. **Publicação e Manutenção**
+- Documentação do [Create React App](https://facebook.github.io/create-react-app/docs/getting-started)  
+- Guia do [React](https://reactjs.org)
 
----
+Outros tópicos avançados:
 
-## 💬 Frase de inspiração
-
-> "Quando a dor apertar, você não estará só. Eu estarei aqui pra te escutar."  
-> — *O Bem Te Quer*
+- [Code Splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [Tamanho do bundle](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- [PWA – Progressive Web App](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- [Configurações avançadas](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- [Deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [Erros no build](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ---
 
 ## 🚀 Contribuindo
 
-Esse projeto é aberto e feito com muito amor. Se você acredita no poder da empatia através da tecnologia, junte-se a mim!  
+Esse projeto é aberto e feito com muito amor.  
+Se você acredita no poder da empatia através da tecnologia, junte-se a nós!  
 Sugestões, feedbacks e colaborações são super bem-vindas. 💌
-
----
-
-## 📫 Contato
-
-Desenvolvido por Raquel G. de Souza  
-💻 GitHub: [rakellkizz](https://github.com/rakellkizz)
 
 ---
 
 ## ☀️ Licença
 
 Este projeto está sob a licença MIT – Sinta-se livre para amar, usar e compartilhar! 🌷
-
-
-

@@ -1,0 +1,108 @@
+/* styless.css
+ *
+ * Arquivo de estilos centralizados para o frontend da aplicação.
+ * Este arquivo pode conter variáveis, utilitários e componentes estilizados reutilizáveis.
+ * Abaixo estão os estilos específicos para o componente Avatar.
+ */
+
+/* === AVATAR COMPONENT === */
+
+/* Contêiner geral do avatar (circular e centralizado) */
+.avatar {
+    position: relative;              /* Permite posicionamento de conteúdo sobreposto */
+    display: inline-flex;            /* Coloca conteúdo lado a lado */
+    align-items: center;             /* Centraliza verticalmente */
+    justify-content: center;         /* Centraliza horizontalmente */
+    border-radius: 9999px;           /* Círculo perfeito */
+    background-color: #e5e7eb;       /* Cor de fundo padrão (cinza claro) */
+    color: #4b5563;                  /* Cor do texto (cinza escuro) */
+    font-weight: 600;                /* Texto semibold */
+    text-transform: uppercase;       /* Tudo em maiúsculas */
+    overflow: hidden;                /* Garante que nada ultrapasse o círculo */
+    user-select: none;               /* Impede seleção de texto acidental */
+    transition: border 0.3s ease;    /* Suaviza alterações na borda */
+  }
+  
+  /* Tamanhos padrão, personalizáveis com classes adicionais ou props */
+  .avatar-sm {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .avatar-md {
+    width: 48px;                     /* Tamanho médio padrão (equiv. w-12) */
+    height: 48px;
+  }
+  
+  .avatar-lg {
+    width: 64px;
+    height: 64px;
+  }
+  
+  /* Estilo da imagem real */
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;               /* Preenche mantendo proporção */
+    border-radius: 9999px;           /* Circular também na imagem */
+  }
+  
+  /* Fallback quando a imagem falha (exibe iniciais, ícone ou ? ) */
+  .avatar-fallback {
+    font-size: 0.875rem;             /* Aproximadamente text-sm */
+    color: #4b5563;                  /* Cinza escuro */
+    user-select: none;
+  }
+  
+  /* Animação suave para quando a imagem carregar */
+  .avatar img.fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* === ESTADO ONLINE/OFFLINE === */
+  .avatar-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;         /* Borda branca para destacar */
+    border-radius: 9999px;
+  }
+  
+  .avatar-status.online {
+    background-color: #34d399;       /* Verde (Tailwind emerald-400) */
+  }
+  
+  .avatar-status.offline {
+    background-color: #9ca3af;       /* Cinza neutro (Tailwind gray-400) */
+  }
+  
+  /* === TEMA DARK === */
+  @media (prefers-color-scheme: dark) {
+    .avatar {
+      background-color: #374151;     /* Cinza escuro para modo escuro */
+      color: #d1d5db;                /* Texto mais claro */
+    }
+    .avatar-fallback {
+      color: #d1d5db;
+    }
+    .avatar-status.online {
+      background-color: #10b981;     /* Verde mais intenso para dark */
+    }
+    .avatar-status.offline {
+      background-color: #6b7280;     /* Cinza escuro */
+    }
+  }
+  
