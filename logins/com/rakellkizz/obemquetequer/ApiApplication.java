@@ -1,4 +1,4 @@
-package com.obemquetequer;
+package com.obemtequer;
 
 import java.util.Scanner;
 
