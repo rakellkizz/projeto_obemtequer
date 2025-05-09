@@ -1,7 +1,7 @@
-package com.rakellkizz.obemquetequer.api.controller;
+package com.rakellkizz.obemtequer.api.controller;
 
-import com.rakellkizz.obemquetequer.api.dto.MensagemDTO;
-import com.rakellkizz.obemquetequer.api.service.ChatService;
+import com.rakellkizz.obemtequer.api.dto.MensagemDTO;
+import com.rakellkizz.obemtequer.api.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
