@@ -1,4 +1,4 @@
-package com.rakellkizz.obemquetequer.api.config;
+package com.rakellkizz.obemtequer.api.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * RESTful.
  */
 @SpringBootApplication(scanBasePackages = "com.rakellkizz.obemtequer.api")
-public class ObemqueTeQuerApiApplication {
+public class ObemTeQuerApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ObemqueTeQuerApiApplication.class, args);
