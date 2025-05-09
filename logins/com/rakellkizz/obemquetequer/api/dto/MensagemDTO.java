@@ -1,4 +1,4 @@
-package com.rakellkizz.obemquetequer.api.MensagemDTO;
+package com.rakellkizz.obemtequer.api.MensagemDTO;
 
 public class MensagemDTO {
     private String mensagem;
