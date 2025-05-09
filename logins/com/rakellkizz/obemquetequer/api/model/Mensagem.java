@@ -1,4 +1,4 @@
-package com.rakellkizz.obemquetequer.api.model;
+package com.rakellkizz.obemtequer.api.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
