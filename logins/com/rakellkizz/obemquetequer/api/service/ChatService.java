@@ -1,7 +1,7 @@
-package com.rakellkizz.obemquetequer.api.service;
+package com.rakellkizz.obemtequer.api.service;
 
-import com.rakellkizz.obemquetequer.api.model.MensagemDTO;
-import com.rakellkizz.obemquetequer.api.repository.MensagemRepository;
+import com.rakellkizz.obemtequer.api.model.MensagemDTO;
+import com.rakellkizz.obemtequer.api.repository.MensagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
