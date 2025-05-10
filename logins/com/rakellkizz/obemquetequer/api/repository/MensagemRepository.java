@@ -1,6 +1,6 @@
-package com.rakellkizz.obemquetequer.api.repository;
+package com.rakellkizz.obemtequer.api.repository;
 
-import com.rakellkizz.obemquetequer.api.model.Mensagem;
+import com.rakellkizz.obemtequer.api.model.Mensagem;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
