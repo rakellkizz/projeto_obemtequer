@@ -1,6 +1,9 @@
 {
   "name": "frontend",
   "version": "1.0.0",
+  "description": "Frontend do projeto O Bem Te Quer 🌻 com React e Vite",
+  "author": "Raquel G. de Souza",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
@@ -8,17 +11,19 @@
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "react",
+    "vite",
+    "projeto-social",
+    "obemtequer",
+    "frontend"
+  ],
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.4.1",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "@vitejs/plugin-react": "^4.4.1"
   }
 }
-

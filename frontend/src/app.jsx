@@ -13,11 +13,7 @@ import React from 'react';
 // Importação de estilos globais e específicos
 import './styles/global.css';     // Estilos base + reset + componentes
 import './styles/chatbot.css';    // Estilos específicos do Chatbot
-
-/**
- * Importação dos componentes reutilizáveis.
- */
-import Avatar from './components/Avatar';
+import Avatar from './componentes/avatar'; // Componente Avatar
 
 /**
  * Componente funcional do Chatbot.

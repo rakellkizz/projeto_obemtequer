@@ -24,7 +24,19 @@ export default defineConfig({
   // Configuração do servidor de desenvolvimento local
   server: {
     port: 3000, // Porta onde o Vite vai rodar (http://localhost:3000)
-    open: true  // Abre automaticamente o navegador ao rodar `npm run dev`
+    open: true, // Abre automaticamente o navegador ao rodar `npm run dev`
+
+    /**
+     * Configuração de proxy para redirecionar chamadas da API
+     * Isso permite que o frontend se comunique com o backend local
+     * sem problemas de CORS (Cross-Origin Resource Sharing)
+     *
+     * Exemplo:
+     * Uma chamada para /api/usuarios será redirecionada para http://localhost:5000/api/usuarios
+     */
+    proxy: {
+      '/api': 'http://localhost:5000' // Altere a porta caso seu backend use outra
+    }
   },
 
   // Caminho base da aplicação (ajuste se for necessário para deploy)
