@@ -1,23 +1,64 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Arquivo .gitignore para controlar quais arquivos/pastas o Git deve ignorar
+# Referência oficial para entender .gitignore: 
+# https://help.github.com/articles/ignoring-files/
 
-# dependencies
+################################################################################
+# Dependências de projetos Node.js (npm/yarn)
+# Geralmente, node_modules contém pacotes instalados localmente e não deve ser versionado
 /node_modules
+
+# Plug'n'Play (Pnp) files gerados pelo gerenciador de pacotes Yarn v2+
 /.pnp
 .pnp.js
 
-# testing
+################################################################################
+# Arquivos e pastas de testes e cobertura
+# Pastas geradas por ferramentas de teste que contém resultados temporários
 /coverage
 
-# production
+################################################################################
+# Build / distribuição
+# Código transpilado ou empacotado que pode ser gerado a partir do código-fonte
 /build
 
-# misc
+################################################################################
+# Arquivos específicos do sistema operacional ou editor
+# Arquivos ocultos criados por macOS para informações do sistema de arquivos
 .DS_Store
+
+################################################################################
+# Arquivos de configuração de ambiente
+# Contém variáveis sensíveis e específicas do ambiente local de desenvolvimento
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+################################################################################
+# Logs de erros e debug
+# Arquivos gerados durante execução ou instalação que não precisam estar no repositório
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+################################################################################
+# Adicionais recomendados para projetos JavaScript/Node.js
+
+# Diretórios de build ou cache de outras ferramentas (exemplos)
+/dist
+/out
+.cache/
+
+# Arquivos de lock de outros gerenciadores (caso use pnpm)
+pnpm-lock.yaml
+
+# IDEs e editores (exemplo VSCode)
+.vscode/
+
+################################################################################
+# Importante:
+# Se precisar ignorar node_modules em subpastas específicas (frontend e backend),
+# este padrão /node_modules ignora em todas as pastas do projeto.
+
+################################################################################
+# Fique à vontade para adicionar mais regras específicas do seu projeto aqui!
