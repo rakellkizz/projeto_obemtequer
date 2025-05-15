@@ -4,26 +4,39 @@
 <!-- Define o idioma da página como Português do Brasil -->
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <!-- Define o conjunto de caracteres como UTF-8 para suporte a acentuação -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Configura a viewport para dispositivos móveis garantindo responsividade -->
 
   <title>📬 Contato - O Bem Te Quer</title>
   <!-- Título da página exibido na aba do navegador -->
 
-  <link rel="stylesheet" href="css/style.css">
-  <!-- Vincula um arquivo CSS externo para estilização da página -->
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Vincula o arquivo CSS externo para estilização da página -->
 </head>
 
 <body>
-  <!-- Início do corpo da página visível ao usuário -->
+  <!-- Corpo visível da página -->
 
   <header>
-    <!-- Cabeçalho com o nome do projeto e navegação -->
+    <!-- Cabeçalho principal com logo, título e menu de navegação -->
+    <img src="img/logo.png" alt="Logo O Bem Te Quer" width="120" height="auto" />
+    <!-- Logo da marca com descrição para acessibilidade -->
+
     <h1>🌼 O Bem Te Quer</h1>
-    <nav>
-      <!-- Menu de navegação entre páginas -->
-      <a href="index.html">🏡 Início</a>
-      <a href="contato.html">📬 Contato</a>
+    <!-- Título principal da página -->
+
+    <nav aria-label="Menu principal">
+      <!-- Navegação com aria-label para leitores de tela -->
+
+      <ul>
+        <!-- Lista não ordenada para links de navegação, melhor para SEO e acessibilidade -->
+
+        <li><a href="index.html" title="Ir para a página inicial">🏡 Início</a></li>
+        <li><a href="contato.html" aria-current="page" title="Página atual de contato">📬 Contato</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -31,36 +44,95 @@
     <!-- Conteúdo principal da página -->
 
     <h2>💌 Envie uma mensagem com carinho</h2>
+    <!-- Subtítulo acolhedor -->
 
-    <!-- Formulário de contato que o usuário pode preencher -->
-    <form id="contato-form">
-      
-      <!-- Campo de entrada para o nome -->
-      <label for="nome">🌸 Seu nome:</label><br>
-      <input type="text" id="nome" name="nome" required><br><br>
+    <!-- Formulário de contato com atributo novalidate para controle customizado -->
+    <form id="contato-form" novalidate aria-describedby="form-help">
+      <!-- novalidate para tratar validação via JS e aria-describedby para associar instruções -->
 
-      <!-- Campo de entrada para o e-mail -->
-      <label for="email">📧 Seu e-mail:</label><br>
-      <input type="email" id="email" name="email" required><br><br>
+      <p id="form-help" class="sr-only">
+        Por favor, preencha todos os campos obrigatórios antes de enviar o formulário.
+      </p>
+      <!-- Texto de ajuda invisível para leitores de tela -->
 
-      <!-- Campo de entrada para a mensagem -->
-      <label for="mensagem">📝 Mensagem:</label><br>
-      <textarea id="mensagem" name="mensagem" rows="4" required></textarea><br><br>
+      <div class="form-group">
+        <!-- Grupo de campo para melhor organização -->
 
-      <!-- Botão para enviar a mensagem -->
-      <button type="submit">✨ Enviar com carinho</button>
+        <label for="nome">🌸 Seu nome:</label>
+        <!-- Label vinculada ao input pelo for -->
+
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          placeholder="Digite seu nome completo"
+          required
+          minlength="3"
+          aria-required="true"
+          aria-describedby="nome-help"
+          autocomplete="name"
+        />
+        <!-- Input com placeholder, validação mínima e autocomplete para melhor UX -->
+
+        <small id="nome-help" class="sr-only">
+          Campo obrigatório. Mínimo de 3 caracteres.
+        </small>
+        <!-- Texto para leitores de tela explicando o campo -->
+      </div>
+
+      <div class="form-group">
+        <label for="email">📧 Seu e-mail:</label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="exemplo@dominio.com"
+          required
+          aria-required="true"
+          aria-describedby="email-help"
+          autocomplete="email"
+        />
+
+        <small id="email-help" class="sr-only">
+          Campo obrigatório. Informe um endereço de e-mail válido.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="mensagem">📝 Mensagem:</label>
+
+        <textarea
+          id="mensagem"
+          name="mensagem"
+          rows="5"
+          placeholder="Escreva sua mensagem aqui..."
+          required
+          aria-required="true"
+          aria-describedby="mensagem-help"
+        ></textarea>
+
+        <small id="mensagem-help" class="sr-only">
+          Campo obrigatório. Escreva sua mensagem.
+        </small>
+      </div>
+
+      <button type="submit" aria-label="Enviar mensagem com carinho">
+        ✨ Enviar com carinho
+      </button>
     </form>
 
-    <!-- Div onde será exibida a resposta do envio (via JS) -->
-    <div id="resposta"></div>
+    <!-- Área para mostrar feedback do envio, importante para usabilidade -->
+    <div id="resposta" role="alert" aria-live="polite"></div>
   </main>
 
   <footer>
-    <!-- Rodapé da página com mensagem afetiva -->
+    <!-- Rodapé com mensagem afetiva e identificação da marca -->
     <p>🌻 Com amor, O Bem Te Quer</p>
   </footer>
 
-  <script src="js/script.js"></script>
-  <!-- Script JavaScript que pode tratar o envio do formulário e dar feedback ao usuário -->
+  <!-- Script para manipulação do formulário, envio via AJAX, validação etc -->
+  <script src="js/script.js" defer></script>
+  <!-- defer para garantir que o script seja executado após o carregamento do DOM -->
 </body>
 </html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- Declaração de documento HTML5 -->
+<html lang="pt-BR">
+<!-- Define o idioma principal do documento como Português do Brasil -->
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Define a codificação de caracteres para UTF-8, garantindo suporte a acentos e caracteres especiais -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Torna a página responsiva em dispositivos móveis -->
+
+  <title>Inscrição - O Bem Te Quer 🌻</title>
+  <!-- Título exibido na aba do navegador -->
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Link para o arquivo de estilos externo -->
+</head>
+
+<body>
+  <!-- Início do corpo da página -->
+
+  <header>
+    <!-- Cabeçalho principal com identidade e navegação -->
+    <h1>🌸 O Bem Te Quer</h1>
+    <nav aria-label="Navegação principal">
+      <!-- Navegação semântica com acessibilidade -->
+      <ul>
+        <li><a href="index.html">🏠 Início</a></li>
+        <li><a href="contato.html">📬 Contato</a></li>
+        <li><a href="inscricao.html" aria-current="page">📝 Inscrição</a></li>
+        <li><a href="login.html">🔐 Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Conteúdo principal da página -->
+    <section aria-labelledby="titulo-inscricao">
+      <!-- Seção semântica com rótulo acessível -->
+
+      <h2 id="titulo-inscricao">💖 Faça sua inscrição</h2>
+      <p>Crie sua conta para acessar nossos serviços com amor e cuidado.</p>
+
+      <!-- Formulário de cadastro de usuário -->
+      <form action="/api/registrar" method="POST" id="form-inscricao" autocomplete="on" novalidate>
+        <!-- autocomplete="on" melhora UX e "novalidate" permite JS personalizado -->
+
+        <!-- Campo de nome -->
+        <label for="nome">👤 Nome completo:</label><br />
+        <input type="text" id="nome" name="nome" placeholder="Ex: Maria da Silva" required /><br /><br />
+
+        <!-- Campo de e-mail -->
+        <label for="email">📧 Email:</label><br />
+        <input type="email" id="email" name="email" placeholder="Ex: seuemail@exemplo.com" required /><br /><br />
+
+        <!-- Campo de senha -->
+        <label for="senha">🔑 Senha:</label><br />
+        <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres" minlength="6" required /><br /><br />
+
+        <!-- Campo de confirmação de senha -->
+        <label for="confirmarSenha">🔁 Confirmar senha:</label><br />
+        <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="6" required /><br /><br />
+
+        <!-- Botão de envio -->
+        <button type="submit">🌟 Cadastrar</button>
+      </form>
+
+    </section>
+  </main>
+
+  <footer>
+    <!-- Rodapé afetivo da página -->
+    <p>Com carinho, O Bem Te Quer 💐</p>
+  </footer>
+
+</body>
+</html>
+<!-- Fim do corpo da página -->

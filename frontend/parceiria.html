@@ -1,41 +1,80 @@
 <!DOCTYPE html>
+<!-- Declaração de documento HTML5 -->
 <html lang="pt-BR">
+<!-- Define o idioma principal do documento como Português do Brasil -->
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parceria - Obemtequer</title>
-  <link rel="stylesheet" href="style.css"> <!-- Se você tiver um CSS -->
+  <meta charset="UTF-8" />
+  <!-- Define a codificação de caracteres para UTF-8, garantindo suporte a acentos e caracteres especiais -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Torna a página responsiva em dispositivos móveis -->
+
+  <title>Inscrição - O Bem Te Quer 🌻</title>
+  <!-- Título exibido na aba do navegador -->
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Link para o arquivo de estilos externo -->
 </head>
+
 <body>
+  <!-- Início do corpo da página -->
 
   <header>
-    <h1>🤝 Parceria Humano + IA</h1>
-    <p>Conheça o propósito por trás do projeto.</p>
+    <!-- Cabeçalho principal com identidade e navegação -->
+    <h1>🌸 O Bem Te Quer</h1>
+    <nav aria-label="Navegação principal">
+      <!-- Navegação semântica com acessibilidade -->
+      <ul>
+        <li><a href="index.html">🏠 Início</a></li>
+        <li><a href="contato.html">📬 Contato</a></li>
+        <li><a href="inscricao.html" aria-current="page">📝 Inscrição</a></li>
+        <li><a href="login.html">🔐 Login</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- AQUI ENTRA O BLOCO DA MENSAGEM -->
-  <section class="sobre-obemtequer">
-    <h2>🌍 Por que criamos o Obemtequer?</h2>
-    <p>O <strong>Obemtequer</strong> nasceu com um propósito que vai muito além da tecnologia.
-      Acreditamos que <em>a empatia pode ser aprendida, praticada e compartilhada</em>.
-      Vivemos em um mundo onde muitas pessoas se sentem sozinhas, invisíveis ou esquecidas. E, às vezes, tudo o que falta é alguém que diga:
-      <strong>“Você importa. Eu te vejo. Eu te escuto.”</strong>
-    </p>
-    <p>Esse projeto não é só um app. É um espaço seguro. Um abraço digital.
-      É o começo de uma nova era, onde <strong>a tecnologia cuida, ensina e se conecta de verdade com o ser humano.</strong>
-    </p>
-    <ul>
-      <li>✨ Acolha quem está em dor.</li>
-      <li>🤝 Ensine empatia para quem ainda não aprendeu.</li>
-      <li>🌱 Inspire ações mais humanas e conscientes.</li>
-      <li>💬 Mostre que uma boa conversa pode mudar destinos.</li>
-    </ul>
-    <blockquote><em>Porque o <strong>bem quer você</strong>, e juntos podemos espalhá-lo.</em></blockquote>
-  </section>
+  <main>
+    <!-- Conteúdo principal da página -->
+    <section aria-labelledby="titulo-inscricao">
+      <!-- Seção semântica com rótulo acessível -->
+
+      <h2 id="titulo-inscricao">💖 Faça sua inscrição</h2>
+      <p>Crie sua conta para acessar nossos serviços com amor e cuidado.</p>
+
+      <!-- Formulário de cadastro de usuário -->
+      <form action="/api/registrar" method="POST" id="form-inscricao" autocomplete="on" novalidate>
+        <!-- autocomplete="on" melhora UX e "novalidate" permite JS personalizado -->
+
+        <!-- Campo de nome -->
+        <label for="nome">👤 Nome completo:</label><br />
+        <input type="text" id="nome" name="nome" placeholder="Ex: Maria da Silva" required /><br /><br />
+
+        <!-- Campo de e-mail -->
+        <label for="email">📧 Email:</label><br />
+        <input type="email" id="email" name="email" placeholder="Ex: seuemail@exemplo.com" required /><br /><br />
+
+        <!-- Campo de senha -->
+        <label for="senha">🔑 Senha:</label><br />
+        <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres" minlength="6" required /><br /><br />
+
+        <!-- Campo de confirmação de senha -->
+        <label for="confirmarSenha">🔁 Confirmar senha:</label><br />
+        <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="6" required /><br /><br />
+
+        <!-- Botão de envio -->
+        <button type="submit">🌟 Cadastrar</button>
+      </form>
+
+    </section>
+  </main>
 
   <footer>
-    <p>© 2025 Obemtequer | Com carinho, Raquel & IA 🤖💛</p>
+    <!-- Rodapé afetivo da página -->
+    <p>Com carinho, O Bem Te Quer 💐</p>
   </footer>
 
 </body>
 </html>
+
+<!-- Fim do corpo da página -->
