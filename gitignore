@@ -1,41 +1,29 @@
-# Dependências
+# Dependências e pacotes
 node_modules/
 venv/
-.DS_Store
 
-# Arquivos de log
-*.log
-*.tmp
-
-# Arquivos de compilação
-*.class
-*.jar
-*.war
-*.ear
-
-# Arquivos do VSCode
-.vscode/
-
-# Arquivos do Eclipse
-.project
-.classpath
-
-# Arquivos de build do Maven
+# Build outputs e pastas de compilação
+dist/
+build/
 target/
 
 # Arquivos de configuração de ambiente
 .env
 
-# Arquivos temporários
+# Arquivos temporários e logs
+*.log
+*.tmp
 *.swp
 *~
+
+# IDEs e editores
+.vscode/
 .idea/
+.project
+.classpath
 
-# Pasta de build
-build/
+# Arquivos específicos de SO
+.DS_Store
 
-# Arquivos gerados pelo Python (virtualenv)
-venv/
-
+# Diretórios ou arquivos específicos do seu projeto
 projeto_obemtequer/
-
