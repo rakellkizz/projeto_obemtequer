@@ -1,27 +1,45 @@
 // ------------------------------
-// ARQUIVO: db.js
+// ARQUIVO: config/db.js
 // ------------------------------
-// Responsável por fazer a conexão com o MongoDB
-// Usamos o mongoose para estabelecer a conexão e capturar erros
+// Responsável por realizar a conexão com o MongoDB
+// utilizando a biblioteca Mongoose, seja local ou via Atlas.
 
-const mongoose = require('mongoose'); // Mongoose para conectar e interagir com o MongoDB
+// --------------------------
+// IMPORTAÇÃO DO MONGOOSE
+// --------------------------
+const mongoose = require('mongoose');
 
-// Função para conectar ao MongoDB
+// --------------------------
+// FUNÇÃO DE CONEXÃO COM O BANCO
+// --------------------------
 const connectDB = async () => {
   try {
-    // Obtém a string de conexão do arquivo .env
-    const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/obemtequer';
+    // Recupera a string de conexão do arquivo .env
+    const mongoURI = process.env.MONGO_URI;
 
-    // Conecta ao MongoDB com as opções recomendadas
-   await mongoose.connect(MONGO_URI);
+    // Validação: Se a variável não estiver definida, lança erro
+    if (!mongoURI) {
+      throw new Error("❌ Variável MONGO_URI não encontrada no arquivo .env");
+    }
 
+    // Tenta conectar ao MongoDB usando Mongoose
+    const conn = await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,           // Usa o novo parser de URL
+      useUnifiedTopology: true         // Usa a engine unificada de monitoramento
+    });
 
-    console.log('✅ Conectado ao MongoDB com sucesso');
-  } catch (err) {
-    console.error('❌ Erro ao conectar ao MongoDB:', err.message);
-    process.exit(1); // Encerra o processo em caso de erro na conexão
+    // Conexão bem-sucedida
+    console.log(`✅ MongoDB conectado com sucesso: ${conn.connection.host}`);
+  } catch (error) {
+    // Em caso de falha na conexão, exibe mensagem de erro
+    console.error('❌ Erro ao conectar ao MongoDB:', error.message);
+
+    // Encerra a aplicação com código de erro
+    process.exit(1);
   }
 };
 
-// Exporta a função para ser utilizada em outros arquivos
+// --------------------------
+// EXPORTAÇÃO DO MÓDULO
+// --------------------------
 module.exports = connectDB;

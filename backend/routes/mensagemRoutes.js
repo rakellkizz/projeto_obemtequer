@@ -16,14 +16,14 @@ router.post('/', validarMensagem, async (req, res) => {
   // ------------------------------
   // Verifica se houve erro nas validações
   // ------------------------------
-  const erros = validationResult(req);
-  if (!erros.isEmpty()) {
-    return res.status(400).json({ erros: erros.array() }); // Retorna os erros ao frontend
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() }); // Retorna os erros ao frontend
   }
 
   try {
     // Cria uma nova mensagem com os dados recebidos no corpo da requisição
-    const novaMensagem = new Mensagem(req.body); 
+    const novaMensagem = new Mensagem(req.body);
 
     // Salva a nova mensagem no banco de dados MongoDB
     await novaMensagem.save();

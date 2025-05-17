@@ -1,42 +1,54 @@
-// Importação das funções do express-validator
+// ------------------------------
+// ARQUIVO: mensagemValidator.js
+// ------------------------------
+// Valida os dados recebidos para criação de uma mensagem
+
 const { body, validationResult } = require('express-validator');
 
-// Função que realiza a validação dos dados da mensagem
+// ------------------------------
+// FUNÇÃO DE VALIDAÇÃO DAS MENSAGENS
+// ------------------------------
 const mensagemValidator = [
-    // Validação para o campo "conteudo" da mensagem
-    body('conteudo')
-        .isLength({ min: 5 }).withMessage('O conteúdo da mensagem deve ter pelo menos 5 caracteres.') // Verifica se o conteúdo tem no mínimo 5 caracteres
-        .isLength({ max: 1000 }).withMessage('O conteúdo da mensagem não pode ultrapassar 1000 caracteres.') // Verifica se o conteúdo tem no máximo 1000 caracteres
-        .notEmpty().withMessage('O conteúdo da mensagem é obrigatório.') // Verifica se o campo não está vazio
-        .trim() // Remove espaços extras no início e no final da string
-        .escape(), // Escapa caracteres especiais para prevenir injeção de código (XSS)
-        
-    // Validação para o campo "destinatario" (email)
-    body('destinatario')
-        .isEmail().withMessage('Por favor, forneça um email válido para o destinatário.') // Valida se o email do destinatário tem formato correto
-        .notEmpty().withMessage('O email do destinatário é obrigatório.') // Verifica se o campo não está vazio
-        .normalizeEmail(), // Normaliza o email (remove espaços e converte para minúsculas)
+  // ------------------------------
+  // Validação para o campo "nome"
+  // ------------------------------
+  body('nome')
+    .notEmpty().withMessage('O nome é obrigatório.') // Verifica se o campo não está vazio
+    .isLength({ min: 2 }).withMessage('O nome deve ter pelo menos 2 caracteres.') // Verifica tamanho mínimo
+    .isLength({ max: 100 }).withMessage('O nome não pode ultrapassar 100 caracteres.') // Verifica tamanho máximo
+    .trim() // Remove espaços extras no início e no final da string
+    .escape(), // Escapa caracteres especiais para prevenir injeção de código (XSS)
 
-    // Validação para o campo "assunto" da mensagem
-    body('assunto')
-        .optional() // O campo "assunto" é opcional
-        .isLength({ max: 200 }).withMessage('O assunto não pode ter mais de 200 caracteres.') // Se fornecido, o assunto deve ter no máximo 200 caracteres
-        .trim() // Remove espaços extras
-        .escape(), // Escapa caracteres especiais para prevenção de injeção
+  // ------------------------------
+  // Validação para o campo "email"
+  // ------------------------------
+  body('email')
+    .notEmpty().withMessage('O e-mail é obrigatório.') // Verifica se o campo não está vazio
+    .isEmail().withMessage('Por favor, forneça um e-mail válido.') // Valida formato de email
+    .normalizeEmail(), // Normaliza o email (remove espaços e converte para minúsculas)
 
-    // Middleware para capturar os erros após a validação
-    (req, res, next) => {
-        // Captura os erros de validação
-        const errors = validationResult(req);
+  // ------------------------------
+  // Validação para o campo "mensagem"
+  // ------------------------------
+  body('mensagem')
+    .notEmpty().withMessage('O conteúdo da mensagem é obrigatório.') // Verifica se o campo não está vazio
+    .isLength({ min: 5 }).withMessage('A mensagem deve ter pelo menos 5 caracteres.') // Verifica tamanho mínimo
+    .isLength({ max: 1000 }).withMessage('A mensagem não pode ultrapassar 1000 caracteres.') // Verifica tamanho máximo
+    .trim() // Remove espaços extras
+    .escape(), // Escapa caracteres especiais para prevenção de injeção
 
-        // Se houver erros, envia a resposta com código 400 e os detalhes dos erros
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+  // ------------------------------
+  // Middleware para capturar os erros após a validação
+  // ------------------------------
+  (req, res, next) => {
+    const errors = validationResult(req);
 
-        // Se não houver erros, passa para o próximo middleware ou controlador
-        next();
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ erros: errors.array() }); // Retorna os erros ao frontend
     }
+
+    next(); // Passa para o próximo middleware ou rota
+  }
 ];
 
 module.exports = mensagemValidator;

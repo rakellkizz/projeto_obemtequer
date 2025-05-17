@@ -6,10 +6,12 @@
 const express = require('express');                         // Framework Express
 const mongoose = require('mongoose');                       // ODM para MongoDB
 const dotenv = require('dotenv');                           // Carrega variáveis de ambiente
-const userRoutes = require('./routes/userRoutes');          // Rotas de usuário
-const mensagemRoutes = require('./routes/mensagemRoutes');  // Rotas de mensagens
+const userRoutes = require('./backend/routes/userRoutes');          // Rotas de usuário
+const mensagemRoutes = require('./backend/routes/mensagemRoutes');  // Rotas de mensagens
 
 dotenv.config(); // Carrega as variáveis do arquivo .env
+console.log("🔍 URI carregada do .env:", process.env.MONGO_URI);
+
 
 const app = express();                         // Cria a aplicação Express
 const PORT = process.env.PORT || 5000;         // Porta do servidor

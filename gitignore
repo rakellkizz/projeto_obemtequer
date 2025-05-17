@@ -2,6 +2,9 @@
 node_modules/
 venv/
 
+# Pasta do cache do Python
+__pycache__/
+
 # Build outputs e pastas de compilação
 dist/
 build/
