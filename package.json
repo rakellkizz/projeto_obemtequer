@@ -8,13 +8,16 @@
     "build": "npm run generate-manifest && vite build",
     "preview": "vite preview",
     "generate-manifest": "node public/documentação/generate-manifest.js",
-    "test": "jest"
+    "test": "jest",
+    "test-backend": "jest --config jest.backend.config.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.2",

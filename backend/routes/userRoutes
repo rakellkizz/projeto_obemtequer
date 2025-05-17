@@ -1,107 +1,153 @@
 // ------------------------------
 // ARQUIVO: userRoutes.js
 // ------------------------------
-// Define as rotas de autenticação e registro de usuários.
+// Define as rotas responsáveis pela autenticação e registro de usuários,
+// incluindo validação dos dados, criptografia de senha e geração de token JWT.
 
+// Importa o framework Express para criação de rotas
 const express = require('express');
+
+// Cria um roteador para modularizar as rotas relacionadas a usuários
 const router = express.Router();
-const { check, validationResult } = require('express-validator'); // Validações
-const bcrypt = require('bcryptjs'); // Para criptografar a senha
-const jwt = require('jsonwebtoken'); // Para gerar o token de autenticação
-const User = require('../models/User'); // Modelo do usuário
-require('dotenv').config(); // Para acessar variáveis como JWT_SECRET
 
-// ------------------------------
-// ROTA: POST /api/usuarios/registro
-// Descrição: Cria um novo usuário com nome, email e senha
-// ------------------------------
-router.post('/registro', [
-  check('nome', 'O nome é obrigatório').not().isEmpty(),
-  check('email', 'Email inválido').isEmail(),
-  check('senha', 'A senha deve ter no mínimo 6 caracteres').isLength({ min: 6 })
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ erros: errors.array() });
-  }
+// Importa as funções para validação de dados recebidos na requisição
+const { check, validationResult } = require('express-validator');
 
-  const { nome, email, senha } = req.body;
+// Biblioteca para criptografia e comparação de senhas
+const bcrypt = require('bcryptjs');
 
-  try {
-    // Verifica se já existe um usuário com esse email
-    let usuarioExistente = await User.findOne({ email });
-    if (usuarioExistente) {
-      return res.status(400).json({ erro: 'Já existe um usuário com este e-mail.' });
+// Biblioteca para geração e verificação de tokens JWT (JSON Web Token)
+const jwt = require('jsonwebtoken');
+
+// Importa o modelo User, que representa a coleção de usuários no MongoDB
+const User = require('../models/User');
+
+// Carrega as variáveis de ambiente, como a chave secreta do JWT
+require('dotenv').config();
+
+/**
+ * ROTA: POST /api/usuarios/registro
+ * Descrição: Registra um novo usuário no sistema.
+ * Processo:
+ * 1. Valida o nome, email e senha recebidos no corpo da requisição.
+ * 2. Verifica se já existe um usuário cadastrado com o mesmo email.
+ * 3. Criptografa a senha usando bcrypt.
+ * 4. Salva o usuário no banco de dados.
+ * 5. Gera um token JWT válido por 7 dias.
+ * 6. Retorna mensagem de sucesso e token para o cliente.
+ */
+router.post(
+  '/registro',
+  [
+    check('nome', 'O nome é obrigatório').not().isEmpty(),
+    check('email', 'Email inválido').isEmail(),
+    check('senha', 'A senha deve ter no mínimo 6 caracteres').isLength({ min: 6 })
+  ],
+  async (req, res, next) => {
+    // Extrai erros de validação da requisição
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // Retorna os erros com status 400 (Bad Request)
+      return res.status(400).json({ erros: errors.array() });
     }
 
-    // Cria nova instância de usuário
-    const novoUsuario = new User({
-      nome,
-      email,
-      senha
-    });
+    // Extrai os dados do corpo da requisição
+    const { nome, email, senha } = req.body;
 
-    // Criptografa a senha antes de salvar
-    const salt = await bcrypt.genSalt(10);
-    novoUsuario.senha = await bcrypt.hash(senha, salt);
+    try {
+      // Busca no banco se já existe usuário com o email informado
+      let usuarioExistente = await User.findOne({ email });
 
-    // Salva o novo usuário no banco
-    await novoUsuario.save();
+      if (usuarioExistente) {
+        // Se já existir, responde com erro 400 e mensagem apropriada
+        return res.status(400).json({ erro: 'Já existe um usuário com este e-mail.' });
+      }
 
-    // Gera o token JWT
-    const payload = { id: novoUsuario._id };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '7d' // Token válido por 7 dias
-    });
+      // Cria um novo objeto usuário com os dados recebidos
+      const novoUsuario = new User({ nome, email, senha });
 
-    res.status(201).json({ mensagem: 'Usuário criado com sucesso!', token });
+      // Gera um salt para criptografar a senha
+      const salt = await bcrypt.genSalt(10);
 
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Erro no servidor');
+      // Criptografa a senha com o salt gerado
+      novoUsuario.senha = await bcrypt.hash(senha, salt);
+
+      // Salva o novo usuário no banco de dados MongoDB
+      await novoUsuario.save();
+
+      // Cria o payload do token JWT com o ID do usuário recém-criado
+      const payload = { id: novoUsuario._id };
+
+      // Gera o token JWT usando a chave secreta definida no .env
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+      // Retorna status 201 (Created) com mensagem e token para o cliente
+      res.status(201).json({ mensagem: 'Usuário criado com sucesso!', token });
+    } catch (err) {
+      // Encaminha o erro para o middleware global de tratamento de erros
+      next(err);
+    }
   }
-});
+);
 
-// ------------------------------
-// ROTA: POST /api/usuarios/login
-// Descrição: Autentica um usuário e retorna o token JWT
-// ------------------------------
-router.post('/login', [
-  check('email', 'Email inválido').isEmail(),
-  check('senha', 'A senha é obrigatória').exists()
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ erros: errors.array() });
-  }
-
-  const { email, senha } = req.body;
-
-  try {
-    // Verifica se o usuário existe
-    const usuario = await User.findOne({ email });
-    if (!usuario) {
-      return res.status(400).json({ erro: 'Usuário não encontrado' });
+/**
+ * ROTA: POST /api/usuarios/login
+ * Descrição: Autentica um usuário e retorna um token JWT para acesso.
+ * Processo:
+ * 1. Valida o email e senha recebidos.
+ * 2. Verifica se o usuário existe no banco de dados.
+ * 3. Compara a senha informada com a senha criptografada no banco.
+ * 4. Se tudo estiver correto, gera um token JWT válido por 7 dias.
+ * 5. Retorna mensagem de sucesso e token para o cliente.
+ */
+router.post(
+  '/login',
+  [
+    check('email', 'Email inválido').isEmail(),
+    check('senha', 'A senha é obrigatória').exists()
+  ],
+  async (req, res, next) => {
+    // Extrai erros de validação da requisição
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // Retorna erros de validação com status 400
+      return res.status(400).json({ erros: errors.array() });
     }
 
-    // Compara a senha informada com a criptografada
-    const senhaValida = await bcrypt.compare(senha, usuario.senha);
-    if (!senhaValida) {
-      return res.status(400).json({ erro: 'Senha incorreta' });
+    // Extrai email e senha do corpo da requisição
+    const { email, senha } = req.body;
+
+    try {
+      // Busca usuário pelo email
+      const usuario = await User.findOne({ email });
+
+      if (!usuario) {
+        // Se não encontrado, retorna erro 400
+        return res.status(400).json({ erro: 'Usuário não encontrado' });
+      }
+
+      // Compara a senha recebida com a senha criptografada armazenada
+      const senhaValida = await bcrypt.compare(senha, usuario.senha);
+
+      if (!senhaValida) {
+        // Se a senha não bater, retorna erro 400
+        return res.status(400).json({ erro: 'Senha incorreta' });
+      }
+
+      // Cria o payload do token JWT com o ID do usuário autenticado
+      const payload = { id: usuario._id };
+
+      // Gera o token JWT com validade de 7 dias
+      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+      // Retorna status 200 com mensagem de sucesso e token
+      res.status(200).json({ mensagem: 'Login realizado com sucesso!', token });
+    } catch (err) {
+      // Encaminha o erro para o middleware global de tratamento de erros
+      next(err);
     }
-
-    // Gera novo token JWT
-    const payload = { id: usuario._id };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: '7d'
-    });
-
-    res.status(200).json({ mensagem: 'Login realizado com sucesso!', token });
-
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Erro no servidor');
   }
-});
+);
 
+// Exporta o roteador para ser usado no arquivo principal da aplicação (index.js)
 module.exports = router;

@@ -1,58 +1,51 @@
 // ------------------------------
 // ARQUIVO: mensagemRoutes.js
 // ------------------------------
-// Define as rotas para manipulação das mensagens
-
-const express = require('express'); // Framework Express
-const router = express.Router();    // Instância do roteador do Express
-const Mensagem = require('../models/Mensagem'); // Modelo de Mensagem, interage com o MongoDB
-const validarMensagem = require('../validators/mensagemValidator'); // Validador dos campos
-const { validationResult } = require('express-validator'); // Utilitário para capturar erros de validação
+// Define as rotas específicas para manipulação das mensagens do chatbot,
+// incluindo envio e listagem de mensagens no banco MongoDB.
 
 // ------------------------------
-// ROTA POST PARA ENVIAR UMA NOVA MENSAGEM
+// 1. IMPORTAÇÕES NECESSÁRIAS
 // ------------------------------
-router.post('/', validarMensagem, async (req, res) => {
-  // ------------------------------
-  // Verifica se houve erro nas validações
-  // ------------------------------
+const express = require('express');                  
+const router = express.Router();                     
+const Mensagem = require('../models/Mensagem');      
+const validarMensagem = require('../validators/mensagemValidator'); 
+const { validationResult } = require('express-validator'); 
+
+// ------------------------------
+// 2. ROTA POST: Criar e salvar nova mensagem
+// Endpoint: POST /api/mensagens
+// ------------------------------
+router.post('/', validarMensagem, async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() }); // Retorna os erros ao frontend
+    return res.status(400).json({ errors: errors.array() });
   }
 
   try {
-    // Cria uma nova mensagem com os dados recebidos no corpo da requisição
     const novaMensagem = new Mensagem(req.body);
-
-    // Salva a nova mensagem no banco de dados MongoDB
     await novaMensagem.save();
-
-    // Retorna a mensagem salva com status 201 (Created)
     res.status(201).json(novaMensagem);
   } catch (err) {
-    // Caso ocorra um erro durante o processo de salvar a mensagem
-    res.status(500).json({ erro: err.message }); // Retorna erro com status 500 (Internal Server Error)
+    next(err); // Encaminha erro para o errorMiddleware
   }
 });
 
 // ------------------------------
-// ROTA GET PARA LISTAR TODAS AS MENSAGENS
+// 3. ROTA GET: Listar todas as mensagens
+// Endpoint: GET /api/mensagens
 // ------------------------------
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
-    // Busca todas as mensagens, ordenadas pela data (mais recentes primeiro)
     const mensagens = await Mensagem.find().sort({ data: -1 });
-
-    // Retorna as mensagens encontradas com status 200 (OK)
     res.status(200).json(mensagens);
   } catch (err) {
-    // Caso ocorra um erro durante a busca das mensagens
-    res.status(500).json({ erro: err.message }); // Retorna erro com status 500 (Internal Server Error)
+    next(err); // Encaminha erro para o errorMiddleware
   }
 });
 
 // ------------------------------
-// EXPORTAÇÃO DAS ROTAS PARA O ARQUIVO PRINCIPAL (index.js)
+// 4. EXPORTAÇÃO DO ROUTER
 // ------------------------------
 module.exports = router;
