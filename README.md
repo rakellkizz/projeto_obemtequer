@@ -61,3 +61,36 @@ Sugestões, feedbacks e colaborações são super bem-vindas. 💌
 ## ☀️ Licença
 
 Este projeto está sob a licença MIT – Sinta-se livre para amar, usar e compartilhar! 🌷
+
+---
+
+## 💻 Scripts disponíveis – Frontend (React)
+
+No diretório do projeto, você pode executar:
+
+### `npm start`
+
+Inicia o app no modo de desenvolvimento.  
+Abra [http://localhost:3000](http://localhost:3000) no navegador.
+
+### `npm test`
+
+Executa os testes no modo interativo.  
+Consulte a seção sobre [testes](https://facebook.github.io/create-react-app/docs/running-tests).
+
+### `npm run build`
+
+Cria uma versão de produção do app na pasta `build`.
+
+### `npm run eject`
+
+⚠️ Operação irreversível – use apenas se necessário personalizar o build manualmente.
+
+---
+
+## ⚙️ Como rodar o backend (Node.js + Express)
+
+1. Acesse o diretório raiz do projeto:
+
+```bash
+cd projeto_obemtequer
