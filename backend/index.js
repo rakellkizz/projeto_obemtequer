@@ -12,13 +12,16 @@ require('dotenv').config(); // Carrega variáveis do arquivo .env
 // ------------------------------
 // 2. IMPORTAÇÃO DE DEPENDÊNCIAS
 // ------------------------------
-const express = require('express');                       // Framework web
-const cors = require('cors');                              // Habilita CORS
-const helmet = require('helmet');                          // Segurança HTTP
-const rateLimit = require('express-rate-limit');          // Limita número de requisições
-const connectDB = require('./config/db');                  // Conexão com MongoDB
-const mensagemRoutes = require('./routes/mensagemRoutes'); // Rotas mensagens/chatbot
-const userRoutes = require('./routes/userRoutes');         // Rotas usuários (login/cadastro)
+const express = require('express');                         // Framework web
+const cors = require('cors');                               // Habilita CORS
+const helmet = require('helmet');                           // Segurança HTTP
+const rateLimit = require('express-rate-limit');            // Limita número de requisições
+const connectDB = require('./config/db');                   // Conexão com MongoDB
+
+const mensagemRoutes = require('./routes/mensagemRoutes');  // Rotas: mensagens salvas/chatbot
+const userRoutes = require('./routes/userRoutes');          // Rotas: login e cadastro de usuários
+const chatRoutes = require('./routes/chatRoutes');          // 🔹 NOVO: Rota de chat com IA (Gemini/OpenAI)
+
 const errorMiddleware = require('./middlewares/errorMiddleware'); // Tratamento global de erros
 
 // ------------------------------
@@ -33,17 +36,17 @@ const app = express();
 // Segurança HTTP com Helmet
 app.use(helmet());
 
-// Limita requisições para evitar abusos
+// Limita requisições para evitar abusos (100 reqs por IP a cada 15 min)
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100,                 // máximo 100 requisições/IP
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: '🚫 Limite de requisições excedido. Tente novamente mais tarde.',
   standardHeaders: true,
   legacyHeaders: false,
 });
 app.use(limiter);
 
-// Configuração CORS dinâmica
+// Configuração CORS dinâmica para desenvolvimento/produção
 if (process.env.NODE_ENV === 'development') {
   app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
@@ -54,26 +57,27 @@ if (process.env.NODE_ENV === 'development') {
   app.use(cors());
 }
 
-// Permite interpretar JSON no corpo das requisições
+// Permite o uso de JSON no corpo das requisições
 app.use(express.json());
 
 // ------------------------------
 // 5. ROTAS PRINCIPAIS DA API
 // ------------------------------
 
-// Rota raiz para checar status da API
+// Rota raiz - Verifica se API está online
 app.get('/', (req, res) => {
   res.send('🌻 API do projeto O Bem Te Quer está online!');
 });
 
-// Rota para teste de integração com frontend React
+// Rota de teste de integração com frontend
 app.get('/api/mensagem', (req, res) => {
   res.json({ mensagem: 'Olá, React! Backend está funcionando 😎' });
 });
 
 // Rotas especializadas
-app.use('/api/mensagens', mensagemRoutes);
-app.use('/api/usuarios', userRoutes);
+app.use('/api/mensagens', mensagemRoutes);  // Chat armazenado
+app.use('/api/usuarios', userRoutes);       // Login e cadastro
+app.use('/api/chat', chatRoutes);           // 🔹 IA: OpenAI e Gemini (rota POST /api/chat)
 
 // ------------------------------
 // 6. MIDDLEWARE GLOBAL DE TRATAMENTO DE ERROS

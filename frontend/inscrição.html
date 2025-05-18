@@ -13,6 +13,7 @@
   <title>Inscrição - O Bem Te Quer 🌻</title>
   <!-- Título exibido na aba do navegador -->
 
+  <!-- ROTA PARA O CSS -->
   <link rel="stylesheet" href="/css/style.css" />
   <!-- Link para o arquivo de estilos externo -->
 </head>
@@ -20,15 +21,23 @@
 <body>
   <!-- Início do corpo da página -->
 
+  <!-- ROTA: /inscricao.html -->
   <header>
     <!-- Cabeçalho principal com identidade e navegação -->
     <h1>🌸 O Bem Te Quer</h1>
     <nav aria-label="Navegação principal">
       <!-- Navegação semântica com acessibilidade -->
       <ul>
+        <!-- ROTA: /index.html -->
         <li><a href="index.html">🏠 Início</a></li>
+
+        <!-- ROTA: /contato.html -->
         <li><a href="contato.html">📬 Contato</a></li>
+
+        <!-- ROTA ATUAL: /inscricao.html -->
         <li><a href="inscricao.html" aria-current="page">📝 Inscrição</a></li>
+
+        <!-- ROTA: /login.html -->
         <li><a href="login.html">🔐 Login</a></li>
       </ul>
     </nav>
@@ -42,25 +51,26 @@
       <h2 id="titulo-inscricao">💖 Faça sua inscrição</h2>
       <p>Crie sua conta para acessar nossos serviços com amor e cuidado.</p>
 
-      <!-- Formulário de cadastro de usuário -->
+      <!-- FORMULÁRIO: Envia dados para a API -->
+      <!-- ROTA DE BACKEND: /api/registrar -->
       <form action="/api/registrar" method="POST" id="form-inscricao" autocomplete="on" novalidate>
         <!-- autocomplete="on" melhora UX e "novalidate" permite JS personalizado -->
 
         <!-- Campo de nome -->
         <label for="nome">👤 Nome completo:</label><br />
-        <input type="text" id="nome" name="nome" placeholder="Ex: Maria da Silva" required /><br /><br />
+        <input type="text" id="nome" name="nome" placeholder="Ex: Maria da Silva" autocomplete="name" required /><br /><br />
 
         <!-- Campo de e-mail -->
         <label for="email">📧 Email:</label><br />
-        <input type="email" id="email" name="email" placeholder="Ex: seuemail@exemplo.com" required /><br /><br />
+        <input type="email" id="email" name="email" placeholder="Ex: seuemail@exemplo.com" autocomplete="email" required /><br /><br />
 
         <!-- Campo de senha -->
         <label for="senha">🔑 Senha:</label><br />
-        <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres" minlength="6" required /><br /><br />
+        <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres" minlength="6" autocomplete="new-password" required /><br /><br />
 
         <!-- Campo de confirmação de senha -->
         <label for="confirmarSenha">🔁 Confirmar senha:</label><br />
-        <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="6" required /><br /><br />
+        <input type="password" id="confirmarSenha" name="confirmarSenha" minlength="6" autocomplete="new-password" required /><br /><br />
 
         <!-- Botão de envio -->
         <button type="submit">🌟 Cadastrar</button>
