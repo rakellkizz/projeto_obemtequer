@@ -31,3 +31,35 @@ build/
 
 ### VS Code ###
 .vscode/
+# Dependências e pacotes
+node_modules/
+venv/
+
+# Pasta do cache do Python
+__pycache__/
+
+# Build outputs e pastas de compilação
+dist/
+build/
+target/
+
+# Arquivos de configuração de ambiente
+.env
+
+# Arquivos temporários e logs
+*.log
+*.tmp
+*.swp
+*~
+
+# IDEs e editores
+.vscode/
+.idea/
+.project
+.classpath
+
+# Arquivos específicos de SO
+.DS_Store
+
+# Diretórios ou arquivos específicos do seu projeto
+# projeto_obemtequer/

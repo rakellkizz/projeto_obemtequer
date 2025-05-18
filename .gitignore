@@ -78,3 +78,5 @@ yarn-error.log*
 
 # Este .gitignore evita que arquivos sensíveis e desnecessários sejam enviados ao GitHub.
 # ⚠️ Muito importante: sempre mantenha o arquivo .env fora do controle de versão!
+# ⚠️ Nunca compartilhe suas credenciais ou tokens de acesso publicamente!
+# ⚠️ Sempre revise o conteúdo do seu repositório antes de fazer um push para evitar vazamento de informações sensíveis.
