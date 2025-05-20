@@ -1,26 +1,34 @@
 // ------------------------------
-// ARQUIVO: errorMiddleware.js
+// ARQUIVO: middlewares/errorMiddleware.js
 // ------------------------------
-// Middleware global de tratamento de erros para toda a API Express
-// Captura qualquer erro não tratado e envia resposta padronizada ao cliente
+// Middleware de tratamento global de erros para a aplicação Express.
+// Ele captura qualquer erro passado para "next(err)" e envia uma resposta apropriada.
 
+// ------------------------------
+// 1. FUNÇÃO DE ERRO PERSONALIZADA
+// ------------------------------
 const errorMiddleware = (err, req, res, next) => {
-  // Log técnico completo no servidor para debug
-  console.error('🧨 Erro capturado pelo middleware:', err.stack);
+  console.error('🔥 Erro capturado pelo middleware:', err);
 
-  // Define o status HTTP apropriado (padrão: 500)
+  // Se o erro já tiver um status definido, usamos ele. Senão, usamos 500 (Erro Interno).
   const statusCode = err.statusCode || 500;
 
-  // Cria resposta padronizada
-  const errorResponse = {
-    sucesso: false,
-    mensagem: err.message || 'Erro interno do servidor. Tente novamente mais tarde.',
-    // Apenas em desenvolvimento mostra detalhes técnicos
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
-  };
+  // Mensagem amigável para o usuário. Usa a mensagem do erro, se houver.
+  const mensagem = err.message || 'Ocorreu um erro inesperado no servidor.';
 
-  // Envia a resposta JSON com o código HTTP apropriado
-  res.status(statusCode).json(errorResponse);
+  // Estrutura de resposta padronizada
+  res.status(statusCode).json({
+    sucesso: false,
+    erro: {
+      codigo: statusCode,
+      mensagem: mensagem,
+      // Apenas em ambiente de desenvolvimento: detalhes técnicos
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    }
+  });
 };
 
+// ------------------------------
+// 2. EXPORTAÇÃO DO MIDDLEWARE
+// ------------------------------
 module.exports = errorMiddleware;

@@ -1,50 +1,49 @@
-// ------------------------------
+// ------------------------------------------------------------
 // ARQUIVO: config/db.js
-// ------------------------------
-// Módulo responsável pela conexão com o banco de dados MongoDB,
-// utilizando a biblioteca Mongoose. Funciona tanto para MongoDB local
-// quanto para instâncias hospedadas (ex: Mongo Atlas).
+// ------------------------------------------------------------
+// Este módulo é responsável por estabelecer a conexão com o
+// banco de dados MongoDB, utilizando o ODM Mongoose.
+// Suporta tanto conexões locais quanto com MongoDB Atlas.
+// ------------------------------------------------------------
 
-// --------------------------------------------------------
-// IMPORTAÇÕES NECESSÁRIAS
-// --------------------------------------------------------
+// -----------------------------
+// IMPORTAÇÃO DE DEPENDÊNCIAS
+// -----------------------------
 const mongoose = require('mongoose');
+require('dotenv').config(); // Carrega variáveis do .env (necessário caso não seja feito no app principal)
 
-// --------------------------------------------------------
-// FUNÇÃO ASSÍNCRONA DE CONEXÃO AO BANCO DE DADOS
-// --------------------------------------------------------
+// -----------------------------
+// FUNÇÃO ASSÍNCRONA DE CONEXÃO
+// -----------------------------
 const connectDB = async () => {
   try {
-    // Recupera a URI de conexão do MongoDB a partir da variável de ambiente
+    // Captura a string de conexão do ambiente
     const mongoURI = process.env.MONGO_URI;
 
-    // Validação: Garante que a URI de conexão está definida
+    // Valida se a variável foi definida corretamente no .env
     if (!mongoURI) {
-      throw new Error('❌ Variável de ambiente MONGO_URI não definida no arquivo .env');
+      throw new Error('❌ Variável MONGO_URI não encontrada. Verifique seu arquivo .env');
     }
 
-    // Estabelece a conexão com o MongoDB via Mongoose
-    // Opções para evitar avisos e utilizar a nova engine de monitoramento do MongoDB
+    // Tenta conectar ao MongoDB com configurações recomendadas
     await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,    // Interpreta corretamente a string de conexão
-      useUnifiedTopology: true, // Usa a engine de monitoramento mais moderna e eficiente
-      // useCreateIndex: true,  // (Depreciado a partir do Mongoose 6)
-      // useFindAndModify: false // (Depreciado a partir do Mongoose 6)
+      useNewUrlParser: true,        // Interpreta corretamente a URI
+      useUnifiedTopology: true      // Usa o novo mecanismo de monitoramento do driver MongoDB
+      // A partir do Mongoose v6+, outras opções como useFindAndModify foram removidas
     });
 
-    // Loga a confirmação da conexão e o host conectado
-    console.log(`✅ MongoDB conectado com sucesso em: ${mongoose.connection.host}`);
+    // Em caso de sucesso, loga o nome do host conectado
+    console.log(`✅ Conexão com MongoDB estabelecida com sucesso: ${mongoose.connection.host}`);
 
   } catch (error) {
-    // Em caso de erro na conexão, exibe mensagem detalhada no console
+    // Em caso de falha, exibe o erro e encerra o processo
     console.error('❌ Erro ao conectar com o MongoDB:', error.message);
-
-    // Finaliza o processo para evitar a aplicação rodando sem banco conectado
-    process.exit(1);
+    process.exit(1); // Encerra o processo com código de erro
   }
 };
 
-// --------------------------------------------------------
+// -----------------------------
 // EXPORTAÇÃO DO MÓDULO
-// --------------------------------------------------------
+// -----------------------------
+// Permite importar a função em outros arquivos da aplicação
 module.exports = connectDB;

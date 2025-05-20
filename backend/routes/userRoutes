@@ -1,153 +1,73 @@
 // ------------------------------
-// ARQUIVO: userRoutes.js
+// ARQUIVO: src/routes/chatRoutes.js
 // ------------------------------
-// Define as rotas responsáveis pela autenticação e registro de usuários,
-// incluindo validação dos dados, criptografia de senha e geração de token JWT.
+// Define a rota de chat com IA, integrando os serviços Gemini (Google) e OpenAI (ChatGPT).
+// Escolha dinâmica de modelo de IA com fallback para Gemini como padrão.
+// ------------------------------
 
-// Importa o framework Express para criação de rotas
 const express = require('express');
-
-// Cria um roteador para modularizar as rotas relacionadas a usuários
 const router = express.Router();
 
-// Importa as funções para validação de dados recebidos na requisição
-const { check, validationResult } = require('express-validator');
+// ------------------------------
+// 1. IMPORTAÇÃO DOS SERVIÇOS DE IA
+// ------------------------------
+const responderComGemini = require('../services/geminiService');   // Serviço Gemini
+const responderComOpenAI = require('../services/openaiService');   // Serviço OpenAI
 
-// Biblioteca para criptografia e comparação de senhas
-const bcrypt = require('bcryptjs');
-
-// Biblioteca para geração e verificação de tokens JWT (JSON Web Token)
-const jwt = require('jsonwebtoken');
-
-// Importa o modelo User, que representa a coleção de usuários no MongoDB
-const User = require('../models/User');
-
-// Carrega as variáveis de ambiente, como a chave secreta do JWT
-require('dotenv').config();
-
+// ------------------------------
+// 2. ROTA POST /chat
+// ------------------------------
 /**
- * ROTA: POST /api/usuarios/registro
- * Descrição: Registra um novo usuário no sistema.
- * Processo:
- * 1. Valida o nome, email e senha recebidos no corpo da requisição.
- * 2. Verifica se já existe um usuário cadastrado com o mesmo email.
- * 3. Criptografa a senha usando bcrypt.
- * 4. Salva o usuário no banco de dados.
- * 5. Gera um token JWT válido por 7 dias.
- * 6. Retorna mensagem de sucesso e token para o cliente.
+ * @route   POST /chat
+ * @desc    Recebe uma mensagem e retorna uma resposta gerada por IA (Gemini ou OpenAI)
+ * @access  Público
+ * @body    { mensagem: string, modelo?: 'openai' | 'gemini' }
  */
-router.post(
-  '/registro',
-  [
-    check('nome', 'O nome é obrigatório').not().isEmpty(),
-    check('email', 'Email inválido').isEmail(),
-    check('senha', 'A senha deve ter no mínimo 6 caracteres').isLength({ min: 6 })
-  ],
-  async (req, res, next) => {
-    // Extrai erros de validação da requisição
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      // Retorna os erros com status 400 (Bad Request)
-      return res.status(400).json({ erros: errors.array() });
-    }
+router.post('/chat', async (req, res) => {
+  const { mensagem, modelo } = req.body;
 
-    // Extrai os dados do corpo da requisição
-    const { nome, email, senha } = req.body;
-
-    try {
-      // Busca no banco se já existe usuário com o email informado
-      let usuarioExistente = await User.findOne({ email });
-
-      if (usuarioExistente) {
-        // Se já existir, responde com erro 400 e mensagem apropriada
-        return res.status(400).json({ erro: 'Já existe um usuário com este e-mail.' });
-      }
-
-      // Cria um novo objeto usuário com os dados recebidos
-      const novoUsuario = new User({ nome, email, senha });
-
-      // Gera um salt para criptografar a senha
-      const salt = await bcrypt.genSalt(10);
-
-      // Criptografa a senha com o salt gerado
-      novoUsuario.senha = await bcrypt.hash(senha, salt);
-
-      // Salva o novo usuário no banco de dados MongoDB
-      await novoUsuario.save();
-
-      // Cria o payload do token JWT com o ID do usuário recém-criado
-      const payload = { id: novoUsuario._id };
-
-      // Gera o token JWT usando a chave secreta definida no .env
-      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-      // Retorna status 201 (Created) com mensagem e token para o cliente
-      res.status(201).json({ mensagem: 'Usuário criado com sucesso!', token });
-    } catch (err) {
-      // Encaminha o erro para o middleware global de tratamento de erros
-      next(err);
-    }
+  // ------------------------------
+  // 2.1 VALIDAÇÃO DA REQUISIÇÃO
+  // ------------------------------
+  if (!mensagem || typeof mensagem !== 'string' || mensagem.trim() === '') {
+    return res.status(400).json({
+      erro: '⚠️ Campo "mensagem" é obrigatório e deve ser uma string válida.',
+    });
   }
-);
 
-/**
- * ROTA: POST /api/usuarios/login
- * Descrição: Autentica um usuário e retorna um token JWT para acesso.
- * Processo:
- * 1. Valida o email e senha recebidos.
- * 2. Verifica se o usuário existe no banco de dados.
- * 3. Compara a senha informada com a senha criptografada no banco.
- * 4. Se tudo estiver correto, gera um token JWT válido por 7 dias.
- * 5. Retorna mensagem de sucesso e token para o cliente.
- */
-router.post(
-  '/login',
-  [
-    check('email', 'Email inválido').isEmail(),
-    check('senha', 'A senha é obrigatória').exists()
-  ],
-  async (req, res, next) => {
-    // Extrai erros de validação da requisição
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      // Retorna erros de validação com status 400
-      return res.status(400).json({ erros: errors.array() });
+  try {
+    let resposta;
+
+    // ------------------------------
+    // 2.2 ESCOLHA DO MODELO DE IA
+    // ------------------------------
+    switch (modelo?.toLowerCase()) {
+      case 'openai':
+        resposta = await responderComOpenAI(mensagem);
+        break;
+      case 'gemini':
+      default:
+        resposta = await responderComGemini(mensagem);
+        break;
     }
 
-    // Extrai email e senha do corpo da requisição
-    const { email, senha } = req.body;
+    // ------------------------------
+    // 2.3 RESPOSTA SUCESSO
+    // ------------------------------
+    res.status(200).json({ resposta });
 
-    try {
-      // Busca usuário pelo email
-      const usuario = await User.findOne({ email });
-
-      if (!usuario) {
-        // Se não encontrado, retorna erro 400
-        return res.status(400).json({ erro: 'Usuário não encontrado' });
-      }
-
-      // Compara a senha recebida com a senha criptografada armazenada
-      const senhaValida = await bcrypt.compare(senha, usuario.senha);
-
-      if (!senhaValida) {
-        // Se a senha não bater, retorna erro 400
-        return res.status(400).json({ erro: 'Senha incorreta' });
-      }
-
-      // Cria o payload do token JWT com o ID do usuário autenticado
-      const payload = { id: usuario._id };
-
-      // Gera o token JWT com validade de 7 dias
-      const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-      // Retorna status 200 com mensagem de sucesso e token
-      res.status(200).json({ mensagem: 'Login realizado com sucesso!', token });
-    } catch (err) {
-      // Encaminha o erro para o middleware global de tratamento de erros
-      next(err);
-    }
+  } catch (erro) {
+    // ------------------------------
+    // 2.4 TRATAMENTO DE ERROS
+    // ------------------------------
+    console.error('❌ Erro ao gerar resposta com IA:', erro);
+    res.status(500).json({
+      erro: 'Erro ao processar a resposta da IA. Tente novamente mais tarde.',
+    });
   }
-);
+});
 
-// Exporta o roteador para ser usado no arquivo principal da aplicação (index.js)
+// ------------------------------
+// 3. EXPORTAÇÃO DO ROUTER
+// ------------------------------
 module.exports = router;

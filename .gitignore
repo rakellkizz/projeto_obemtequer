@@ -80,3 +80,5 @@ yarn-error.log*
 # ⚠️ Muito importante: sempre mantenha o arquivo .env fora do controle de versão!
 # ⚠️ Nunca compartilhe suas credenciais ou tokens de acesso publicamente!
 # ⚠️ Sempre revise o conteúdo do seu repositório antes de fazer um push para evitar vazamento de informações sensíveis.
+
+*storybook.log

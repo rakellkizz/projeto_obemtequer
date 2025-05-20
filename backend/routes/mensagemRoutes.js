@@ -1,51 +1,39 @@
 // ------------------------------
-// ARQUIVO: mensagemRoutes.js
+// ARQUIVO: index.js
 // ------------------------------
-// Define as rotas específicas para manipulação das mensagens do chatbot,
-// incluindo envio e listagem de mensagens no banco MongoDB.
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
 
-// ------------------------------
-// 1. IMPORTAÇÕES NECESSÁRIAS
-// ------------------------------
-const express = require('express');                  
-const router = express.Router();                     
-const Mensagem = require('../models/Mensagem');      
-const validarMensagem = require('../validators/mensagemValidator'); 
-const { validationResult } = require('express-validator'); 
+// Carregar variáveis de ambiente
+dotenv.config();
 
-// ------------------------------
-// 2. ROTA POST: Criar e salvar nova mensagem
-// Endpoint: POST /api/mensagens
-// ------------------------------
-router.post('/', validarMensagem, async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+// Inicializa o app Express
+const app = express();
 
-  try {
-    const novaMensagem = new Mensagem(req.body);
-    await novaMensagem.save();
-    res.status(201).json(novaMensagem);
-  } catch (err) {
-    next(err); // Encaminha erro para o errorMiddleware
-  }
-});
+// Middlewares
+app.use(cors());
+app.use(express.json());
 
-// ------------------------------
-// 3. ROTA GET: Listar todas as mensagens
-// Endpoint: GET /api/mensagens
-// ------------------------------
-router.get('/', async (req, res, next) => {
-  try {
-    const mensagens = await Mensagem.find().sort({ data: -1 });
-    res.status(200).json(mensagens);
-  } catch (err) {
-    next(err); // Encaminha erro para o errorMiddleware
-  }
-});
+// Conexão com MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB conectado com sucesso!'))
+  .catch(err => console.error('Erro na conexão com MongoDB:', err));
 
-// ------------------------------
-// 4. EXPORTAÇÃO DO ROUTER
-// ------------------------------
-module.exports = router;
+// Rotas
+const userRoutes = require('./routes/userRoutes');
+const mensagemRoutes = require('./routes/mensagemRoutes');
+const errorMiddleware = require('./middlewares/errorMiddleware');
+
+app.use('/api/usuarios', userRoutes);
+app.use('/api/mensagens', mensagemRoutes);
+
+// Middleware de erro global
+app.use(errorMiddleware);
+
+// Porta do servidor
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

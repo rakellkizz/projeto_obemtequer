@@ -14,46 +14,40 @@
   <!-- Responsividade: adapta o conteúdo à largura da tela do dispositivo -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Sugestão de tema para o sistema operacional (claro/escuro) -->
+  <meta name="color-scheme" content="light dark" />
+
   <!-- Título exibido na aba do navegador -->
   <title>O Bem Te Quer 🌻</title>
 
-  <!-- Importação dos arquivos de estilo (global, chatbot e avatar) -->
+  <!-- Importação dos arquivos de estilo centralizados -->
   <link rel="stylesheet" href="/src/styles/global.css" />
   <link rel="stylesheet" href="/src/styles/chatbot.css" />
   <link rel="stylesheet" href="/src/styles/avatar.css" />
+
+  <!-- Estilo inline opcional (usado apenas para layout temporário de desenvolvimento) -->
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f9fafb;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Elemento raiz onde o React renderizará a aplicação -->
+  <!-- Elemento raiz onde o React renderizará toda a aplicação -->
   <div id="root"></div>
 
   <!-- ========================================== -->
-  <!-- Avatar Interativo de Victor com Acessibilidade -->
-  <!-- ========================================== -->
-  <div class="avatar avatar-md" role="img" aria-label="Avatar de Victor, online" tabindex="0">
-    <!-- ✅ Caminho corrigido para a imagem do avatar
-         A pasta `public` é servida como raiz, então usamos /assets/... -->
-    <img 
-      src="/assets/victor_01_sem_fundo.png" 
-      alt="Avatar de Victor" 
-      class="fade-in" 
-    />
-
-    <!-- Fallback: exibido apenas se a imagem falhar -->
-    <div class="avatar-fallback" style="display: none;">VC</div>
-
-    <!-- Indicador de status online (bolinha verde) -->
-    <span class="avatar-status online"></span>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- Scripts necessários para funcionamento da aplicação -->
+  <!-- Scripts principais da aplicação -->
   <!-- ========================================== -->
 
-  <!-- Script para lidar com fallback e interações do avatar -->
-  <script src="/src/scripts/avatar.js" defer></script>
-
-  <!-- Importa o JavaScript principal da aplicação React -->
+  <!-- Ponto de entrada da aplicação React -->
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

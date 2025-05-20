@@ -1,43 +1,73 @@
-// src/routes/chatRoutes.js
+// ------------------------------
+// ARQUIVO: src/routes/chatRoutes.js
+// ------------------------------
+// Define a rota de chat com IA, integrando os serviços Gemini (Google) e OpenAI (ChatGPT).
+// Escolha dinâmica de modelo de IA com fallback para Gemini como padrão.
+// ------------------------------
 
 const express = require('express');
 const router = express.Router();
 
-// Serviços de IA: Gemini (Google) e OpenAI
-const responderComGemini = require('../services/geminiService');
-const responderComOpenAI = require('../services/openaiService');
+// ------------------------------
+// 1. IMPORTAÇÃO DOS SERVIÇOS DE IA
+// ------------------------------
+const responderComGemini = require('../services/geminiService');   // Serviço Gemini
+const responderComOpenAI = require('../services/openaiService');   // Serviço OpenAI
 
+// ------------------------------
+// 2. ROTA POST /chat
+// ------------------------------
 /**
- * Rota POST /chat
- * Recebe uma mensagem e um modelo (opcional), e retorna a resposta da IA escolhida.
- * Se o modelo não for especificado ou for inválido, o padrão é usar o Gemini.
+ * @route   POST /chat
+ * @desc    Recebe uma mensagem e retorna uma resposta gerada por IA (Gemini ou OpenAI)
+ * @access  Público
+ * @body    { mensagem: string, modelo?: 'openai' | 'gemini' }
  */
 router.post('/chat', async (req, res) => {
   const { mensagem, modelo } = req.body;
 
-  // Validação da entrada
-  if (!mensagem || typeof mensagem !== 'string') {
-    return res.status(400).json({ erro: 'Mensagem é obrigatória e deve ser uma string.' });
+  // ------------------------------
+  // 2.1 VALIDAÇÃO DA REQUISIÇÃO
+  // ------------------------------
+  if (!mensagem || typeof mensagem !== 'string' || mensagem.trim() === '') {
+    return res.status(400).json({
+      erro: '⚠️ Campo "mensagem" é obrigatório e deve ser uma string válida.',
+    });
   }
 
   try {
     let resposta;
 
-    // Seleciona o modelo de IA com base no parâmetro "modelo"
-    if (modelo === 'openai') {
-      resposta = await responderComOpenAI(mensagem);
-    } else {
-      // Caso o modelo não seja informado ou seja diferente de "openai", usa Gemini como padrão
-      resposta = await responderComGemini(mensagem);
+    // ------------------------------
+    // 2.2 ESCOLHA DO MODELO DE IA
+    // ------------------------------
+    switch (modelo?.toLowerCase()) {
+      case 'openai':
+        resposta = await responderComOpenAI(mensagem);
+        break;
+      case 'gemini':
+      default:
+        resposta = await responderComGemini(mensagem);
+        break;
     }
 
-    // Envia a resposta da IA
+    // ------------------------------
+    // 2.3 RESPOSTA SUCESSO
+    // ------------------------------
     res.status(200).json({ resposta });
 
   } catch (erro) {
-    console.error('Erro ao gerar resposta com IA:', erro);
-    res.status(500).json({ erro: 'Erro ao processar a resposta da IA. Tente novamente mais tarde.' });
+    // ------------------------------
+    // 2.4 TRATAMENTO DE ERROS
+    // ------------------------------
+    console.error('❌ Erro ao gerar resposta com IA:', erro);
+    res.status(500).json({
+      erro: 'Erro ao processar a resposta da IA. Tente novamente mais tarde.',
+    });
   }
 });
 
+// ------------------------------
+// 3. EXPORTAÇÃO DO ROUTER
+// ------------------------------
 module.exports = router;
