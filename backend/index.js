@@ -4,39 +4,34 @@
 // Configuração da API Express, conexão com MongoDB,
 // registro de rotas, middlewares de segurança, CORS e tratamento de erros.
 
-// ------------------------------
 // 1. CARREGAMENTO DE VARIÁVEIS DE AMBIENTE
-// ------------------------------
 require('dotenv').config(); // Carrega variáveis do arquivo .env
 
-// ------------------------------
 // 2. IMPORTAÇÃO DE DEPENDÊNCIAS
-// ------------------------------
-const express = require('express');                         // Framework web
-const cors = require('cors');                               // Habilita CORS
-const helmet = require('helmet');                           // Segurança HTTP
-const rateLimit = require('express-rate-limit');            // Limita número de requisições
-const connectDB = require('./config/db');                   // Conexão com MongoDB
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const connectDB = require('./config/db'); // 🔗 Conexão com MongoDB
 
-const mensagemRoutes = require('./routes/mensagemRoutes');  // Rotas: mensagens salvas/chatbot
-const userRoutes = require('./routes/userRoutes');          // Rotas: login e cadastro de usuários
-const chatRoutes = require('./routes/chatRoutes');          // 🔹 NOVO: Rota de chat com IA (Gemini/OpenAI)
+// Importação de rotas
+const mensagemRoutes = require('./routes/mensagemRoutes');
+const userRoutes = require('./routes/userRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const errorMiddleware = require('./middlewares/errorMiddleware'); // Tratamento global de erros
 
-// ------------------------------
-// 3. CRIAÇÃO DA INSTÂNCIA EXPRESS
-// ------------------------------
+// 3. INICIALIZA A APLICAÇÃO EXPRESS
 const app = express();
 
-// ------------------------------
-// 4. CONFIGURAÇÃO DOS MIDDLEWARES GLOBAIS
-// ------------------------------
+// 🔌 Conecta ao banco de dados
+connectDB();
 
-// Segurança HTTP com Helmet
-app.use(helmet());
+// 4. MIDDLEWARES DE SEGURANÇA E CONFIGURAÇÕES GERAIS
 
-// Limita requisições para evitar abusos (100 reqs por IP a cada 15 min)
+app.use(helmet()); // Protege cabeçalhos HTTP
+
+// Limita 100 requisições por IP a cada 15 minutos
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -46,45 +41,40 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// Configuração CORS dinâmica para desenvolvimento/produção
-if (process.env.NODE_ENV === 'development') {
-  app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }));
-} else {
-  app.use(cors());
-}
+// Configuração CORS
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
-// Permite o uso de JSON no corpo das requisições
-app.use(express.json());
+app.use(express.json()); // Habilita parsing de JSON
 
-// ------------------------------
-// 5. ROTAS PRINCIPAIS DA API
-// ------------------------------
+// 5. ROTAS DA API
 
-// Rota raiz - Verifica se API está online
+// Rota básica de verificação da API
 app.get('/', (req, res) => {
   res.send('🌻 API do projeto O Bem Te Quer está online!');
 });
 
-// Rota de teste de integração com frontend
+// Rota de teste simples
 app.get('/api/mensagem', (req, res) => {
   res.json({ mensagem: 'Olá, React! Backend está funcionando 😎' });
 });
 
-// Rotas especializadas
-app.use('/api/mensagens', mensagemRoutes);  // Chat armazenado
-app.use('/api/usuarios', userRoutes);       // Login e cadastro
-app.use('/api/chat', chatRoutes);           // 🔹 IA: OpenAI e Gemini (rota POST /api/chat)
+// Rotas principais
+app.use('/api/mensagens', mensagemRoutes);
+app.use('/api/usuarios', userRoutes);
+app.use('/api/chat', chatRoutes); // 🔹 IA com Gemini ou OpenAI
 
-// ------------------------------
-// 6. MIDDLEWARE GLOBAL DE TRATAMENTO DE ERROS
-// ------------------------------
-app.use(errorMiddleware); // Captura e trata erros globalmente
+// 6. MIDDLEWARE GLOBAL DE ERROS
+app.use(errorMiddleware);
 
-// ------------------------------
-// 7. EXPORTAÇÃO DO APP PARA USO EM SERVER.JS E TESTES
-// ------------------------------
+// 7. EXPORTA O APP PARA TESTES OU SERVER.JS
 module.exports = app;
+
+// 8. INICIALIZA O SERVIDOR (caso não use server.js)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+});
