@@ -15,19 +15,19 @@ const {
   loginUsuario
 } = require('../controllers/userController');
 
-// ----------------------------
+// ---------------------------------------------------------
 // @route   POST /api/usuarios/registrar
-// @desc    Cadastra novo usuário
+// @desc    Cadastra um novo usuário na base de dados
 // @access  Público
-// ----------------------------
+// ---------------------------------------------------------
 router.post('/registrar', registrarUsuario);
 
-// ----------------------------
+// ---------------------------------------------------------
 // @route   POST /api/usuarios/login
-// @desc    Realiza login do usuário
+// @desc    Autentica o usuário e retorna um token JWT
 // @access  Público
-// ----------------------------
+// ---------------------------------------------------------
 router.post('/login', loginUsuario);
 
-// Exporta as rotas para uso no index.js
+// Exporta as rotas para uso no server.js
 module.exports = router;

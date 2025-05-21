@@ -1,96 +1,139 @@
-# 💖 Obemtequer – IA Empática para Acolhimento Humano
+# 🌼 Obemquetequer - Backend
 
-Este projeto foi iniciado com [Create React App](https://github.com/facebook/create-react-app).
-
-## Scripts disponíveis
-
-No diretório do projeto, você pode executar:
-
-### `npm start`
-
-Inicia o app no modo de desenvolvimento.  
-Abra [http://localhost:3000](http://localhost:3000) no navegador.  
-A página recarregará automaticamente quando houver alterações.  
-Você também verá eventuais erros de lint no console.
-
-### `npm test`
-
-Executa os testes no modo interativo.  
-Consulte a seção sobre [testes](https://facebook.github.io/create-react-app/docs/running-tests).
-
-### `npm run build`
-
-Cria uma versão de produção do app na pasta `build`.  
-O React é empacotado no modo de produção e otimizado para o melhor desempenho.  
-Os arquivos gerados são minificados e os nomes incluem hash.
-
-Consulte a seção sobre [deployment](https://facebook.github.io/create-react-app/docs/deployment) para saber mais.
-
-### `npm run eject`
-
-⚠️ **Nota: essa é uma operação irreversível!**  
-Remove a dependência única de build e copia todas as configurações e dependências do projeto (Webpack, Babel, ESLint, etc) para que você possa customizá-las.  
-Após isso, todos os comandos continuarão funcionando, mas apontarão para os scripts locais.
+> API RESTful desenvolvida para o projeto **Obemquetequer**, uma iniciativa de empatia digital e acolhimento emocional.
 
 ---
 
-## 📚 Saiba mais
+## 💡 Visão Geral
 
-- Documentação do [Create React App](https://facebook.github.io/create-react-app/docs/getting-started)  
-- Guia do [React](https://reactjs.org)
-
-Outros tópicos avançados:
-
-- [Code Splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-- [Tamanho do bundle](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-- [PWA – Progressive Web App](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-- [Configurações avançadas](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-- [Deployment](https://facebook.github.io/create-react-app/docs/deployment)
-- [Erros no build](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Este backend provê os recursos necessários para:
+- Cadastro e autenticação de usuários
+- Comunicação segura e escalável com possíveis integrações futuras com IA
+- Expansão para interfaces acessíveis e empáticas
 
 ---
 
-## 🚀 Contribuindo
+## 🧠 Arquitetura
 
-Esse projeto é aberto e feito com muito amor.  
-Se você acredita no poder da empatia através da tecnologia, junte-se a nós!  
-Sugestões, feedbacks e colaborações são super bem-vindas. 💌
-
----
-
-## ☀️ Licença
-
-Este projeto está sob a licença MIT – Sinta-se livre para amar, usar e compartilhar! 🌷
+O projeto segue uma arquitetura **MVC (Model-View-Controller)** organizada por responsabilidade, com separação clara entre:
+- Modelos de dados (MongoDB + Mongoose)
+- Controladores de lógica de negócio
+- Rotas da API REST
+- Middlewares reutilizáveis
+- Utilitários e helpers isolados
 
 ---
 
-## 💻 Scripts disponíveis – Frontend (React)
+## ⚙️ Tecnologias Utilizadas
 
-No diretório do projeto, você pode executar:
-
-### `npm start`
-
-Inicia o app no modo de desenvolvimento.  
-Abra [http://localhost:3000](http://localhost:3000) no navegador.
-
-### `npm test`
-
-Executa os testes no modo interativo.  
-Consulte a seção sobre [testes](https://facebook.github.io/create-react-app/docs/running-tests).
-
-### `npm run build`
-
-Cria uma versão de produção do app na pasta `build`.
-
-### `npm run eject`
-
-⚠️ Operação irreversível – use apenas se necessário personalizar o build manualmente.
+| Tecnologia | Descrição |
+|------------|-----------|
+| **Node.js** | Ambiente de execução JavaScript |
+| **Express.js** | Framework web minimalista |
+| **MongoDB** | Banco de dados NoSQL |
+| **Mongoose** | Modelagem de dados com validação |
+| **JWT** | Autenticação segura |
+| **dotenv** | Gerenciamento de variáveis sensíveis |
+| **Nodemon** | Hot reload em dev |
+| **Cors** | Permite requisições de outras origens |
 
 ---
 
-## ⚙️ Como rodar o backend (Node.js + Express)
-
-1. Acesse o diretório raiz do projeto:
+## 🛠️ Estrutura de Pastas
 
 ```bash
-cd projeto_obemtequer
+.
+├── config/           # Conexões e configurações globais
+├── controllers/      # Lógica de negócio
+├── middleware/       # Middlewares como autenticação e tratamento de erro
+├── models/           # Schemas do MongoDB
+├── routes/           # Endpoints da API
+├── utils/            # Funções auxiliares (ex: gerar token)
+├── .env              # Variáveis de ambiente
+└── server.js         # Ponto de entrada do app
+📁 Link para Frontend
+➡️ Em breve: Frontend do projeto (React)
+
+🌐 Rotas da API
+Método	Rota	Descrição	Protegida
+POST	/api/users	Cadastrar usuário	❌
+POST	/api/login	Login e geração de token	❌
+GET	/api/me	Retorna dados do usuário	✅
+
+🔐 Autenticação
+JWT é gerado no login e enviado via Authorization: Bearer <token>.
+
+O middleware auth.js verifica o token e anexa o usuário à req.user.
+
+📦 Variáveis de Ambiente
+Crie um arquivo .env com as seguintes variáveis:
+
+env
+Copiar
+Editar
+PORT=5000
+MONGO_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/obemquetequer
+JWT_SECRET=uma_chave_secreta_segura
+🚀 Como executar
+Clone o repositório:
+
+bash
+Copiar
+Editar
+git clone https://github.com/seu-usuario/obemquetequer-backend.git
+cd obemquetequer-backend
+Instale as dependências:
+
+bash
+Copiar
+Editar
+npm install
+Crie o arquivo .env conforme mostrado acima.
+
+Execute o servidor:
+
+bash
+Copiar
+Editar
+npm start
+Servidor em: http://localhost:5000
+
+🧪 Testes
+Você pode testar a API com ferramentas como:
+
+Postman
+
+Insomnia
+
+Curl:
+
+bash
+Copiar
+Editar
+curl -X POST http://localhost:5000/api/login -d '{"email":"x@x.com", "password":"123"}' -H "Content-Type: application/json"
+📈 Futuras implementações
+ IA empática com NLP
+
+ Chat em tempo real com WebSocket
+
+ Interface por comandos de voz
+
+ Acessibilidade ampliada
+
+ Aplicativo mobile (React Native ou Flutter)
+
+📁 Link para Frontend
+➡️ Em breve: Frontend do projeto (React)
+
+🤝 Contribuições
+Pull requests são bem-vindos!
+Abra uma issue para discutir melhorias ou relatar bugs.
+
+🧑‍💻 Desenvolvedora
+Raquel G. de Souza
+💼 Dev Backend em formação | SAP ABAP | Fullstack
+📍 Mauá - SP
+🔗 GitHub: @seu-usuario
+
+📄 Licença
+Distribuído sob a licença MIT. Veja LICENSE para mais detalhes.

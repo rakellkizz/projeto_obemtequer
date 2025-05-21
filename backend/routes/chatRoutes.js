@@ -20,3 +20,4 @@ const authMiddleware = require('../middlewares/authMiddleware');
 router.post('/', authMiddleware, chatController.processarMensagemIA);
 
 module.exports = router;
+// -----------------------------------------------------------------------------
