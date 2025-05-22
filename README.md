@@ -4,9 +4,16 @@
 
 ---
 
+## 🎯 Missão do Projeto
+
+Criar uma plataforma inclusiva e acolhedora para pessoas em vulnerabilidade emocional, com recursos de escuta empática, inteligência artificial e acessibilidade total.
+
+---
+
 ## 💡 Visão Geral
 
 Este backend provê os recursos necessários para:
+
 - Cadastro e autenticação de usuários
 - Comunicação segura e escalável com possíveis integrações futuras com IA
 - Expansão para interfaces acessíveis e empáticas
@@ -15,91 +22,81 @@ Este backend provê os recursos necessários para:
 
 ## 🧠 Arquitetura
 
-O projeto segue uma arquitetura **MVC (Model-View-Controller)** organizada por responsabilidade, com separação clara entre:
-- Modelos de dados (MongoDB + Mongoose)
-- Controladores de lógica de negócio
-- Rotas da API REST
-- Middlewares reutilizáveis
-- Utilitários e helpers isolados
+O projeto segue a arquitetura **MVC (Model-View-Controller)**, com:
+
+- **Modelos de dados** (MongoDB + Mongoose)
+- **Controladores** com lógica de negócio
+- **Rotas** organizadas da API REST
+- **Middlewares** reutilizáveis (como autenticação)
+- **Utilitários** para token e validações
 
 ---
 
 ## ⚙️ Tecnologias Utilizadas
 
-| Tecnologia | Descrição |
-|------------|-----------|
-| **Node.js** | Ambiente de execução JavaScript |
-| **Express.js** | Framework web minimalista |
-| **MongoDB** | Banco de dados NoSQL |
-| **Mongoose** | Modelagem de dados com validação |
-| **JWT** | Autenticação segura |
-| **dotenv** | Gerenciamento de variáveis sensíveis |
-| **Nodemon** | Hot reload em dev |
-| **Cors** | Permite requisições de outras origens |
+| Tecnologia     | Descrição                             |
+| -------------- |---------------------------------------|
+| **Node.js**    | Ambiente de execução JavaScript       |
+| **Express.js** |   Framework web minimalista           |
+| **MongoDB**    | Banco de dados NoSQL                  |
+| **Mongoose**   | ODM para MongoDB com validação        |
+| **JWT**        | Autenticação com tokens seguros       |
+| **dotenv**     | Variáveis de ambiente                 |
+| **Nodemon**    | Hot reload em desenvolvimento         |
+| **Cors**       | Permite requisições de outras origens |
 
 ---
 
 ## 🛠️ Estrutura de Pastas
 
-```bash
 .
-├── config/           # Conexões e configurações globais
-├── controllers/      # Lógica de negócio
-├── middleware/       # Middlewares como autenticação e tratamento de erro
-├── models/           # Schemas do MongoDB
-├── routes/           # Endpoints da API
-├── utils/            # Funções auxiliares (ex: gerar token)
-├── .env              # Variáveis de ambiente
-└── server.js         # Ponto de entrada do app
-📁 Link para Frontend
-➡️ Em breve: Frontend do projeto (React)
+├── config/ # Conexões e configurações globais
+├── controllers/ # Lógica de negócio
+├── middleware/ # Autenticação e tratamento de erro
+├── models/ # Schemas do MongoDB
+├── routes/ # Endpoints da API
+├── utils/ # Funções auxiliares (ex: gerar token)
+├── .env # Variáveis de ambiente
+└── server.js # Ponto de entrada do app
 
-🌐 Rotas da API
-Método	Rota	Descrição	Protegida
-POST	/api/users	Cadastrar usuário	❌
-POST	/api/login	Login e geração de token	❌
-GET	/api/me	Retorna dados do usuário	✅
 
-🔐 Autenticação
-JWT é gerado no login e enviado via Authorization: Bearer <token>.
+---
 
-O middleware auth.js verifica o token e anexa o usuário à req.user.
+## 🔐 Autenticação com JWT
 
-📦 Variáveis de Ambiente
-Crie um arquivo .env com as seguintes variáveis:
+- JWT gerado no login
+- Enviado via header: `Authorization: Bearer <token>`
+- Middleware `auth.js` valida e anexa `req.user`
 
-env
-Copiar
-Editar
+---
+
+## 🌐 Rotas da API
+
+| Método | Rota         | Descrição               | Protegida |
+|--------|--------------|-------------------------|-----------|
+| POST   | /api/users   | Cadastrar usuário       | ❌        |
+| POST   | /api/login   | Login e geração de token| ❌        |
+| GET    | /api/me      | Dados do usuário logado | ✅        |
+
+---
+
+## 📦 Variáveis de Ambiente
+
+Crie um arquivo `.env` com as seguintes variáveis:
+
+```env
 PORT=5000
 MONGO_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/obemquetequer
 JWT_SECRET=uma_chave_secreta_segura
-🚀 Como executar
-Clone o repositório:
 
-bash
-Copiar
-Editar
-git clone https://github.com/seu-usuario/obemquetequer-backend.git
-cd obemquetequer-backend
-Instale as dependências:
-
-bash
-Copiar
-Editar
+🚀 Como executar localmente
+git clone https://github.com/rakellkizz/projeto_obemtequer.git
+cd projeto_obemtequer
 npm install
-Crie o arquivo .env conforme mostrado acima.
-
-Execute o servidor:
-
-bash
-Copiar
-Editar
 npm start
-Servidor em: http://localhost:5000
 
 🧪 Testes
-Você pode testar a API com ferramentas como:
+Você pode testar com:
 
 Postman
 
@@ -107,33 +104,46 @@ Insomnia
 
 Curl:
 
-bash
-Copiar
-Editar
-curl -X POST http://localhost:5000/api/login -d '{"email":"x@x.com", "password":"123"}' -H "Content-Type: application/json"
-📈 Futuras implementações
- IA empática com NLP
+hoppscotch
 
- Chat em tempo real com WebSocket
+curl -X POST http://localhost:5000/api/login \
+-d '{"email":"x@x.com", "password":"123"}' \
+-H "Content-Type: application/json"
 
- Interface por comandos de voz
 
- Acessibilidade ampliada
+🧭 Roadmap do Projeto
+Planejamento e tarefas em andamento estão no nosso Kanban oficial:
 
- Aplicativo mobile (React Native ou Flutter)
+👉 Acompanhar no GitHub Projects : ## 🧭 Roadmap
 
-📁 Link para Frontend
-➡️ Em breve: Frontend do projeto (React)
+Confira o andamento do projeto no nosso [Quadro Kanban](https://github.com/rakellkizz/projeto_obemtequer/projects/1)
 
-🤝 Contribuições
-Pull requests são bem-vindos!
-Abra uma issue para discutir melhorias ou relatar bugs.
 
-🧑‍💻 Desenvolvedora
-Raquel G. de Souza
-💼 Dev Backend em formação | SAP ABAP | Fullstack
+📱 Futuras Implementações
+🤖 IA empática com NLP (via HuggingFace)
+
+💬 Chat em tempo real (WebSocket)
+
+🧏 Interface por comandos de voz
+
+♿ Acessibilidade ampliada (voz/texto/Braille)
+
+📲 App mobile (React Native ou Flutter)
+
+🤝 Como contribuir
+Fork o repositório
+
+Crie uma branch: feature/minha-feature
+
+Commit suas alterações
+
+Envie um pull request
+
+Dúvidas ou sugestões? Abra uma issue!
+
+👩‍💻 🌸 Desenvolvido com ❤️
+ por: Raquel G. de Souza
+💼 Dev - Baicharel em Sistema de Informação| SAP ABAP | Fullstack
 📍 Mauá - SP
-🔗 GitHub: @seu-usuario
-
-📄 Licença
-Distribuído sob a licença MIT. Veja LICENSE para mais detalhes.
+🔗 GitHub: https://github.com/rakellkizz
+📧 Email: rakellkizz@gmail.com
