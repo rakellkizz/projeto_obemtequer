@@ -23,25 +23,25 @@ const processarMensagemIA = async (req, res, next) => {
   try {
     const { mensagem } = req.body;
 
-    // ✅ Validação da entrada
+    // ✅ Validação da entrada: mensagem deve existir e ser string
     if (!mensagem || typeof mensagem !== 'string') {
       throw createHttpError(400, 'A mensagem é obrigatória e deve ser uma string.');
     }
 
     const apiKey = process.env.OPENAI_API_KEY;
 
-    // ✅ Verifica se a chave da API está configurada
+    // ✅ Verifica se a chave da API OpenAI está configurada
     if (!apiKey) {
       throw createHttpError(500, 'Chave da API OpenAI não configurada no ambiente.');
     }
 
-    // ✅ Requisição à API da OpenAI
+    // ✅ Realiza requisição POST para o endpoint da OpenAI
     const resposta = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
-        model: 'gpt-3.5-turbo', // Ou 'gpt-4' se desejar
+        model: 'gpt-3.5-turbo', // Pode ser 'gpt-4' se desejar
         messages: [{ role: 'user', content: mensagem }],
-        temperature: 0.7,
+        temperature: 0.7, // Controla criatividade/resposta do modelo
       },
       {
         headers: {
@@ -51,19 +51,23 @@ const processarMensagemIA = async (req, res, next) => {
       }
     );
 
-    // ✅ Extrai resposta da IA
+    // ✅ Extrai a resposta da IA do objeto retornado pela API
     const respostaIA = resposta?.data?.choices?.[0]?.message?.content;
 
+    // Se a resposta da IA for inválida, lança erro
     if (!respostaIA) {
       throw createHttpError(502, 'Resposta inválida recebida da OpenAI.');
     }
 
-    // ✅ Retorna resposta para o cliente
+    // ✅ Envia a resposta da IA para o cliente em formato JSON
     res.json({ resposta: respostaIA });
 
   } catch (erro) {
+    // Loga o erro no console para debugging
     console.error('❌ Erro ao comunicar com a OpenAI:', erro.message || erro);
-    next(erro); // Encaminha para middleware de erro global
+
+    // Passa o erro para o middleware global de tratamento de erros
+    next(erro);
   }
 };
 

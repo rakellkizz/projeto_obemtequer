@@ -1,10 +1,11 @@
-// -------------------------------------------
+// --------------------------------------------------------------------
 // ARQUIVO: routes/userRoutes.js
-// -------------------------------------------
-// Define as rotas relacionadas à autenticação de usuários:
+// --------------------------------------------------------------------
+// Rotas relacionadas à autenticação de usuários:
 // - Registro de novo usuário
 // - Login de usuário existente
-// -------------------------------------------
+// - Consulta do próprio perfil autenticado (rota protegida)
+// --------------------------------------------------------------------
 
 const express = require('express');
 const router = express.Router();
@@ -14,6 +15,9 @@ const {
   registrarUsuario,
   loginUsuario
 } = require('../controllers/userController');
+
+// Middleware de autenticação (protege rotas privadas)
+const verificarTokenJWT = require('../middlewares/authMiddleware');
 
 // ---------------------------------------------------------
 // @route   POST /api/usuarios/registrar
@@ -29,5 +33,18 @@ router.post('/registrar', registrarUsuario);
 // ---------------------------------------------------------
 router.post('/login', loginUsuario);
 
-// Exporta as rotas para uso no server.js
+// ---------------------------------------------------------
+// @route   GET /api/usuarios/me
+// @desc    Retorna os dados do usuário autenticado (baseado no token)
+// @access  Privado (requer token JWT válido)
+// ---------------------------------------------------------
+router.get('/me', verificarTokenJWT, (req, res) => {
+  // Retorna apenas os dados do usuário extraídos do token
+  res.status(200).json({
+    mensagem: 'Usuário autenticado com sucesso!',
+    usuario: req.usuario // dados decodificados do JWT
+  });
+});
+
+// Exporta as rotas para serem utilizadas no server.js
 module.exports = router;

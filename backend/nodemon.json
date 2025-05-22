@@ -1,0 +1,9 @@
+{
+  "watch": ["backend"],
+  "ignore": [
+    "node_modules",
+    "venv",
+    "__pycache__"
+  ],
+  "ext": "js,json"
+}
