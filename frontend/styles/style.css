@@ -1,0 +1,150 @@
+ * avatar.css
+ * ----------------------------------------------------------------------------
+ * Estilos centralizados e reutilizáveis para o componente de avatar.
+ *
+ * Inclui:
+ * ✅ Layout responsivo e circular
+ * ✅ Fallbacks para falha de imagem
+ * ✅ Animação suave ao carregar
+ * ✅ Indicadores de status (online/offline)
+ * ✅ Acessibilidade e suporte ao tema escuro
+ * ✅ Destaque visual de avatar selecionado
+ * ----------------------------------------------------------------------------
+ * Autor: Raquel G. de Souza | 2025
+ */
+
+
+ * 📦 BASE: Contêiner do avatar
+ * ---------------------------------------------------------------------------- */
+.avatar {
+  position: relative;               /* Necessário para posicionar o status */
+  display: inline-flex;             /* Permite conteúdo interno em linha */
+  align-items: center;             /* Alinha verticalmente */
+  justify-content: center;         /* Centraliza horizontalmente */
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;           /* Formato circular */
+  background-color: #e5e7eb;       /* Fundo padrão (cinza claro) */
+  color: #4b5563;                  /* Cor do texto (cinza escuro) */
+  font-weight: 600;               /* Semibold para fallback */
+  text-transform: uppercase;       /* Letras maiúsculas */
+  overflow: hidden;                /* Evita overflow fora do círculo */
+  user-select: none;               /* Impede seleção acidental */
+  transition: border 0.3s ease;    /* Suaviza transições */
+}
+
+
+ * 📏 TAMANHOS (override padrão por classes adicionais)
+ * ---------------------------------------------------------------------------- */
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.avatar-md {
+  width: 48px;
+  height: 48px;
+}
+
+.avatar-lg {
+  width: 64px;
+  height: 64px;
+}
+
+
+ * 🖼️ IMAGEM DE AVATAR
+ * ---------------------------------------------------------------------------- */
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;               /* Mantém proporção dentro do círculo */
+  border-radius: 9999px;
+}
+
+
+ * 🔁 FALLBACK (quando imagem falha)
+ * ---------------------------------------------------------------------------- */
+.avatar-fallback {
+  display: none;                   /* Exibido via JS quando necessário */
+  font-size: 0.875rem;             /* Equivalente a text-sm */
+  color: #4b5563;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+ * ✨ ANIMAÇÃO DE ENTRADA
+ * ---------------------------------------------------------------------------- */
+.avatar img.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+ * 🟢 INDICADOR DE STATUS (online/offline)
+ * ---------------------------------------------------------------------------- */
+.avatar-status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  border: 2px solid white;
+  border-radius: 9999px;
+}
+
+.avatar-status.online {
+  background-color: #34d399;       /* Verde claro (emerald-400) */
+}
+
+.avatar-status.offline {
+  background-color: #9ca3af;       /* Cinza neutro (gray-400) */
+}
+
+
+ * 🌙 SUPORTE A TEMA ESCURO
+ * ---------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  .avatar {
+    background-color: #374151;     /* Cinza escuro */
+    color: #d1d5db;                /* Texto claro */
+  }
+
+  .avatar-fallback {
+    color: #d1d5db;
+  }
+
+  .avatar-status.online {
+    background-color: #10b981;     /* Verde forte no dark */
+  }
+
+  .avatar-status.offline {
+    background-color: #6b7280;     /* Cinza mais escuro */
+  }
+}
+
+
+ * 🔵 AVATAR SELECIONADO
+ * ---------------------------------------------------------------------------- */
+.avatar.selected {
+  border: 2px solid #3b82f6;        /* Azul Tailwind (blue-500) */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+
+ * ♿ ACESSIBILIDADE (complementar via HTML/JS)
+ * ----------------------------------------------------------------------------
+ * Use: role="img" e aria-label="Avatar de [Nome], online"
+ * O JS também aplica tabindex e role="button" se ausentes.
+ */

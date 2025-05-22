@@ -1,0 +1,52 @@
+<!-- Define que este é um documento HTML5 -->
+<!DOCTYPE html>
+
+<!-- Início do documento HTML com a linguagem definida como português do Brasil -->
+<html lang="pt-BR">
+
+<head>
+  <!-- Define o conjunto de caracteres como UTF-8 (suporte a acentos e caracteres especiais) -->
+  <meta charset="UTF-8" />
+
+  <!-- Ícone que aparece na aba do navegador -->
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Responsividade: adapta o conteúdo à largura da tela do dispositivo -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Sugestão de tema para o sistema operacional (claro/escuro) -->
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Título exibido na aba do navegador -->
+  <title>O Bem Te Quer 🌻</title>
+
+  <!-- Importação dos arquivos de estilo centralizados -->
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="stylesheet" href="/src/styles/chatbot.css" />
+  <link rel="stylesheet" href="/src/styles/avatar.css" />
+
+  <!-- Estilo inline opcional (usado apenas para layout temporário de desenvolvimento) -->
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f9fafb;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Elemento raiz onde o React renderizará toda a aplicação -->
+  <div id="root"></div>
+
+  <!-- Scripts principais da aplicação -->
+
+  <!-- Ponto de entrada da aplicação React -->
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
