@@ -1,37 +1,46 @@
-// -------------------------------------------------------------
-// ARQUIVO: routes/userRoutes.js
-// -------------------------------------------------------------
-// Define as rotas relacionadas aos usuários, como cadastro, login,
-// listagem e busca por ID. Usa o controller para separar a lógica.
-// -------------------------------------------------------------
+// --------------------------------------------------------------------
+// ARQUIVO: server.js
+// --------------------------------------------------------------------
+// Ponto de entrada do backend Node.js com Express
+// --------------------------------------------------------------------
 
 const express = require('express');
-const router = express.Router();
-const {
-  buscarUsuarioPorId,
-  registrarUsuario,
-  loginUsuario
-} = require('../controllers/userController');
+const cors = require('cors');
+const conectarDB = require('./config/db'); // Função para conectar ao MongoDB
+const authRoutes = require('./routes/authRoutes'); // Login, registro, perfil
+const userRoutes = require('./routes/userRoutes'); // Buscar usuário por ID
 
-// -------------------------------------------------------------
-// @route   POST /api/usuarios/register
-// @desc    Cadastra um novo usuário
-// @access  Público
-// -------------------------------------------------------------
-router.post('/register', registrarUsuario);
+// Inicializa o app
+const app = express();
 
-// -------------------------------------------------------------
-// @route   POST /api/usuarios/login
-// @desc    Realiza login de um usuário
-// @access  Público
-// -------------------------------------------------------------
-router.post('/login', loginUsuario);
+// Conecta ao banco de dados
+conectarDB();
 
-// -------------------------------------------------------------
-// @route   GET /api/usuarios/:id
-// @desc    Retorna dados de um usuário pelo ID
-// @access  Público
-// -------------------------------------------------------------
-router.get('/:id', buscarUsuarioPorId);
+// Middleware para habilitar CORS (acesso externo)
+app.use(cors());
 
-module.exports = router;
+// Middleware para aceitar JSON no corpo das requisições
+app.use(express.json());
+
+// --------------------------------------------------
+// Rotas da aplicação
+// --------------------------------------------------
+
+// Rotas de autenticação (registro, login, perfil)
+app.use('/api/usuarios', authRoutes);
+
+// Rotas de usuários (buscar por ID)
+app.use('/api/usuarios', userRoutes);
+
+// Rota inicial (opcional para testes)
+app.get('/', (req, res) => {
+  res.send('API do projeto Obemtequer está rodando! 🚀');
+});
+
+// Porta do servidor
+const PORT = process.env.PORT || 5000;
+
+// Inicia o servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});

@@ -1,10 +1,11 @@
 // --------------------------------------------------------------------
-// ARQUIVO: routes/userRoutes.js
+// ARQUIVO: routes/authRoutes.js
 // --------------------------------------------------------------------
 // Rotas relacionadas à autenticação de usuários:
 // - Registro de novo usuário
 // - Login de usuário existente
 // - Consulta do próprio perfil autenticado (rota protegida)
+// - Consulta de usuário por ID
 // --------------------------------------------------------------------
 
 const express = require('express');
@@ -13,7 +14,8 @@ const router = express.Router();
 // Importa as funções do controlador (lógica de autenticação)
 const {
   registrarUsuario,
-  loginUsuario
+  loginUsuario,
+  buscarUsuarioPorId
 } = require('../controllers/userController');
 
 // Middleware de autenticação (protege rotas privadas)
@@ -30,9 +32,6 @@ const validarCampos = require('../validators/validarCampos');
 // @desc    Cadastra um novo usuário na base de dados
 // @access  Público
 // ---------------------------------------------------------
-// Aqui usamos:
-// - validarRegistro para validar os dados enviados no body
-// - validarCampos para retornar erros caso existam
 router.post('/registrar', validarRegistro, validarCampos, registrarUsuario);
 
 // ---------------------------------------------------------
@@ -40,9 +39,6 @@ router.post('/registrar', validarRegistro, validarCampos, registrarUsuario);
 // @desc    Autentica o usuário e retorna um token JWT
 // @access  Público
 // ---------------------------------------------------------
-// Aqui usamos:
-// - validarLogin para validar os dados do login
-// - validarCampos para retornar erros caso existam
 router.post('/login', validarLogin, validarCampos, loginUsuario);
 
 // ---------------------------------------------------------
@@ -51,12 +47,18 @@ router.post('/login', validarLogin, validarCampos, loginUsuario);
 // @access  Privado (requer token JWT válido)
 // ---------------------------------------------------------
 router.get('/me', verificarTokenJWT, (req, res) => {
-  // Retorna apenas os dados do usuário extraídos do token
   res.status(200).json({
     mensagem: 'Usuário autenticado com sucesso!',
-    usuario: req.usuario // dados decodificados do JWT
+    usuario: req.usuario
   });
 });
+
+// ---------------------------------------------------------
+// @route   GET /api/usuarios/:id
+// @desc    Retorna os dados de um usuário pelo ID
+// @access  Privado (requer token JWT válido)
+// ---------------------------------------------------------
+router.get('/:id', verificarTokenJWT, buscarUsuarioPorId);
 
 // Exporta as rotas para serem utilizadas no server.js
 module.exports = router;

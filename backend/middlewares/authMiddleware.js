@@ -1,40 +1,61 @@
-// ------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // ARQUIVO: middlewares/authMiddleware.js
-// ------------------------------------------------------------------------
-// 🔐 Middleware de autenticação JWT
-// Este middleware verifica se o token JWT está presente e válido,
-// protegendo rotas privadas contra acessos não autorizados.
-// ------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// 🔐 Middleware de Autenticação JWT
+// Este middleware protege rotas privadas verificando a presença e validade
+// de um token JWT no cabeçalho Authorization da requisição HTTP.
+// Se válido, injeta os dados do usuário no objeto da requisição.
+// -----------------------------------------------------------------------------
 
+// 📦 Dependências
 const jwt = require('jsonwebtoken');
 const createHttpError = require('../utils/createHttpError');
 
-// Middleware principal para proteger rotas com JWT
+// -----------------------------------------------------------------------------
+// FUNÇÃO: verificarTokenJWT
+// -----------------------------------------------------------------------------
+
+/**
+ * 🧪 Middleware de autenticação via JWT.
+ * 
+ * Valida a presença do token JWT no cabeçalho `Authorization`,
+ * decodifica-o e injeta o payload no objeto `req.usuario`.
+ * 
+ * @param {Object} req - Objeto da requisição (Express)
+ * @param {Object} res - Objeto da resposta (Express)
+ * @param {Function} next - Função para prosseguir com a cadeia de middlewares
+ */
 const verificarTokenJWT = (req, res, next) => {
-  // 🔎 Captura o cabeçalho 'Authorization' da requisição
+  // 🔎 Captura o cabeçalho Authorization (esperado: "Bearer <token>")
   const authHeader = req.headers.authorization;
 
-  // ⚠️ Se não houver token ou estiver mal formatado
+  // ⚠️ Verifica a existência e formatação correta do token
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return next(createHttpError(401, 'Acesso negado: token ausente ou malformado.'));
+    return next(
+      createHttpError(401, 'Acesso negado: token ausente ou malformado.')
+    );
   }
 
-  // 🧪 Extrai apenas o token (removendo "Bearer ")
+  // ✂️ Extrai apenas o token (removendo o prefixo "Bearer ")
   const token = authHeader.split(' ')[1];
 
   try {
-    // 🔐 Valida o token e obtém os dados decodificados (payload)
+    // 🔐 Valida e decodifica o token com a chave secreta da aplicação
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 🧾 Anexa os dados do usuário na requisição para uso posterior
+    // 📎 Injeta os dados decodificados no objeto de requisição
+    // Isso permite que os próximos middlewares e rotas usem req.usuario
     req.usuario = payload;
 
-    // ✅ Permite que a requisição prossiga para a próxima função
+    // ✅ Autenticação bem-sucedida – segue para a próxima etapa
     next();
   } catch (erro) {
     // ❌ Token inválido ou expirado
-    return next(createHttpError(403, 'Token inválido ou expirado. Acesso negado.'));
+    return next(
+      createHttpError(403, 'Token inválido ou expirado. Acesso negado.')
+    );
   }
 };
 
+// Exporta o middleware para uso em rotas protegidas
 module.exports = verificarTokenJWT;
