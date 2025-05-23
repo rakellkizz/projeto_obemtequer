@@ -1,5 +1,10 @@
+// ⚠️ Arquivo antigo - backup do middleware de erro anterior
+// Substituído por errorHandler.js em Maio/2025
+// Pode ser excluído futuramente após testes
+
 // ------------------------------
-// ARQUIVO: middlewares/errorMiddleware.js
+// ARQUIVO: middlewares/errorMiddleware_old.js
+
 // ------------------------------
 // Middleware global para tratamento unificado de erros no Express.
 // Intercepta erros lançados em qualquer rota ou middleware,

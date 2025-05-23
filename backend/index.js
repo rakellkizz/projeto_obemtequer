@@ -21,72 +21,69 @@ const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const iaRoutes = require('./routes/ia/iaRoutes'); // Rotas para funcionalidades de IA (OpenAI/Gemini)
 
-// Middleware global para tratamento de erros personalizado
-const errorMiddleware = require('./middlewares/errorMiddleware');
+// 4. IMPORTAÇÃO DE MIDDLEWARES PERSONALIZADOS
+const errorHandler = require('./middlewares/errorHandler'); // Middleware de tratamento de erros
 
-// 4. INICIALIZAÇÃO DO APP EXPRESS
+// 5. INICIALIZAÇÃO DO APP EXPRESS
 const app = express();
 
-// 5. VARIÁVEIS DE CONFIGURAÇÃO DO AMBIENTE
+// 6. VARIÁVEIS DE CONFIGURAÇÃO DO AMBIENTE
 const PORT = process.env.PORT || 5000;               // Porta do servidor (default 5000)
 const NODE_ENV = process.env.NODE_ENV || 'production'; // Ambiente: development ou production
 
-// 6. CONEXÃO COM O BANCO DE DADOS (MongoDB)
+// 7. CONEXÃO COM O BANCO DE DADOS (MongoDB)
 connectDB(); // Chama a função que conecta ao MongoDB usando a variável MONGO_URI do .env
 
-// 7. CONFIGURAÇÕES DE SEGURANÇA
+// 8. CONFIGURAÇÕES DE SEGURANÇA 🛡️
+app.use(helmet()); // Protege a API com cabeçalhos HTTP seguros
 
-// Helmet ajuda a proteger a API configurando cabeçalhos HTTP apropriados
-app.use(helmet());
-
-// 8. RATE LIMITING - limita número de requisições para evitar ataques DoS/abusos
+// 9. RATE LIMITING ⏱️ - Previne abusos e ataques DoS
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // Janela de 15 minutos
-  max: 100,                 // Limite máximo de 100 requisições por IP por janela
+  max: 100,                 // Limite máximo por IP
   message: '🚫 Limite de requisições excedido. Tente novamente mais tarde.',
-  standardHeaders: true,    // Retorna informações de limite nos cabeçalhos RateLimit-*
-  legacyHeaders: false,     // Desativa cabeçalhos antigos X-RateLimit-*
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use(limiter);
 
-// 9. CONFIGURAÇÃO CORS - controla quais origens podem acessar a API
+// 10. CORS 🌐 - Define quais origens podem acessar a API
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Frontend autorizado
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],                  // Métodos HTTP permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'],          // Cabeçalhos permitidos
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// 10. PARSER PARA JSON NAS REQUISIÇÕES
-app.use(express.json()); // Permite o Express entender corpo JSON enviado pelo cliente
+// 11. PARSER DE JSON 📦
+app.use(express.json()); // Permite o Express ler requisições com corpo em JSON
 
-// 11. ROTAS PRINCIPAIS DA API
+// 12. ROTAS PRINCIPAIS DA API 🌍
 
-// Rota raiz simples para checar se o backend está no ar
+// Rota raiz simples para verificação
 app.get('/', (req, res) => {
   res.send('🌻 API do projeto O Bem Te Quer está online!');
 });
 
-// Rota de teste para frontend verificar conexão com backend
+// Rota de teste para conexão com frontend
 app.get('/api/mensagem', (req, res) => {
   res.json({ mensagem: 'Olá, React! Backend está funcionando 😎' });
 });
 
-// Registro das rotas organizadas por funcionalidade
-app.use('/api/mensagens', mensagemRoutes);  // Rotas de mensagens
-app.use('/api/usuarios', userRoutes);        // Rotas de usuários
-app.use('/api/chat', chatRoutes);             // Rotas do chat (OpenAI/Gemini)
-app.use('/api/ia', iaRoutes);                 // Rotas específicas de IA (OpenAI)
+// Registro das rotas organizadas
+app.use('/api/mensagens', mensagemRoutes);
+app.use('/api/usuarios', userRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/ia', iaRoutes);
 
-// 12. MIDDLEWARE GLOBAL PARA TRATAMENTO DE ERROS
-// Centraliza o tratamento de erros para respostas padronizadas
-app.use(errorMiddleware);
+// 13. MIDDLEWARE GLOBAL DE ERROS ❗ (sempre no final!)
+app.use(errorHandler); // Captura erros e envia resposta padronizada
 
-// 13. INICIALIZAÇÃO DO SERVIDOR NA PORTA DEFINIDA
+// 14. INICIALIZAÇÃO DO SERVIDOR 🚀
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
   console.log(`📢 Ambiente: ${NODE_ENV}`);
   console.log(`🔑 OpenAI API Key configurada: ${process.env.OPENAI_API_KEY ? '✅ Sim' : '❌ Não'}`);
 });
 
-// 14. EXPORTA O APP PARA TESTES OU USO EXTERNO
+// 15. EXPORTA O APP PARA TESTES 🔬
 module.exports = app;

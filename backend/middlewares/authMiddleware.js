@@ -16,38 +16,37 @@ const createHttpError = require('../utils/createHttpError');
 // -----------------------------------------------------------------------------
 
 /**
- * 🧪 Middleware de autenticação via JWT.
+ * 🧪 Middleware de autenticação JWT para proteger rotas privadas.
  * 
- * Valida a presença do token JWT no cabeçalho `Authorization`,
- * decodifica-o e injeta o payload no objeto `req.usuario`.
+ * Valida a presença do token no cabeçalho Authorization (formato: "Bearer <token>"),
+ * decodifica o payload e injeta as informações do usuário em `req.usuario`.
  * 
- * @param {Object} req - Objeto da requisição (Express)
- * @param {Object} res - Objeto da resposta (Express)
- * @param {Function} next - Função para prosseguir com a cadeia de middlewares
+ * @param {Object} req - Objeto da requisição Express
+ * @param {Object} res - Objeto da resposta Express
+ * @param {Function} next - Próximo middleware ou rota
  */
 const verificarTokenJWT = (req, res, next) => {
-  // 🔎 Captura o cabeçalho Authorization (esperado: "Bearer <token>")
+  // 🔎 Captura o cabeçalho Authorization
   const authHeader = req.headers.authorization;
 
-  // ⚠️ Verifica a existência e formatação correta do token
+  // ⚠️ Verifica se o cabeçalho existe e começa com "Bearer "
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return next(
       createHttpError(401, 'Acesso negado: token ausente ou malformado.')
     );
   }
 
-  // ✂️ Extrai apenas o token (removendo o prefixo "Bearer ")
+  // ✂️ Extrai o token puro (sem o prefixo "Bearer ")
   const token = authHeader.split(' ')[1];
 
   try {
-    // 🔐 Valida e decodifica o token com a chave secreta da aplicação
+    // 🔐 Verifica e decodifica o token JWT usando o segredo da aplicação
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 📎 Injeta os dados decodificados no objeto de requisição
-    // Isso permite que os próximos middlewares e rotas usem req.usuario
+    // 📎 Injeta os dados do payload no objeto da requisição
     req.usuario = payload;
 
-    // ✅ Autenticação bem-sucedida – segue para a próxima etapa
+    // ✅ Autorizado – segue para o próximo middleware
     next();
   } catch (erro) {
     // ❌ Token inválido ou expirado
@@ -57,5 +56,7 @@ const verificarTokenJWT = (req, res, next) => {
   }
 };
 
-// Exporta o middleware para uso em rotas protegidas
+// -----------------------------------------------------------------------------
+// EXPORTAÇÃO
+// -----------------------------------------------------------------------------
 module.exports = verificarTokenJWT;

@@ -1,51 +1,52 @@
-# ARQUIVO .gitignore PARA PROJETOS NODE.JS
-
-# DEPENDÊNCIAS E GERENCIADORES
-/node_modules
-/.pnp
-.pnp.js
+# ============================
+# 📦 DEPENDÊNCIAS E LOCKFILES
+# ============================
+node_modules/
 pnpm-lock.yaml
+package-lock.json
+yarn.lock
 
-# BUILD / DISTRIBUIÇÃO
-/build
-/dist
-/out
+# ============================
+# 🛠️ BUILD E COMPILAÇÃO
+# ============================
+build/
+dist/
+out/
 .cache/
+target/
+*.tmp
 
-# TESTES E COBERTURA
-/coverage
+# ============================
+# 🔬 TESTES E COBERTURA
+# ============================
+coverage/
 
-# LOGS E DEBUG
+# ============================
+# 🔐 ARQUIVOS SENSÍVEIS
+# ============================
+.env
+.env.*
+*.env
+
+# ============================
+# 🧪 LOGS DE EXECUÇÃO
+# ============================
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.storybook.log
 
-# VARIÁVEIS DE AMBIENTE (SENHAS / TOKENS)
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# SISTEMAS OPERACIONAIS / EDITORES
-.DS_Store
+# ============================
+# ⚙️ IDEs E EDITORES
+# ============================
 .vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
 
-# RECOMENDAÇÕES GERAIS
-# Exemplo: /frontend/node_modules ou /backend/node_modules já cobertos por /node_modules
-
-# OBSERVAÇÃO FINAL
-# Mantenha arquivos sensíveis fora do repositório, principalmente .env
-
-*storybook.log
-
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-# STS
+# Eclipse / STS
 .apt_generated
 .classpath
 .factorypath
@@ -54,54 +55,27 @@ target/
 .springBeans
 .sts4-cache
 
-# IntelliJ IDEA
-.idea
-*.iws
-*.iml
-*.ipr
-
 # NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-# VS Code
-.vscode/
-
-# Dependências e pacotes
-node_modules/
+# ============================
+# 🐍 PYTHON (caso use em IA)
+# ============================
 venv/
-
-# Pasta do cache do Python
 __pycache__/
 
-# Build outputs e pastas de compilação
-dist/
-build/
-target/
-
-# Arquivos de configuração de ambiente
-.env
-
-# Arquivos temporários e logs
-*.log
-*.tmp
-*.swp
-*~
-
-# IDEs e editores
-.vscode/
-.idea/
-.project
-.classpath
-
-# Arquivos específicos de SO
+# ============================
+# 🖥️ SISTEMAS OPERACIONAIS
+# ============================
 .DS_Store
+Thumbs.db
 
-# Diretórios ou arquivos específicos do seu projeto
+# ============================
+# 📁 ESPECÍFICOS DO PROJETO
+# ============================
+# (adicione aqui pastas que quiser ignorar, ex:)
 # projeto_obemtequer/
