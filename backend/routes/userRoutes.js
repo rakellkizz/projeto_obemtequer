@@ -1,26 +1,37 @@
+// -------------------------------------------------------------
+// ARQUIVO: routes/userRoutes.js
+// -------------------------------------------------------------
+// Define as rotas relacionadas aos usuários, como cadastro, login,
+// listagem e busca por ID. Usa o controller para separar a lógica.
+// -------------------------------------------------------------
+
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const {
+  buscarUsuarioPorId,
+  registrarUsuario,
+  loginUsuario
+} = require('../controllers/userController');
 
-// Rota para criar um novo usuário
-router.post('/', async (req, res) => {
-  try {
-    const novoUsuario = new User(req.body);
-    const usuarioSalvo = await novoUsuario.save();
-    res.status(201).json(usuarioSalvo);
-  } catch (erro) {
-    res.status(400).json({ erro: erro.message });
-  }
-});
+// -------------------------------------------------------------
+// @route   POST /api/usuarios/register
+// @desc    Cadastra um novo usuário
+// @access  Público
+// -------------------------------------------------------------
+router.post('/register', registrarUsuario);
 
-// Rota para listar todos os usuários
-router.get('/', async (req, res) => {
-  try {
-    const usuarios = await User.find();
-    res.json(usuarios);
-  } catch (erro) {
-    res.status(500).json({ erro: erro.message });
-  }
-});
+// -------------------------------------------------------------
+// @route   POST /api/usuarios/login
+// @desc    Realiza login de um usuário
+// @access  Público
+// -------------------------------------------------------------
+router.post('/login', loginUsuario);
+
+// -------------------------------------------------------------
+// @route   GET /api/usuarios/:id
+// @desc    Retorna dados de um usuário pelo ID
+// @access  Público
+// -------------------------------------------------------------
+router.get('/:id', buscarUsuarioPorId);
 
 module.exports = router;

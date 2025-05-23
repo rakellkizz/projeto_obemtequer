@@ -19,19 +19,31 @@ const {
 // Middleware de autenticação (protege rotas privadas)
 const verificarTokenJWT = require('../middlewares/authMiddleware');
 
+// Importa os validadores de dados para registro e login
+const { validarRegistro, validarLogin } = require('../validators/userValidator');
+
+// Middleware que verifica se as validações geraram erros
+const validarCampos = require('../validators/validarCampos');
+
 // ---------------------------------------------------------
 // @route   POST /api/usuarios/registrar
 // @desc    Cadastra um novo usuário na base de dados
 // @access  Público
 // ---------------------------------------------------------
-router.post('/registrar', registrarUsuario);
+// Aqui usamos:
+// - validarRegistro para validar os dados enviados no body
+// - validarCampos para retornar erros caso existam
+router.post('/registrar', validarRegistro, validarCampos, registrarUsuario);
 
 // ---------------------------------------------------------
 // @route   POST /api/usuarios/login
 // @desc    Autentica o usuário e retorna um token JWT
 // @access  Público
 // ---------------------------------------------------------
-router.post('/login', loginUsuario);
+// Aqui usamos:
+// - validarLogin para validar os dados do login
+// - validarCampos para retornar erros caso existam
+router.post('/login', validarLogin, validarCampos, loginUsuario);
 
 // ---------------------------------------------------------
 // @route   GET /api/usuarios/me
