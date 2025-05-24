@@ -1,31 +1,30 @@
-<!-- Define que este é um documento HTML5 -->
+<!-- Documento HTML5 com idioma definido para português do Brasil -->
 <!DOCTYPE html>
-
-<!-- Início do documento HTML com a linguagem definida como português do Brasil -->
 <html lang="pt-BR">
 
 <head>
-  <!-- Define o conjunto de caracteres como UTF-8 (suporte a acentos e caracteres especiais) -->
+  <!-- Configurações básicas -->
   <meta charset="UTF-8" />
-
-  <!-- Ícone que aparece na aba do navegador -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
   <link rel="icon" href="/favicon.ico" />
 
-  <!-- Responsividade: adapta o conteúdo à largura da tela do dispositivo -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Sugestão de tema para o sistema operacional (claro/escuro) -->
-  <meta name="color-scheme" content="light dark" />
-
-  <!-- Título exibido na aba do navegador -->
+  <!-- Título da aba -->
   <title>O Bem Te Quer 🌻</title>
 
-  <!-- Importação dos arquivos de estilo centralizados -->
+  <!-- Estilos principais do projeto -->
   <link rel="stylesheet" href="/src/styles/global.css" />
-  <link rel="stylesheet" href="/src/styles/chatbot.css" />
-  <link rel="stylesheet" href="/src/styles/avatar.css" />
+  <link rel="preload" href="/src/styles/chatbot.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/src/styles/chatbot.css"></noscript>
 
-  <!-- Estilo inline opcional (usado apenas para layout temporário de desenvolvimento) -->
+  <link rel="preload" href="/src/styles/avatar.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/src/styles/avatar.css"></noscript>
+
+  <link rel="preload" href="/src/styles/login.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/src/styles/login.css"></noscript>
+
+  <!-- Estilo básico de corpo da página -->
   <style>
     body {
       display: flex;
@@ -36,14 +35,53 @@
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
     }
+
+    .visually-hidden {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Elemento raiz onde o React renderizará toda a aplicação -->
-  <div id="root"></div>
+  <!-- Mensagem para usuários com JavaScript desativado -->
+  <noscript>
+    <p style="text-align: center; color: red;">Este aplicativo requer JavaScript para funcionar corretamente.</p>
+  </noscript>
 
-  <!-- Scripts principais da aplicação -->
+  <!-- Botões de acessibilidade (aumento/diminuição de fonte) -->
+  <div class="btn-acessibilidade" aria-label="Controles de acessibilidade">
+    <button onclick="aumentarFonte()" aria-label="Aumentar fonte (A+)">A+</button>
+    <button onclick="diminuirFonte()" aria-label="Diminuir fonte (A-)">A-</button>
+  </div>
+
+  <!-- Conteúdo principal com acessibilidade -->
+  <main role="main" aria-labelledby="titulo-principal">
+    <h1 id="titulo-principal" class="visually-hidden">O Bem Te Quer - Assistente Empático</h1>
+    <div id="root"></div>
+  </main>
+
+  <!-- Script para controle de acessibilidade (tamanho da fonte) -->
+  <script>
+    let tamanhoFonte = 100;
+
+    function aumentarFonte() {
+      if (tamanhoFonte < 150) {
+        tamanhoFonte += 10;
+        document.documentElement.style.fontSize = `${tamanhoFonte}%`;
+      }
+    }
+
+    function diminuirFonte() {
+      if (tamanhoFonte > 70) {
+        tamanhoFonte -= 10;
+        document.documentElement.style.fontSize = `${tamanhoFonte}%`;
+      }
+    }
+  </script>
 
   <!-- Ponto de entrada da aplicação React -->
   <script type="module" src="/src/main.jsx"></script>

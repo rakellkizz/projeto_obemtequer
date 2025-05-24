@@ -1,127 +1,89 @@
-/* 
-  Reset e configuração global de fonte
-  -------------------------------------
-  Remove margens e preenchimentos padrão,
-  define a forma de calcular tamanhos com box-sizing,
-  e aplica uma fonte amigável e leve para o projeto.
-*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Quicksand', sans-serif; /* Fonte moderna e delicada */
+/* login.css */
+/* Container do formulário de login */
+.login-container {
+  max-width: 360px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fffaf7; /* combinando com o fundo global */
+  border: 2px solid #f0bebe; /* borda rosada suave */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(197, 75, 140, 0.15);
 }
 
-/* 
-  Estilo global do corpo da página 
-  ---------------------------------
-  Cor de fundo suave e agradável,
-  cor padrão do texto,
-  altura de linha para melhor leitura,
-  e um leve espaçamento nas laterais.
-*/
-body {
-  background-color: #fffaf7; /* Fundo branco com toque rosado */
-  color: #333;                /* Cor do texto: cinza escuro */
-  line-height: 1.6;           /* Espaçamento vertical entre linhas */
-  padding: 0 20px;            /* Espaçamento horizontal */
+/* Título */
+.login-container h1 {
+  font-size: 1.8rem;
+  color: #c54b8c;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
-/* 
-  Cabeçalho (header)
-  -------------------
-  Fundo rosado, centralizado,
-  com borda decorativa e espaçamento interno.
-*/
-.header {
-  background: #ffe4e1;           /* Rosa suave */
-  padding: 20px;                 /* Espaço interno */
-  text-align: center;            /* Centraliza o conteúdo */
-  border-bottom: 2px solid #f0bebe; /* Linha decorativa na parte de baixo */
+/* Labels */
+.login-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
 }
 
-/* 
-  Título do cabeçalho
-*/
-.header h1 {
-  margin-bottom: 10px;           /* Espaço inferior para afastar do menu */
-}
-
-/* 
-  Links de navegação dentro do cabeçalho
-*/
-.header nav a {
-  margin: 0 10px;                /* Espaço horizontal entre os links */
-  color: #c54b8c;                /* Rosa escuro, vibrante */
-  text-decoration: none;         /* Remove sublinhado padrão */
-  font-weight: 600;              /* Negrito leve */
-}
-
-/* 
-  Efeito ao passar o mouse nos links
-*/
-.header nav a:hover {
-  text-decoration: underline;    /* Adiciona sublinhado ao passar o mouse */
-}
-
-/* 
-  Seção principal de destaque (Hero)
-  -----------------------------------
-  Normalmente é a primeira seção visível da página.
-*/
-.hero {
-  padding: 40px 0;               /* Espaço vertical acima e abaixo */
-  text-align: center;            /* Centraliza o conteúdo */
-}
-
-/* 
-  Título da seção Hero
-*/
-.hero h2 {
-  font-size: 2rem;               /* Tamanho grande para destaque */
-  margin-bottom: 20px;           
-  color: #c54b8c;                /* Rosa escuro */
-}
-
-/* 
-  Parágrafo da seção Hero
-*/
-.hero p {
-  font-size: 1.2rem;             /* Tamanho confortável para leitura */
-  margin-bottom: 20px;
-}
-
-/* 
-  Botão de chamada para ação (CTA)
-*/
-.hero button {
-  background: #c54b8c;           /* Cor viva */
-  color: white;                  /* Texto branco para contraste */
-  border: none;                  /* Sem bordas */
-  padding: 12px 24px;            /* Espaçamento interno */
+/* Campos de entrada */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  margin-bottom: 1.3rem;
+  border: 2px solid #f0bebe;
+  border-radius: 8px;
   font-size: 1rem;
-  border-radius: 10px;           /* Cantos arredondados */
-  cursor: pointer;               /* Muda o cursor para indicar clicável */
-  transition: background 0.3s ease; /* Transição suave da cor ao interagir */
+  transition: border-color 0.3s ease;
 }
 
-/* 
-  Efeito ao passar o mouse no botão
-*/
-.hero button:hover {
-  background: #9f3e73;           /* Rosa mais escuro */
+/* Foco nos inputs */
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+  border-color: #c54b8c;
+  outline: none;
+  box-shadow: 0 0 5px rgba(197, 75, 140, 0.6);
 }
 
-/* 
-  Rodapé da página
-  ----------------
-  Espaçamento e cores suaves para encerrar a página com leveza.
-*/
-.footer {
-  margin-top: 40px;              /* Espaço acima para separar do conteúdo */
-  text-align: center;            /* Centraliza o texto */
-  padding: 20px;                 
-  background: #fce6ea;           /* Fundo claro rosado */
-  border-top: 1px solid #f0bebe; /* Linha superior */
-  color: #a74d7c;                /* Cor do texto */
+/* Botões */
+.login-container button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background-color: #c54b8c;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Botão de voz separado com cor diferente */
+.login-container button[type="button"] {
+  background-color: #f0bebe;
+  color: #c54b8c;
+}
+
+/* Hover nos botões */
+.login-container button:hover {
+  background-color: #9f3e73;
+  color: #fff;
+}
+
+.login-container button[type="button"]:hover {
+  background-color: #d990b4;
+  color: #6a2e4a;
+}
+
+/* Mensagem de erro */
+.login-container [role="alert"] {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #c54b8c;
+  margin-top: 1rem;
+  min-height: 1.2rem; /* evita "pular" o layout */
+  text-align: center;
 }
