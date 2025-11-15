@@ -1,0 +1,392 @@
+// ========================================================================================
+// 📄 FrasesVoz.jsx – Guia de voz para login acessível (PCD) sem sincronismo contínuo
+// Projeto: O Bem Te Quer 💜
+// Descrição: Leitura por voz das instruções (TTS), escuta opcional (ASR) apenas quando
+//            o usuário clicar, preenchimento de login/senha por voz e comando "acessar"
+//            para finalizar. Estilizado com Tailwind, acessível e modular.
+// ========================================================================================
+
+import React, { useEffect, useRef, useState } from 'react';
+
+// ⛑️ Aviso importante:
+// - Este componente NÃO depende de nenhum "VozController" externo.
+// - Toda a lógica de TTS (SpeechSynthesis) e ASR (SpeechRecognition) está aqui.
+// - Trabalha por ETAPAS: 'inicial' → 'login' → 'senha' → 'confirmacao' → 'finalizado'.
+
+export default function FrasesVoz({ onFinalizar }) {
+  // 🧭 Estado da etapa atual do fluxo guiado
+  const [etapa, setEtapa] = useState('inicial'); // 'inicial'|'login'|'senha'|'confirmacao'|'finalizado'
+
+  // 📝 Campos de credenciais controlados
+  const [login, setLogin] = useState('');
+  const [senha, setSenha] = useState('');
+
+  // 🎙️ Controle de escuta e mensagens visuais
+  const [ouvindo, setOuvindo] = useState(false);
+  const [mensagem, setMensagem] = useState('Bem-vinda! Clique em "Iniciar guia de voz" para começar.');
+
+  // 🔊 Controle de voz sintetizada (TTS)
+  const vozesRef = useRef([]);
+  const [vozSelecionada, setVozSelecionada] = useState(null);
+
+  // 🎤 Reconhecimento de fala (ASR) – guardamos a instância aqui
+  const recognitionRef = useRef(null);
+
+  // ====================================================================================
+  // 🔊 TTS – utilitários de fala
+  // ====================================================================================
+
+  // Carrega vozes disponíveis do navegador e escolhe pt-BR se houver
+  useEffect(() => {
+    const carregarVozes = () => {
+      const lista = window.speechSynthesis?.getVoices?.() || [];
+      vozesRef.current = lista;
+      // Preferência: pt-BR → pt-* → voz padrão
+      const ptBR =
+        lista.find(v => v.lang?.toLowerCase() === 'pt-br') ||
+        lista.find(v => v.lang?.toLowerCase().startsWith('pt')) ||
+        null;
+      setVozSelecionada(ptBR?.name || null);
+    };
+
+    carregarVozes();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = carregarVozes;
+    }
+  }, []);
+
+  // Cancela qualquer fala em andamento
+  const pararFala = () => {
+    try {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    } catch {}
+  };
+
+  // Fala um texto em pt-BR com voz selecionada (se disponível)
+  const falar = (texto) => {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      pararFala(); // evita eco quando trocamos rapidamente de frases
+      const u = new SpeechSynthesisUtterance(texto);
+      const voz = vozesRef.current.find(v => v.name === vozSelecionada);
+      if (voz) u.voice = voz;
+      u.lang = voz?.lang || 'pt-BR';
+      u.rate = 1;     // velocidade natural
+      u.pitch = 1;    // tom neutro
+      u.volume = 1;   // volume máximo
+      window.speechSynthesis.speak(u);
+    } catch {}
+  };
+
+  // ====================================================================================
+  // 🎤 ASR – utilitários de reconhecimento de fala sob demanda
+  // ====================================================================================
+
+  // Cria uma instância fresh do Recognition
+  const criarRecognition = () => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return null;
+    const rec = new SR();
+    rec.lang = 'pt-BR';
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    return rec;
+  };
+
+  // Inicia escuta para capturar LOGIN por voz
+  const ouvirLogin = () => {
+    pararFala(); // evita capturar a própria TTS
+    const rec = criarRecognition();
+    if (!rec) {
+      setMensagem('Seu navegador não suporta reconhecimento de voz.');
+      falar('Seu navegador não suporta reconhecimento de voz.');
+      return;
+    }
+    setOuvindo(true);
+    setMensagem('Ouvindo seu login...');
+    rec.onresult = (e) => {
+      const texto = (e.results?.[0]?.[0]?.transcript || '').trim();
+      setLogin(texto);
+      setMensagem(`Login capturado: ${texto}. Agora informe sua senha.`);
+      falar(`Login capturado. Agora informe sua senha.`);
+      setEtapa('senha');
+      setOuvindo(false);
+    };
+    rec.onerror = () => {
+      setMensagem('Não entendi seu login. Tente novamente ou digite.');
+      falar('Não entendi seu login. Tente novamente ou digite.');
+      setOuvindo(false);
+    };
+    rec.onend = () => setOuvindo(false);
+    recognitionRef.current = rec;
+    rec.start();
+  };
+
+  // Inicia escuta para capturar SENHA por voz
+  const ouvirSenha = () => {
+    pararFala();
+    const rec = criarRecognition();
+    if (!rec) {
+      setMensagem('Seu navegador não suporta reconhecimento de voz.');
+      falar('Seu navegador não suporta reconhecimento de voz.');
+      return;
+    }
+    setOuvindo(true);
+    setMensagem('Ouvindo sua senha...');
+    rec.onresult = (e) => {
+      const texto = (e.results?.[0]?.[0]?.transcript || '').trim();
+      setSenha(texto);
+      setMensagem('Senha capturada. Diga "acessar" ou clique no botão Acessar.');
+      falar('Senha capturada. Diga acessar ou clique no botão acessar.');
+      setEtapa('confirmacao');
+      setOuvindo(false);
+    };
+    rec.onerror = () => {
+      setMensagem('Não entendi sua senha. Tente novamente ou digite.');
+      falar('Não entendi sua senha. Tente novamente ou digite.');
+      setOuvindo(false);
+    };
+    rec.onend = () => setOuvindo(false);
+    recognitionRef.current = rec;
+    rec.start();
+  };
+
+  // Inicia escuta para capturar comando final "acessar" | "entrar"
+  const ouvirComandoFinal = () => {
+    pararFala();
+    const rec = criarRecognition();
+    if (!rec) {
+      setMensagem('Seu navegador não suporta reconhecimento de voz.');
+      falar('Seu navegador não suporta reconhecimento de voz.');
+      return;
+    }
+    setOuvindo(true);
+    setMensagem('Diga "acessar" para entrar.');
+    rec.onresult = (e) => {
+      const texto = (e.results?.[0]?.[0]?.transcript || '').toLowerCase();
+      if (texto.includes('acessar') || texto.includes('entrar') || texto.includes('logar')) {
+        finalizar('voz');
+      } else {
+        setMensagem('Comando não reconhecido. Diga "acessar" ou clique no botão.');
+        falar('Comando não reconhecido. Diga acessar ou clique no botão.');
+      }
+      setOuvindo(false);
+    };
+    rec.onerror = () => {
+      setMensagem('Não entendi o comando. Tente novamente ou clique em Acessar.');
+      falar('Não entendi o comando. Tente novamente ou clique em Acessar.');
+      setOuvindo(false);
+    };
+    rec.onend = () => setOuvindo(false);
+    recognitionRef.current = rec;
+    rec.start();
+  };
+
+  // Finaliza fluxo chamando callback opcional e sinalizando UI
+  const finalizar = (via = 'botao') => {
+    setEtapa('finalizado');
+    setMensagem('Acessando. Aguarde...');
+    falar('Acessando. Aguarde.');
+    // 🔌 Integração: se você quiser logar no backend aqui, use onFinalizar OU troque por fetch/axios
+    // Exemplo com callback:
+    onFinalizar?.({ login: login.trim(), senha: senha.trim(), via });
+  };
+
+  // Interrompe fala/escuta ao desmontar
+  useEffect(() => {
+    return () => {
+      try { pararFala(); } catch {}
+      try { recognitionRef.current?.abort?.(); } catch {}
+    };
+  }, []);
+
+  // ====================================================================================
+  // 🚦 Controle de fluxo por etapas + mensagens padrão
+  // ====================================================================================
+
+  const iniciarGuia = () => {
+    setEtapa('login');
+    setMensagem('Digite ou fale seu login. Você pode clicar no microfone para ditar.');
+    falar('Digite ou fale seu login. Você pode clicar no microfone para ditar.');
+  };
+
+  const repetirInstrucao = () => {
+    // Repete a mensagem atual da etapa
+    const mapa = {
+      inicial: 'Clique em iniciar guia de voz para começar.',
+      login: 'Digite ou fale seu login. Você pode clicar no microfone para ditar.',
+      senha: 'Digite ou fale sua senha. Você pode clicar no microfone para ditar.',
+      confirmacao: 'Diga acessar ou clique no botão acessar para finalizar.',
+      finalizado: 'Aguarde. Estamos acessando.',
+    };
+    falar(mapa[etapa] || mensagem || 'Siga as instruções na tela.');
+  };
+
+  // ====================================================================================
+  // 🖼️ UI – Tailwind acessível e simples
+  // ====================================================================================
+
+  return (
+    <div className="w-full max-w-xl mx-auto mt-6">
+      {/* Card principal */}
+      <div className="overflow-hidden bg-white border shadow-xl rounded-2xl dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800">
+        {/* Cabeçalho */}
+        <div className="px-6 py-4 text-white bg-gradient-to-r from-blue-600 to-indigo-600">
+          <h1 className="text-xl font-bold">Acesso com Suporte de Voz</h1>
+          <p className="text-sm opacity-90">Guia passo a passo para usuários PCD: você escolhe quando falar.</p>
+        </div>
+
+        {/* Conteúdo */}
+        <div className="p-6 space-y-5">
+
+          {/* Mensagem viva para leitores de tela e feedback */}
+          <div
+            aria-live="polite"
+            className="p-3 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-blue-900/30 dark:text-blue-200"
+          >
+            {mensagem}
+          </div>
+
+          {/* Campos de Login */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              Login
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
+                placeholder="Digite seu login"
+                className="flex-1 px-3 py-2 bg-white border rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {/* Falar instrução do campo */}
+              <button
+                type="button"
+                onClick={() => falar('Digite ou fale seu login. Você pode clicar no microfone para ditar.')}
+                className="px-3 py-2 border rounded-lg bg-neutral-100 dark:bg-neutral-800 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                title="Ouvir instrução do campo Login"
+              >
+                🔊
+              </button>
+              {/* Ouvir login por voz */}
+              <button
+                type="button"
+                onClick={ouvirLogin}
+                disabled={ouvindo || etapa === 'finalizado'}
+                className="px-3 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                title="Ditado por voz para o Login"
+              >
+                🎤
+              </button>
+            </div>
+          </div>
+
+          {/* Campos de Senha */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200">
+              Senha
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="password"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                placeholder="Digite sua senha"
+                className="flex-1 px-3 py-2 bg-white border rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onKeyDown={(e) => {
+                  // Acessibilidade: Enter no campo senha avança para confirmação
+                  if (e.key === 'Enter') setEtapa('confirmacao');
+                }}
+              />
+              {/* Falar instrução do campo */}
+              <button
+                type="button"
+                onClick={() => falar('Digite ou fale sua senha. Você pode clicar no microfone para ditar.')}
+                className="px-3 py-2 border rounded-lg bg-neutral-100 dark:bg-neutral-800 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+                title="Ouvir instrução do campo Senha"
+              >
+                🔊
+              </button>
+              {/* Ouvir senha por voz */}
+              <button
+                type="button"
+                onClick={ouvirSenha}
+                disabled={ouvindo || etapa === 'finalizado'}
+                className="px-3 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                title="Ditado por voz para a Senha"
+              >
+                🎤
+              </button>
+            </div>
+          </div>
+
+          {/* Barra de ações guiadas */}
+          <div className="flex flex-wrap items-center gap-2 pt-2">
+            {/* Iniciar guia de voz */}
+            {etapa === 'inicial' && (
+              <button
+                type="button"
+                onClick={iniciarGuia}
+                className="px-4 py-2 text-white rounded-lg bg-emerald-600 hover:bg-emerald-700"
+              >
+                ▶️ Iniciar guia de voz
+              </button>
+            )}
+
+            {/* Repetir instrução atual */}
+            <button
+              type="button"
+              onClick={repetirInstrucao}
+              className="px-4 py-2 border rounded-lg bg-neutral-100 dark:bg-neutral-800 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+            >
+              🔁 Repetir instrução
+            </button>
+
+            {/* Avançar para confirmar (só habilita se login e senha ok) */}
+            <button
+              type="button"
+              onClick={() => {
+                setEtapa('confirmacao');
+                setMensagem('Diga "acessar" ou clique no botão Acessar para finalizar.');
+                falar('Diga acessar ou clique no botão Acessar para finalizar.');
+              }}
+              disabled={!login.trim() || !senha.trim() || etapa === 'finalizado'}
+              className="px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+            >
+              ➡️ Avançar para confirmar
+            </button>
+
+            {/* Ouvir comando final */}
+            <button
+              type="button"
+              onClick={ouvirComandoFinal}
+              disabled={etapa !== 'confirmacao' || ouvindo || etapa === 'finalizado'}
+              className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            >
+              🎤 Dizer "acessar"
+            </button>
+
+            {/* Botão Acessar (ação final por clique) */}
+            <button
+              type="button"
+              onClick={() => finalizar('botao')}
+              disabled={!login.trim() || !senha.trim() || etapa === 'finalizado'}
+              className="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-50"
+            >
+              ✅ Acessar
+            </button>
+          </div>
+
+          {/* Dica de compatibilidade */}
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            Dica: em alguns navegadores, o reconhecimento de voz (🎤) requer HTTPS e permissão de microfone.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+// ========================================================================================
+// FIM – FrasesVoz.jsx
+// ========================================================================================

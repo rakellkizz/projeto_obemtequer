@@ -1,0 +1,38 @@
+{
+  // 🏷️ Nome curto exibido na tela inicial do celular (quando instalado)
+  "short_name": "BemTeQuer",
+
+  // 📛 Nome completo que pode aparecer em splash screens ou menus
+  "name": "O Bem Te Quer - Aplicativo de Apoio",
+
+  // 🖼️ Ícones usados para diferentes tamanhos e contextos (favicon, ícone de app, etc)
+  "icons": [
+    {
+      "src": "favicon.ico",                      // Favicon da aba do navegador
+      "sizes": "64x64 32x32 24x24 16x16",        // Tamanhos múltiplos para compatibilidade
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",                      // Ícone para splash screen e atalhos no Android
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo512.png",                      // Ícone de alta resolução para Android/iOS
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+
+  // 🏁 URL onde o app inicia ao ser aberto como PWA
+  "start_url": ".",
+
+  // 📱 Tipo de exibição: standalone = sem barra de endereço, como um app nativo
+  "display": "standalone",
+
+  // 🎨 Cor da barra superior no mobile (status bar + barra do navegador)
+  "theme_color": "#1c1c1e",                      // Preto luxuoso para combinar com o visual do app
+
+  // 🎨 Cor do fundo da splash screen (tela inicial)
+  "background_color": "#ffffff"                  // Branco neutro, pode trocar por #f9f6f2 se quiser algo mais suave
+}

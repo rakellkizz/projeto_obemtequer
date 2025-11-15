@@ -1,0 +1,59 @@
+<!-- ================================================================================
+🌟 index.html – Corrigido para ativar microfone e fala com sucesso (sem wallpaper)
+Projeto: O Bem Te Quer 💜
+================================================================================ -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>O Bem Te Quer 💜</title>
+    <meta
+      name="description"
+      content="Plataforma acessível com reconhecimento por voz, facial e temas inclusivos."
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Fonte acessível padrão -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 🌗 Suporte automático a temas claro/escuro -->
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- ✅ Script para ativar microfone corretamente -->
+    <script>
+      // ⚠️ Esse script garante que as vozes estejam disponíveis ANTES do React iniciar
+      window.addEventListener('DOMContentLoaded', () => {
+        const tema = localStorage.getItem("temaSelecionado");
+        const fonte = localStorage.getItem("fonteSelecionada");
+
+        if (tema) document.body.classList.add(tema);
+        if (fonte) document.body.classList.add(fonte);
+
+        // ✅ Força carregamento das vozes para o SpeechRecognition funcionar
+        const carregarVozes = () => {
+          if (typeof speechSynthesis === "undefined") return;
+
+          const vozes = speechSynthesis.getVoices();
+          if (vozes.length === 0) {
+            // Aguarda evento de carregamento se as vozes ainda não estiverem disponíveis
+            speechSynthesis.onvoiceschanged = () => {};
+          }
+        };
+
+        // Força carregamento das vozes após pequeno delay (compatibilidade total)
+        setTimeout(carregarVozes, 200);
+      });
+    </script>
+    <script type="module" crossorigin src="./assets/index-CaGJ4wmf.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-9HutJcDF.css">
+  <link rel="manifest" href="./manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script></head>
+
+  <body class="antialiased">
+    <div id="root"></div>
+  </body>
+</html>

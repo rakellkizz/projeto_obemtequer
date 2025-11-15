@@ -1,0 +1,90 @@
+// =============================================================================================
+// 📄 LoginToken.jsx – Login com Código/Token (Ex: Token numérico, QR Code, App Authenticator)
+// Projeto: O Bem Te Quer 💜 – Luxuoso, acessível, responsivo e comentado
+// =============================================================================================
+
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';       // 📍 Detecta se veio com modo manual
+import { QrCode } from 'lucide-react';                // 🧷 Ícone moderno
+import LoginBase from './LoginBase';                  // 💎 Layout base luxuoso e centralizado
+
+export default function LoginToken() {
+  // =====================================================================================
+  // 📍 IDENTIFICA SE O MODO MANUAL FOI ATIVADO PELO USUÁRIO
+  // =====================================================================================
+  const location = useLocation();
+  const modoManual = location.state?.modo === 'manual'; // ✅ Controla se a fala será usada
+
+  // =====================================================================================
+  // 📦 ESTADOS REATIVOS
+  // =====================================================================================
+  const [token, setToken] = useState('');              // Token digitado pelo usuário
+  const [mensagem, setMensagem] = useState('');        // Mensagem de status (erro ou sucesso)
+
+  // =====================================================================================
+  // 🔊 VOZ ACESSÍVEL (Silencia se modo manual estiver ativo)
+  // =====================================================================================
+  const falar = (texto) => {
+    if (modoManual) return;                            // 🔇 Não fala se modo manual
+    const utterance = new SpeechSynthesisUtterance(texto);
+    utterance.lang = 'pt-BR';
+    window.speechSynthesis.cancel();                   // Cancela falas pendentes
+    window.speechSynthesis.speak(utterance);           // Fala o novo texto
+  };
+
+  // =====================================================================================
+  // 🔐 AUTENTICAÇÃO SIMULADA DO TOKEN
+  // =====================================================================================
+  const autenticarToken = () => {
+    const tokenCorreto = '123456';                     // 🧪 Token de teste (futuramente virá da API)
+
+    if (!token.trim()) {
+      setMensagem('⚠️ Por favor, insira o código/token.');
+      falar('Por favor, insira o código ou token.');
+      return;
+    }
+
+    if (token === tokenCorreto) {
+      setMensagem('✅ Token válido! Acesso liberado.');
+      falar('Token válido. Bem-vinda ao sistema.');
+    } else {
+      setMensagem('❌ Token inválido. Tente novamente.');
+      falar('Token inválido. Por favor, tente novamente.');
+    }
+  };
+
+  // =====================================================================================
+  // 🎨 INTERFACE VISUAL – Estética elegante, limpa e acessível
+  // =====================================================================================
+  return (
+    <LoginBase titulo="Login por Token" icone={<QrCode size={24} />}>
+      <div className="flex flex-col gap-4 fade-in">
+
+        {/* 🔢 CAMPO DE DIGITAÇÃO DO TOKEN */}
+        <input
+          type="text"
+          inputMode="numeric"                             // Mostra teclado numérico em dispositivos móveis
+          placeholder="Digite o código/token"
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
+          className="campo-login"
+        />
+
+        {/* 🔘 BOTÃO PARA VALIDAR TOKEN */}
+        <button
+          onClick={autenticarToken}
+          className="botao-login"
+        >
+          Validar Token
+        </button>
+
+        {/* 💬 MENSAGEM DE FEEDBACK */}
+        {mensagem && (
+          <p className="text-sm text-center text-purple-600 dark:text-purple-300">
+            {mensagem}
+          </p>
+        )}
+      </div>
+    </LoginBase>
+  );
+}

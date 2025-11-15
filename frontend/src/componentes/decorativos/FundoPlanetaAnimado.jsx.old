@@ -1,0 +1,48 @@
+// ============================================================================================
+// 📄 FundoPlanetaAnimado.jsx – Camada animada com planeta girando e estrelas no fundo
+// Projeto: O Bem Te Quer 💜 – Exibe apenas quando o tema "tema-wallpaper-planeta" estiver ativo
+// ============================================================================================
+
+import React, { useEffect, useState } from 'react';
+import planetaEstrelado from '../../assets/fundos/tema-wallpaper-planeta.png'; // 🌍 Imagem com estrelas
+import '../../global.css'; // 💅 Acesso às animações CSS
+
+export default function FundoPlanetaAnimado() {
+  // ============================
+  // 🎯 ESTADO: controla visibilidade
+  // ============================
+  const [mostrar, setMostrar] = useState(false);
+
+  // ============================
+  // 🔁 Efeito: verifica tema salvo
+  // ============================
+  useEffect(() => {
+    const temaAtual = localStorage.getItem('tema-aplicado');
+    setMostrar(temaAtual === 'tema-wallpaper-planeta');
+
+    // Escuta mudanças no tema (via classe do body)
+    const observer = new MutationObserver(() => {
+      const novoTema = localStorage.getItem('tema-aplicado');
+      setMostrar(novoTema === 'tema-wallpaper-planeta');
+    });
+
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect(); // Limpa o observer ao desmontar
+  }, []);
+
+  // ============================
+  // 🌍 RENDERIZA SOMENTE SE ATIVO
+  // ============================
+  if (!mostrar) return null;
+
+  return (
+    <div className="fundo-planeta-animado" aria-hidden="true">
+      <img
+        src={planetaEstrelado}
+        alt="Planeta Terra com estrelas girando"
+        className="planeta-girando w-[100px] h-[100px] object-contain opacity-30 absolute top-6 right-6 pointer-events-none drop-shadow-lg"
+      />
+    </div>
+  );
+}

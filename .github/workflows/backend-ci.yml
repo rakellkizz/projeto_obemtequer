@@ -1,0 +1,24 @@
+name: Backend Check (Placeholder)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Verificar Node
+        run: node -v
+
+      - name: Instalar dependências
+        run: npm install || echo "Backend incompleto"

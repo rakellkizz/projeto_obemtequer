@@ -1,0 +1,54 @@
+<!DOCTYPE html> <!-- Declaração do tipo de documento, indicando que é um HTML5 -->
+<html lang="pt-br"> <!-- Define o idioma da página como português do Brasil -->
+
+<head>
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres como UTF-8, para suportar acentuação e caracteres especiais -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Define a visualização para dispositivos móveis, ajustando a largura conforme o tamanho da tela -->
+    <title>Criar Amigo Virtual</title> <!-- Define o título da página, que será exibido na aba do navegador -->
+    <link rel="stylesheet" href="styles.css"> <!-- Conecta um arquivo externo de estilos CSS -->
+</head>
+
+<body>
+    <!-- Abaixo temos o conteúdo principal da página -->
+
+    <!-- Div que envolve o formulário para criação do amigo virtual -->
+    <div class="friend-profile">
+        <h2>Crie seu Amigo Virtual</h2> <!-- Título principal da seção -->
+
+        <!-- Formulário onde o usuário irá inserir o nome do amigo e escolher o avatar -->
+        <form id="friend-form">
+            <label for="friend-name">Nome do Amigo:</label> <!-- Rótulo para o campo de texto (nome do amigo) -->
+            <input type="text" id="friend-name" name="friend-name" placeholder="Dê um nome ao seu amigo"> <!-- Campo de texto para inserir o nome do amigo -->
+
+            <label for="avatar-choice">Escolha o Avatar:</label> <!-- Rótulo para a seleção do avatar -->
+            <select id="avatar-choice" name="avatar-choice"> <!-- Menu dropdown para escolher o avatar -->
+                <option value="avatar1">Avatar 1</option> <!-- Opção 1 do menu -->
+                <option value="avatar2">Avatar 2</option> <!-- Opção 2 do menu -->
+                <option value="avatar3">Avatar 3</option> <!-- Opção 3 do menu -->
+            </select>
+
+            <button type="submit">Criar Amigo</button> <!-- Botão para enviar o formulário e criar o amigo -->
+        </form>
+
+        <!-- Parágrafo que vai exibir as informações do amigo criado -->
+        <p id="friend-info"></p>
+    </div>
+
+    <!-- Script JavaScript que lida com a lógica do formulário -->
+    <script>
+        // Adiciona um "listener" para o evento de envio do formulário
+        document.getElementById("friend-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede o comportamento padrão de envio do formulário (não recarrega a página)
+
+            // Obtém os valores preenchidos no formulário (nome do amigo e avatar escolhido)
+            const friendName = document.getElementById("friend-name").value; 
+            const avatarChoice = document.getElementById("avatar-choice").value;
+
+            // Exibe uma mensagem com as informações do amigo virtual na página
+            document.getElementById("friend-info").textContent = `Você escolheu o nome "${friendName}" para o seu amigo com o avatar: ${avatarChoice}.`;
+        });
+    </script>
+
+</body>
+
+</html>

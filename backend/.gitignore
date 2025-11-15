@@ -1,0 +1,81 @@
+# ============================
+# 📦 DEPENDÊNCIAS E LOCKFILES
+# ============================
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# ============================
+# 🛠️ BUILD E COMPILAÇÃO
+# ============================
+build/
+dist/
+out/
+.cache/
+target/
+*.tmp
+
+# ============================
+# 🔬 TESTES E COBERTURA
+# ============================
+coverage/
+
+# ============================
+# 🔐 ARQUIVOS SENSÍVEIS
+# ============================
+.env
+.env.*
+*.env
+
+# ============================
+# 🧪 LOGS DE EXECUÇÃO
+# ============================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.storybook.log
+
+# ============================
+# ⚙️ IDEs E EDITORES
+# ============================
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ============================
+# 🐍 PYTHON (caso use em IA)
+# ============================
+venv/
+__pycache__/
+
+# ============================
+# 🖥️ SISTEMAS OPERACIONAIS
+# ============================
+.DS_Store
+Thumbs.db
+
+# ============================
+# 📁 ESPECÍFICOS DO PROJETO
+# ============================
+# (adicione aqui pastas que quiser ignorar, ex:)
+# projeto_obemtequer/

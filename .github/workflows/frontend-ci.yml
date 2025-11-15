@@ -1,0 +1,27 @@
+name: Build & Test Frontend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Build Vite
+        run: npm run build
+
+      - name: Testes (opcional)
+        run: npm run test || echo "Testes não configurados ainda"

@@ -1,0 +1,8 @@
+*.exe
+.idea/
+*.iml
+out/
+*.class
+node_modules/
+dist/
+build/

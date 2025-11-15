@@ -1,0 +1,111 @@
+/* Estilo básico para o corpo da página */
+body {
+    font-family: 'Arial', sans-serif; /* Define a fonte padrão do corpo como Arial, e uma fonte genérica sans-serif caso Arial não esteja disponível */
+    background-color: #a187be; /* Define uma cor de fundo suave e clara para a página */
+    margin: 0; /* Remove a margem padrão do navegador */
+    padding: 0; /* Remove o padding padrão */
+    display: flex; /* Usa o Flexbox para organizar os itens da página */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    height: 100vh; /* Define a altura da página como 100% da altura da janela de visualização */
+}
+
+/* Container principal da página */
+.container {
+    text-align: center; /* Centraliza o texto dentro do container */
+    background-color: #ffffff; /* Define o fundo do container como branco */
+    padding: 30px; /* Adiciona um espaçamento interno (padding) ao redor do conteúdo dentro do container */
+    border-radius: 10px; /* Arredonda as bordas do container */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave ao redor do container */
+    width: 80%; /* Define a largura do container como 80% da tela */
+    max-width: 600px; /* Define a largura máxima do container como 600px */
+}
+
+/* Estilo para o título principal */
+h1 {
+    font-size: 2.5rem; /* Define o tamanho da fonte do título como 2.5 rem (relativo ao tamanho da fonte do root) */
+    color: #ff4081; /* Define a cor do título como um tom de rosa suave */
+    margin-bottom: 10px; /* Adiciona um espaço de 10px abaixo do título */
+}
+
+/* Estilo para os parágrafos de introdução */
+p {
+    font-size: 1.2rem; /* Define o tamanho da fonte para os parágrafos como 1.2 rem */
+    color: #333; /* Define a cor do texto como um cinza escuro para boa leitura */
+    margin-bottom: 20px; /* Adiciona um espaço de 20px abaixo de cada parágrafo */
+}
+
+/* Estilo para a galeria de avatares */
+.avatar-gallery {
+    display: grid; /* Usa o grid layout para organizar os itens */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Cria colunas responsivas para os avatares, ajustando a largura das colunas automaticamente */
+    gap: 20px; /* Adiciona um espaço de 20px entre os avatares */
+    justify-items: center; /* Centraliza os itens dentro das células do grid */
+    margin-bottom: 20px; /* Adiciona um espaço de 20px abaixo da galeria */
+}
+
+/* Estilo para cada avatar */
+.avatar {
+    width: 150px; /* Define a largura de cada avatar como 150px */
+    height: 150px; /* Define a altura de cada avatar como 150px */
+    border-radius: 50%; /* Faz o avatar ser redondo */
+    overflow: hidden; /* Garante que a imagem dentro do avatar não saia da área redonda */
+    cursor: pointer; /* Muda o cursor para uma mãozinha quando o usuário passa sobre o avatar */
+    transition: transform 0.3s ease; /* Define uma transição suave de transformação (zoom) ao passar o mouse */
+}
+
+/* Estilo da imagem dentro de cada avatar */
+.avatar img {
+    width: 100%; /* A imagem ocupa 100% da largura do avatar */
+    height: 100%; /* A imagem ocupa 100% da altura do avatar */
+    object-fit: cover; /* A imagem cobre totalmente o espaço disponível sem distorcer */
+}
+
+/* Efeito de hover nos avatares */
+.avatar:hover {
+    transform: scale(1.1); /* Ao passar o mouse, o avatar aumenta um pouco de tamanho */
+}
+
+/* Estilo para o parágrafo que mostra o avatar escolhido */
+#chosen-avatar {
+    font-size: 1.2rem; /* Define o tamanho da fonte como 1.2 rem */
+    color: #ff4081; /* Define a cor do texto como o tom de rosa suave */
+    font-weight: bold; /* Deixa o texto em negrito */
+    margin-top: 20px; /* Adiciona um espaço de 20px acima do parágrafo */
+}
+
+/* Estilo para o botão de voltar */
+.start-button {
+    display: inline-block; /* Faz o botão ser exibido como um bloco inline, ou seja, ao lado de outros itens */
+    padding: 10px 20px; /* Adiciona 10px de padding na parte superior e inferior, e 20px nas laterais do botão */
+    background-color: #ff4081; /* Define a cor de fundo do botão como rosa suave */
+    color: white; /* Define a cor do texto dentro do botão como branco */
+    text-decoration: none; /* Remove o sublinhado padrão dos links */
+    border-radius: 5px; /* Arredonda as bordas do botão */
+    font-size: 1.2rem; /* Define o tamanho da fonte do botão como 1.2 rem */
+    transition: background-color 0.3s ease; /* Define uma transição suave na cor de fundo ao passar o mouse */
+}
+
+/* Efeito de hover no botão */
+.start-button:hover {
+    background-color: #e0306d; /* Muda a cor do botão para um tom mais escuro de rosa quando o mouse passa sobre ele */
+}
+
+/* Definindo o botão de forma mais ampla */
+.start-button {
+    display: block; /* Faz com que o botão ocupe uma linha inteira */
+    width: 200px; /* Define a largura do botão como 200px */
+    padding: 10px 20px; /* Define o espaçamento interno do botão */
+    margin: 10px auto; /* Adiciona um espaçamento de 10px acima e abaixo, e centraliza o botão */
+    text-align: center; /* Centraliza o texto dentro do botão */
+    background-color: #3498db; /* Define a cor de fundo como azul */
+    color: white; /* Define a cor do texto como branco */
+    border-radius: 5px; /* Arredonda as bordas do botão */
+    text-decoration: none; /* Remove o sublinhado padrão de links */
+    font-size: 18px; /* Define o tamanho da fonte para 18px */
+}
+
+/* Efeito de hover para o botão azul */
+.start-button:hover {
+    background-color: #2980b9; /* Muda a cor de fundo para um tom mais escuro de azul quando o mouse passa sobre o botão */
+}

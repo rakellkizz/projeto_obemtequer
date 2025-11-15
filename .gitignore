@@ -1,0 +1,94 @@
+# -------------------------------------------
+# ARQUIVO .gitignore PARA PROJETOS NODE.JS
+# -------------------------------------------
+
+################################################################################
+# DEPENDÊNCIAS E GERENCIADORES
+################################################################################
+
+# Pasta de dependências do Node.js
+/node_modules
+
+# Plug'n'Play (Pnp) do Yarn v2+
+/.pnp
+.pnp.js
+
+# Lockfile do pnpm
+pnpm-lock.yaml
+
+################################################################################
+# BUILD / DISTRIBUIÇÃO
+################################################################################
+
+# Saída de builds (Webpack, Next.js, Vite etc.)
+# IMPORTANTE: NÃO ignore o dist do frontend, porque o Vercel precisa dele.
+/build
+# /dist  ← desativado para NÃO bloquear frontend/dist
+/out
+
+# Cache de ferramentas
+.cache/
+
+################################################################################
+# TESTES E COBERTURA
+################################################################################
+
+# Relatórios gerados por testes automatizados
+/coverage
+
+################################################################################
+# LOGS E DEBUG
+################################################################################
+
+# Arquivos de log de erros
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+################################################################################
+# VARIÁVEIS DE AMBIENTE (SENHAS / TOKENS)
+################################################################################
+
+# Arquivos .env usados para armazenar variáveis de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+################################################################################
+# SISTEMAS OPERACIONAIS / EDITORES
+################################################################################
+
+# macOS
+.DS_Store
+
+# Visual Studio Code
+.vscode/
+
+################################################################################
+# AMBIENTE PYTHON
+################################################################################
+
+# Pasta de ambiente virtual (Python)
+venv/
+
+################################################################################
+# RECOMENDAÇÕES GERAIS
+################################################################################
+
+# Você pode adicionar regras específicas para ignorar pastas dentro de subdiretórios
+# Exemplo: /frontend/node_modules ou /backend/node_modules (não é necessário aqui pois /node_modules já cobre tudo)
+
+################################################################################
+# OBSERVAÇÃO FINAL
+################################################################################
+
+*storybook.log
+
+# Ignorar pasta de referências manuais
+/portifolio_referencia_frontend/
+
+# Ignorar pasta de avatares
+/Avatares/
+

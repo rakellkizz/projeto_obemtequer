@@ -1,0 +1,14 @@
+{
+  "_comentario": "Ignora pastas pesadas pra evitar 'Internal watch failed'",
+  "watch": ["server.mjs", "src", "routes", "controllers", "config", "middlewares"],
+  "ext": "js,mjs,json",
+  "ignore": [
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/venv*/**",
+    "**/_backup*/**",
+    "**/portifolio_referencias_Backend/**",
+    "**/src/models/face-api.js-master/**"
+  ],
+  "legacyWatch": true
+}

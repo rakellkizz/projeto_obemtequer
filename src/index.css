@@ -1,0 +1,122 @@
+/* ===== Fonte padrão e suavização para melhor aparência em diferentes SOs ===== */
+body {
+  margin: 0; /* Remove margens padrão */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased; /* Suaviza fontes no Chrome/Safari */
+  -moz-osx-font-smoothing: grayscale; /* Suaviza fontes no Firefox (Mac) */
+  background: linear-gradient(to right, #f0f8ff, #e6f2ff); /* Degradê azul claro */
+  min-height: 100vh; /* Garante altura mínima da tela */
+  display: flex; /* Centraliza conteúdo na tela */
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* ===== Fonte usada para blocos de código (caso você use <code> no HTML) ===== */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* ===== Reset universal ===== */
+* {
+  box-sizing: border-box; /* Inclui padding e border no cálculo do tamanho */
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Container central do formulário de login ===== */
+.login-container {
+  background: white;
+  border-radius: 16px; /* Cantos arredondados */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra leve e elegante */
+  padding: 2rem; /* Espaço interno */
+  max-width: 400px; /* Largura máxima para telas grandes */
+  width: 100%; /* Responsivo para telas menores */
+}
+
+/* ===== Título centralizado ===== */
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #007acc; /* Azul elegante */
+  font-size: 2rem;
+}
+
+/* ===== Formulário em coluna ===== */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Estilo para os rótulos dos inputs ===== */
+label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* ===== Campos de texto do formulário ===== */
+input {
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* ===== Estilo ao focar nos inputs (efeito de destaque) ===== */
+input:focus {
+  border-color: #007acc;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2); /* Brilho leve ao redor */
+}
+
+/* ===== Botão de envio ===== */
+button {
+  padding: 0.7rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #007acc;
+  color: white;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transição suave no hover */
+}
+
+/* ===== Efeito ao passar o mouse no botão ===== */
+button:hover {
+  background-color: #005f99; /* Azul mais escuro no hover */
+}
+
+/* ===== Feedback visual para reconhecimento de voz ===== */
+.feedback-voz {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: green;
+  text-align: center;
+  animation: blink 1s infinite alternate; /* Animação para piscar */
+}
+
+/* ===== Animação blink usada no feedback de voz ===== */
+@keyframes blink {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+/* ===== Responsividade para telas pequenas (até 500px) ===== */
+@media (max-width: 500px) {
+  .login-container {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.5rem; /* Título reduzido */
+  }
+
+  button {
+    font-size: 0.95rem; /* Botão ligeiramente menor */
+  }
+}

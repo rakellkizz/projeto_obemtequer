@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- =============================================================
+         🧠 METADADOS BÁSICOS
+         Define o charset, viewport para mobile e título da página
+    ================================================================ -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Aplicação React - O Bem Te Quer" />
+
+    <!-- =============================================================
+         🤖 BIBLIOTECA FACE-API PARA RECONHECIMENTO FACIAL
+         Usado em login facial com webcam
+    ================================================================ -->
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+
+    <!-- =============================================================
+         🌟 FONTES LUXUOSAS
+         Importa fontes elegantes para o projeto
+    ================================================================ -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 🔖 ÍCONES E MANIFESTO PWA -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- ✨ ESTILO EXTERNO (caso deseje usar Tailwind ou outro) -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>O Bem Te Quer 🌻</title>
+
+    <!-- =============================================================
+         🎨 ESTILOS INTERNOS - VISUAL MODERNO + DARK MODE
+         Usa CSS simples para visual de botão luxuoso
+    ================================================================ -->
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(145deg, #fdf9f3, #f5efe1);
+        color: #2e2e2e;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      body.dark {
+        background: #121212;
+        color: #eee;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+
+      h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #555;
+      }
+
+      .login-options {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .login-button {
+        padding: 1rem;
+        border-radius: 12px;
+        border: none;
+        background: #d6b66c;
+        color: white;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .login-button:hover {
+        background: #b89e56;
+      }
+
+      .theme-toggle {
+        margin-top: 2rem;
+        background: none;
+        border: 2px solid #aaa;
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        cursor: pointer;
+        color: inherit;
+        font-weight: 500;
+      }
+
+      body.dark .theme-toggle {
+        border-color: #eee;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 🧭 AVISO para usuários sem JavaScript -->
+    <noscript>Você precisa habilitar o JavaScript para executar esta aplicação.</noscript>
+
+    <!-- 🌻 INTERFACE CENTRAL -->
+    <div class="container">
+      <h1>O Bem Te Quer 🌻</h1>
+      <div class="subtitle">Escolha como deseja se conectar</div>
+
+      <!-- 🔐 OPÇÕES DE LOGIN -->
+      <div class="login-options">
+        <button class="login-button" onclick="location.href='/login-email.html'">
+          Entrar com E-mail e Senha
+        </button>
+        <button class="login-button" onclick="location.href='/login-facial.html'">
+          Entrar com Reconhecimento Facial
+        </button>
+        <button class="login-button" onclick="location.href='/cadastro.html'">
+          Fazer Cadastro
+        </button>
+      </div>
+
+      <!-- 🌗 BOTÃO DE TEMA -->
+      <button class="theme-toggle" onclick="toggleTheme()">
+        🌗 Alternar Tema Claro/Escuro
+      </button>
+    </div>
+
+    <!-- 🎛️ SCRIPT DE TEMA -->
+    <script>
+      function toggleTheme() {
+        document.body.classList.toggle('dark');
+      }
+    </script>
+  </body>
+</html>

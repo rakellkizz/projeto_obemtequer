@@ -1,0 +1,298 @@
+/* ==========================================================================================
+   🌍 ARQUIVO: global.css – Estilo unificado com Tailwind + @apply
+   Projeto: O Bem Te Quer 💜
+   Estilo moderno, acessível, luxuoso e com efeitos visuais
+========================================================================================== */
+
+/* 1⃣ BASE: Tailwind e Reset Global */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border p-0 m-0;
+  }
+
+  html, body {
+    @apply h-full font-sans text-base leading-relaxed text-gray-800;
+  }
+
+  body, button, input, textarea, select {
+    @apply font-sans;
+  }
+
+  a {
+    @apply no-underline text-inherit;
+  }
+
+  :focus-visible {
+    @apply outline-blue-500 outline outline-2 outline-offset-2;
+  }
+}
+
+/* 2⃣ TEMAS DE ACESSIBILIDADE – Cor de fundo e fonte */
+@layer utilities {
+  body.tema-claro {
+    @apply text-black bg-white;
+  }
+
+  body.tema-escuro {
+    @apply text-gray-100 bg-gray-900;
+  }
+
+  body.tema-tdah {
+    @apply font-bold bg-gradient-to-b from-yellow-50 to-blue-100;
+  }
+
+  body.tema-daltonismo {
+    @apply text-blue-900 bg-blue-100;
+  }
+
+  body.tema-alto-contraste {
+    @apply text-yellow-300 bg-black;
+  }
+
+  body.tema-leitura {
+    @apply leading-loose text-gray-900 bg-yellow-50;
+  }
+
+  body.fonte-reduzida { font-size: 0.875rem; }
+  body.fonte-grande   { font-size: 1.125rem; }
+  body.fonte-maior    { font-size: 1.25rem; }
+  body.fonte-maxima   { font-size: 1.375rem; }
+}
+
+/* 3⃣ BOTÕES ESTILIZADOS – Gradientes, contornos e interações */
+@layer components {
+  button {
+    @apply inline-flex items-center justify-center px-5 py-3 text-base font-bold text-white transition duration-300 ease-in-out transform bg-indigo-600 rounded-lg;
+  }
+
+  button:hover {
+    @apply scale-105 bg-indigo-700;
+  }
+
+  button:disabled {
+    @apply bg-gray-400 cursor-not-allowed;
+  }
+
+  .btn-padrao {
+    @apply px-4 py-2 font-semibold transition-all rounded-md shadow-md;
+  }
+
+  .botao-reconhecimento-facial { @apply bg-green-500 hover:bg-green-600; }
+  .botao-voz { @apply bg-blue-500 hover:bg-blue-600; }
+  .botao-token { @apply bg-yellow-500 hover:bg-yellow-600; }
+  .botao-qrcode { @apply bg-purple-600 hover:bg-purple-700; }
+
+  .botao-gradiente {
+    @apply px-6 py-3 font-bold text-white transition-all shadow-lg bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl hover:scale-105;
+  }
+
+  .botao-outline {
+    @apply px-4 py-2 text-white transition-all border border-white rounded hover:bg-white hover:text-indigo-700;
+  }
+}
+
+/* 4⃣ CHATBOT – Estilo de container, mensagens e entrada */
+.chatbot-container {
+  @apply fixed bottom-5 right-5 w-80 max-h-[600px] bg-white rounded-xl shadow-xl flex flex-col z-[1000] overflow-hidden;
+}
+.chatbot-header {
+  @apply py-3 font-bold text-center text-gray-800 bg-yellow-400 border-b border-gray-300;
+}
+.chatbot-messages {
+  @apply flex-1 p-4 overflow-y-auto bg-gray-50;
+}
+.chatbot-message {
+  @apply mb-2 px-4 py-3 rounded-xl max-w-[85%] break-words leading-snug;
+}
+.chatbot-message.user { @apply self-end text-right bg-green-100; }
+.chatbot-message.bot { @apply self-start text-left bg-indigo-100; }
+
+.chatbot-input {
+  @apply flex p-2 bg-white border-t border-gray-200;
+}
+.chatbot-input input {
+  @apply flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none;
+}
+.chatbot-input button {
+  @apply px-4 py-2 ml-2 font-bold text-gray-800 bg-yellow-400 rounded-full hover:bg-yellow-300;
+}
+
+/* 5⃣ FONTES A+ / A- – Ajustes de acessibilidade visual */
+.fonte-ajuste {
+  @apply flex justify-center gap-4 mt-6;
+}
+.fonte-ajuste button {
+  @apply w-10 h-10 text-lg font-bold text-white bg-pink-500 rounded-full;
+}
+
+/* 6⃣ ANIMAÇÕES GERAIS – Suavidade no carregamento */
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: aparecer 0.6s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* 7⃣ ALERTAS, SEPARADORES E UTILITÁRIOS EXTRAS */
+.alerta {
+  @apply p-4 my-4 font-bold text-center rounded;
+}
+.alerta.sucesso { @apply text-green-700 bg-green-100 border border-green-300; }
+.alerta.erro    { @apply text-red-700 bg-red-100 border border-red-300; }
+.alerta.info    { @apply text-blue-700 bg-blue-100 border border-blue-300; }
+
+.separador {
+  @apply w-full h-px my-8 bg-gray-300;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 8⃣ ANIMAÇÕES DE CARREGAMENTO – Efeitos visuais para feedback */
+@keyframes spin-slow {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 100s linear infinite;
+}
+.botao-gradiente {
+  @apply transition-shadow duration-300 shadow-md hover:shadow-xl;
+}
+.fundo-translucido {
+  @apply backdrop-blur-sm bg-white/70 dark:bg-gray-800/70;
+}
+.botao-toggle-voz {
+  @apply px-4 py-2 mt-3 text-sm font-semibold text-white transition bg-pink-500 rounded-full shadow-md hover:bg-pink-600;
+}
+
+/* 9⃣ ESTILO PARA CHATBOT EMBUTIDO (Chatbot.jsx com avatar + xadrez) */
+.chat-embutido-container {
+  @apply flex flex-col w-full max-w-4xl p-4 mx-auto mt-10 border shadow-md rounded-xl bg-white/10 backdrop-blur-md border-white/20;
+}
+
+.chat-embutido-mensagens {
+  @apply p-4 mb-4 overflow-y-auto rounded-md h-96 bg-white/10 backdrop-blur-sm;
+}
+
+.chat-embutido-mensagem {
+  @apply mb-2 p-3 rounded-lg text-sm max-w-[80%] break-words leading-snug;
+}
+
+.chat-embutido-mensagem.usuario {
+  @apply self-end text-right bg-indigo-300;
+}
+
+.chat-embutido-mensagem.ia {
+  @apply self-start text-left bg-emerald-200;
+}
+
+.chat-embutido-controles {
+  @apply flex items-center gap-2 mb-4;
+}
+
+.chat-embutido-input {
+  @apply flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+
+.chat-embutido-botao-enviar {
+  @apply px-4 py-2 text-white transition bg-indigo-500 rounded-md hover:bg-indigo-600;
+}
+
+.chat-embutido-botao-voz {
+  @apply px-3 py-2 text-sm transition rounded-full;
+}
+
+.chat-embutido-botao-voz.ativo {
+  @apply text-white bg-green-500;
+}
+
+.chat-embutido-botao-voz.inativo {
+  @apply text-gray-800 bg-gray-300;
+}
+
+.chat-embutido-tabuleiro {
+  @apply relative flex flex-col items-center max-w-full gap-4 mt-6 overflow-hidden;
+}
+
+.chat-embutido-tabuleiro .chessboard {
+  @apply w-full max-w-[440px] overflow-hidden relative;
+}
+
+.chat-embutido-botoes-xadrez {
+  @apply flex gap-4;
+}
+
+.chat-embutido-botao-xadrez {
+  @apply px-4 py-2 font-semibold transition-all border-2 rounded-lg;
+}
+
+.chat-embutido-cancelar {
+  @apply px-4 py-2 text-white rounded-lg bg-rose-600 hover:bg-rose-700;
+}
+
+/* 🔟 AVATAR FIXO E MOVÍVEL */
+.avatar-flutuante {
+  @apply fixed z-50 transition-transform duration-300 ease-in-out select-none;
+}
+
+/* ♟️ CONTEÇÃO FINAL DO TABULEIRO PROFISSIONAL */
+#CustomBoard {
+  width: 440px !important;
+  height: 440px !important;
+  overflow: hidden !important;   /* mantém o “cinturão” externo */
+  position: relative !important;
+  border-radius: 0.5rem;
+  isolation: isolate;
+  contain: strict;
+}
+
+/* ✅ Deixa o wrapper interno do react-chessboard não recortar as peças */
+#CustomBoard > div {
+  overflow: visible !important;
+}
+
+/*#CustomBoard .piece {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  transform: translate(0, 0) !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  pointer-events: auto;
+  z-index: 10;
+  transition: transform 0.1s ease-out;
+}*/
+
+#CustomBoard canvas,
+#CustomBoard svg {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+  pointer-events: none;
+  z-index: 1;
+}

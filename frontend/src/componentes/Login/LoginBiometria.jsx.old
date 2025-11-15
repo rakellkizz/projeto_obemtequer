@@ -1,0 +1,142 @@
+/* ============================================================================================
+ * 📄 LoginBiometria.jsx – Login por impressão digital com voz e acessibilidade real
+ * Projeto: O Bem Te Quer 💜 – Luxuoso, moderno e inclusivo
+ * ============================================================================================ */
+
+import React, { useState, useEffect } from 'react';
+import { Fingerprint, Mic } from 'lucide-react'; // 🖼️ Ícones visuais refinados
+import '../../global.css'; // 🌍 Estilo unificado com Tailwind via @apply
+import LoginBase from './LoginBase'; // 💎 Componente de layout base luxuoso
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+export default function LoginBiometria() {
+  // 📦 ESTADOS REATIVOS E CONTROLE DE ETAPAS
+  const [usuario, setUsuario] = useState('');
+  const [senha, setSenha] = useState('');
+  const [mensagem, setMensagem] = useState('');
+  const [biometriaOk, setBiometriaOk] = useState(false);
+  const [etapa, setEtapa] = useState('usuario'); // 🗣️ Etapa da fala
+
+  // 🎙️ CONFIGURAÇÃO DE VOZ
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
+
+  const falar = (texto) => {
+    const fala = new SpeechSynthesisUtterance(texto);
+    fala.lang = 'pt-BR';
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(fala);
+  };
+
+  useEffect(() => {
+    if (!browserSupportsSpeechRecognition) {
+      setMensagem('⚠️ Navegador não suporta reconhecimento de voz.');
+    } else {
+      falar('Login por biometria ativado. Diga seu nome de usuário.');
+    }
+  }, []);
+
+  // 🧠 INTERPRETAÇÃO DA VOZ EM ETAPAS
+  useEffect(() => {
+    if (!transcript) return;
+
+    if (etapa === 'usuario') {
+      setUsuario(transcript.trim());
+      setEtapa('senha');
+      setMensagem('✅ Nome capturado. Agora diga sua senha.');
+      falar('Nome registrado. Agora diga sua senha.');
+      resetTranscript();
+    } else if (etapa === 'senha') {
+      setSenha(transcript.trim());
+      setMensagem('🔐 Senha capturada. Pressione o botão para ler sua impressão digital.');
+      falar('Senha capturada. Pressione o botão para ler sua impressão digital.');
+      resetTranscript();
+    }
+  }, [transcript]);
+
+  // 🖐️ SIMULAÇÃO DO LEITOR BIOMÉTRICO
+  const simularBiometria = () => {
+    setMensagem('🕐 Lendo impressão digital...');
+    falar('Lendo impressão digital. Aguarde...');
+    setTimeout(() => {
+      setBiometriaOk(true);
+      setMensagem('🟢 Impressão digital reconhecida!');
+      falar('Impressão digital reconhecida com sucesso.');
+    }, 2000);
+  };
+
+  // 🔐 AUTENTICAÇÃO FINAL
+  const autenticar = () => {
+    if (usuario && senha && biometriaOk) {
+      setMensagem('✅ Acesso concedido com biometria!');
+      falar(`Acesso concedido. Bem-vinda, ${usuario}.`);
+    } else {
+      setMensagem('⚠️ Preencha todos os campos e faça a leitura da digital.');
+      falar('Por favor, complete todos os campos antes de prosseguir.');
+    }
+  };
+
+  // 🎨 INTERFACE VISUAL LUXUOSA
+  return (
+    <LoginBase titulo="Login por Biometria" icone={<Fingerprint size={24} />}>
+      {/* 👤 Campo de nome de usuário */}
+      <input
+        type="text"
+        placeholder="Usuário"
+        value={usuario}
+        onChange={(e) => setUsuario(e.target.value)}
+        className="campo-login"
+      />
+
+      {/* 🔐 Campo de senha */}
+      <input
+        type="password"
+        placeholder="Senha"
+        value={senha}
+        onChange={(e) => setSenha(e.target.value)}
+        className="campo-login"
+      />
+
+      {/* 🎙️ Botão de voz */}
+      <button
+        onClick={() => {
+          setEtapa('usuario');
+          resetTranscript();
+          SpeechRecognition.startListening({ continuous: true, language: 'pt-BR' });
+          setMensagem('🎧 Ouvindo... diga seu nome.');
+          falar('Estou ouvindo. Por favor, diga seu nome de usuário.');
+        }}
+        className="flex items-center justify-center w-full gap-2 mt-3 botao-voz"
+      >
+        <Mic size={18} /> {listening ? 'Ouvindo...' : 'Falar por voz'}
+      </button>
+
+      {/* 🖐️ Simulação de biometria */}
+      <button
+        onClick={simularBiometria}
+        className="mt-4 botao-login"
+      >
+        Ler Impressão Digital
+      </button>
+
+      {/* 🔓 Botão de autenticação */}
+      <button
+        onClick={autenticar}
+        className="mt-2 botao-outline"
+      >
+        Entrar com Biometria
+      </button>
+
+      {/* 💬 Exibição de mensagens */}
+      {mensagem && (
+        <p className="mt-3 text-sm text-center text-pink-600 dark:text-pink-400">
+          {mensagem}
+        </p>
+      )}
+    </LoginBase>
+  );
+}

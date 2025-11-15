@@ -1,0 +1,44 @@
+/* ============================================================================
+📄 LoginLuxuoso.css – Estilo luxuoso, moderno e responsivo
+============================================================================ */
+
+.login-luxuoso {
+  @apply flex items-center justify-center min-h-screen text-white transition-all duration-500 bg-black bg-no-repeat bg-cover;
+  background-image: url('/Fusca_Rosa_01.jpg');
+}
+
+.login-card {
+  @apply w-full max-w-md p-8 space-y-5 shadow-2xl rounded-3xl;
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(18, 18, 18, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.input-login {
+  @apply w-full p-3 text-black placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500;
+}
+
+.titulo-login {
+  @apply flex items-center justify-center gap-2 text-2xl font-bold text-purple-300;
+}
+
+.botao-gradiente {
+  @apply w-full py-3 font-semibold text-white transition shadow-md rounded-xl;
+  background-image: linear-gradient(to right, #8b5cf6, #ec4899);
+}
+
+.botao-gradiente:hover {
+  background-image: linear-gradient(to right, #7c3aed, #db2777);
+}
+
+.botao-voz {
+  @apply flex items-center justify-center w-full gap-2 py-2 mt-2 font-medium text-white transition bg-pink-600 rounded-lg hover:bg-pink-700;
+}
+
+.mensagem-login {
+  @apply text-sm text-center text-purple-200;
+}
+
+.webcam-preview {
+  @apply w-full mt-4 shadow-md rounded-xl;
+}

@@ -1,0 +1,93 @@
+<!--
+    Arquivo pom.xml: Gerenciador de dependências do projeto Java com Maven.
+    Este projeto é baseado em Spring Boot e utiliza Java 17, além de adicionar suporte ao JavaFX.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Versão do modelo POM utilizada -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Identificação do projeto -->
+    <groupId>com.rakellkizz.obemtequer</groupId> <!-- Pacote base do projeto -->
+    <artifactId>api</artifactId> <!-- Nome do artefato gerado (jar) -->
+    <version>0.0.1-SNAPSHOT</version> <!-- Versão do projeto -->
+    <name>API Obemtequer</name> <!-- Nome legível do projeto -->
+    <description>Projeto de empatia com Spring Boot e JavaFX</description>
+    <packaging>jar</packaging> <!-- Tipo de empacotamento do projeto -->
+
+    <!-- Herança do Spring Boot: inclui configurações padrão e BOM (Bill of Materials) -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version> <!-- Versão estável do Spring Boot -->
+        <relativePath/> <!-- Não busca o pai em caminho relativo -->
+    </parent>
+
+    <!-- Propriedades globais do projeto -->
+    <properties>
+        <java.version>17</java.version> <!-- Versão do Java utilizada -->
+    </properties>
+
+    <!-- Dependências do projeto -->
+    <dependencies>
+        <!-- Spring Boot Starter Web: inclui Tomcat, Jackson, Spring MVC, etc. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Dependência para testes unitários e de integração com JUnit, Mockito, etc. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope> <!-- Só é usada durante os testes -->
+        </dependency>
+
+        <!-- Dependência do JavaFX para controles, FXML e gráficos -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17</version> <!-- Substitua por uma versão mais recente, se necessário -->
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>17</version>
+        </dependency>
+    </dependencies>
+
+    <!-- Configurações de build (compilação e empacotamento) -->
+    <build>
+        <plugins>
+            <!-- Plugin responsável por empacotar e rodar a aplicação Spring Boot -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Plugin para compilar o projeto Java com o JavaFX -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version> <!-- Versão do plugin JavaFX -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal> <!-- Define o objetivo do plugin para rodar a aplicação -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

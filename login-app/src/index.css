@@ -1,0 +1,116 @@
+/* 
+  Importa os estilos base, componentes e utilitários do Tailwind CSS.
+  Isso é obrigatório para que o Tailwind funcione no projeto.
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  Estilos globais adicionais que você pode manter para personalizar fontes,
+  esquema de cores, suavização de fontes e comportamento do navegador.
+*/
+:root {
+  /* Define uma família de fontes padrão */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Define o espaçamento entre linhas */
+  line-height: 1.5;
+
+  /* Peso padrão das fontes */
+  font-weight: 400;
+
+  /* Suporte ao tema claro/escuro automático do sistema */
+  color-scheme: light dark;
+
+  /* Cor de texto padrão no modo escuro */
+  color: rgba(255, 255, 255, 0.87);
+
+  /* Cor de fundo padrão no modo escuro */
+  background-color: #242424;
+
+  /* Otimizações de renderização de fonte */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+  Estilos para links (a)
+*/
+a {
+  font-weight: 500;               /* Peso da fonte */
+  color: #646cff;                 /* Cor padrão do link */
+  text-decoration: inherit;       /* Remove o sublinhado */
+}
+
+a:hover {
+  color: #535bf2;                 /* Cor ao passar o mouse */
+}
+
+/* 
+  Estilos para o corpo da página
+  - Usa display flex para centralizar
+  - Garante altura mínima e largura adequada
+*/
+body {
+  margin: 0;                      /* Remove margem padrão do navegador */
+  display: flex;                  /* Usa flexbox */
+  place-items: center;           /* Centraliza vertical e horizontal */
+  min-width: 320px;              /* Largura mínima responsiva */
+  min-height: 100vh;             /* Altura mínima: tela cheia */
+}
+
+/*
+  Estilo do título principal (h1)
+*/
+h1 {
+  font-size: 3.2em;               /* Tamanho grande */
+  line-height: 1.1;              /* Espaçamento entre linhas menor */
+}
+
+/*
+  Estilo do botão (substituível por classes Tailwind)
+*/
+button {
+  border-radius: 8px;            /* Bordas arredondadas */
+  border: 1px solid transparent; /* Borda transparente */
+  padding: 0.6em 1.2em;          /* Espaçamento interno */
+  font-size: 1em;                /* Tamanho da fonte */
+  font-weight: 500;              /* Peso da fonte */
+  font-family: inherit;          /* Herda a fonte do pai */
+  background-color: #1a1a1a;     /* Cor de fundo escura */
+  cursor: pointer;               /* Mostra o ponteiro de clique */
+  transition: border-color 0.25s;/* Transição suave da borda */
+}
+
+button:hover {
+  border-color: #646cff;         /* Borda azul ao passar o mouse */
+}
+
+/* 
+  Acessibilidade: foco visível no botão ao usar teclado
+*/
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/*
+  Tema claro: sobrescreve as cores se o usuário estiver usando modo claro
+*/
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;              /* Cor do texto no modo claro */
+    background-color: #ffffff;   /* Fundo branco */
+  }
+
+  a:hover {
+    color: #747bff;              /* Cor do link ao hover no modo claro */
+  }
+
+  button {
+    background-color: #f9f9f9;   /* Fundo claro para o botão */
+  }
+}

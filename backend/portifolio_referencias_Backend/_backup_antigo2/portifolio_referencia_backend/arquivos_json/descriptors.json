@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "raquel",
+    "descritores": [
+      [0.13, -0.02, 0.04, ..., -0.08]  // Vetor numérico com 128 floats
+    ]
+  },
+  {
+    "nome": "joao",
+    "descritores": [
+      [-0.11, 0.05, -0.02, ..., 0.02]
+    ]
+  }
+]

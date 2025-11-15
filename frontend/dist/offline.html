@@ -1,0 +1,104 @@
+<!-- ======================================================================================
+ 🌐 OFFLINE.HTML – Página Offline com Voz Empática 🗣️
+ Projeto: O Bem Te Quer 💜 – Interface de acolhimento para momentos sem internet
+ ====================================================================================== -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Você está offline • O Bem Te Quer 💜</title>
+
+  <!-- 🎨 Estilos com animações e visual aconchegante -->
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #fdf7ff, #ece8f3);
+      color: #4c006b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    img {
+      width: 140px;
+      height: auto;
+      margin-bottom: 1.5rem;
+      animation: flutuar 3s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 400px;
+    }
+
+    button {
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      background: #6D28D9;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #5a20b6;
+    }
+
+    @keyframes flutuar {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🖼️ Ícone do projeto -->
+  <img src="icon-192.png" alt="Logo O Bem Te Quer" />
+
+  <!-- 💬 Mensagem de conforto -->
+  <h1>🌐 Sem conexão com a internet</h1>
+  <p>Não se preocupe! Estamos aqui quando você voltar. Respire fundo e tente novamente quando estiver online 💜</p>
+
+  <!-- 🔁 Botão com interação para ativar a voz e recarregar -->
+  <button onclick="tentarNovamente()">🔄 Tentar novamente</button>
+
+  <!-- 🔊 Script atualizado com fala ativada só após clique do usuário -->
+  <script>
+    function tentarNovamente() {
+      // ✅ Texto a ser falado com empatia
+      const texto = "Olá. Percebemos que você está sem internet. Não se preocupe, estarei aqui quando você voltar. Tudo vai ficar bem.";
+
+      // 🎤 Configura a fala com tom suave e ritmo empático
+      const falaEmpatica = new SpeechSynthesisUtterance(texto);
+      falaEmpatica.lang = 'pt-BR';
+      falaEmpatica.pitch = 1.2;
+      falaEmpatica.rate = 0.95;
+      falaEmpatica.volume = 1.0;
+
+      // 🧠 Verifica suporte e executa
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();        // 🔇 Cancela qualquer fala pendente
+        window.speechSynthesis.speak(falaEmpatica); // 🗣️ Fala com amor 💜
+      }
+
+      // 🔃 Tenta recarregar a página (caso a conexão volte)
+      setTimeout(() => location.reload(), 4000); // Espera 4s após a fala
+    }
+  </script>
+</body>
+</html>
