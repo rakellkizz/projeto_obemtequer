@@ -21,6 +21,7 @@
     "dev": "vite",
     "build": "vite build",
     "vercel-build": "vite build",
+    "netlify-build": "vite build",
     "preview": "vite preview --host",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "echo \"No test configured yet\" && exit 0"
